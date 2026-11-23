@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>HSK 1 Sentence-Frame Flashcards (300 Words)</title>
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --surface: #ffffff;
+      --surface-2: #eef1f6;
+      --text: #111827;
+      --text-muted: #4b5563;
+      --border: #d1d5db;
+      --accent: #0f766e;
+      --accent-soft: #ccfbf1;
+      --accent-text: #0f766e;
+      --highlight-bg: #fef08a;
+      --highlight-text: #854d0e;
+      --t1: #dc2626;
+      --t2: #16a34a;
+      --t3: #2563eb;
+      --t4: #9333ea;
+      --t0: #6b7280;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+    }
+    [data-theme="dark"] {
+      --bg: #0b1120;
+      --surface: #111827;
+      --surface-2: #1f2937;
+      --text: #f9fafb;
+      --text-muted: #9ca3af;
+      --border: #374151;
+      --accent: #14b8a6;
+      --accent-soft: #134e4a;
+      --accent-text: #5eead4;
+      --highlight-bg: #713f12;
+      --highlight-text: #fef08a;
+      --t1: #f87171;
+      --t2: #4ade80;
+      --t3: #60a5fa;
+      --t4: #c084fc;
+      --t0: #9ca3af;
+      --shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      padding-bottom: 84px;
+    }
+    header {
+      position: sticky; top: 0; z-index: 40;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .brand { display: flex; flex-direction: column; }
+    .brand h1 { margin: 0; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; }
+    .brand span { font-size: 0.75rem; color: var(--text-muted); }
+    .header-actions { display: flex; gap: 8px; align-items: center; }
+    .icon-btn {
+      min-height: 40px; min-width: 40px; padding: 0 12px;
+      border-radius: 12px; border: 1px solid var(--border);
+      background: var(--surface-2); color: var(--text);
+      font-size: 0.85rem; font-weight: 600; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .icon-btn:active { transform: scale(0.97); }
+    main { max-width: 780px; margin: 0 auto; padding: 14px 14px 28px; }
+
+    /* Bottom/Top Tab Navigation */
+    .tab-nav {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 45;
+      background: var(--surface); border-top: 1px solid var(--border);
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      padding: 6px 8px env(safe-area-inset-bottom, 8px);
+      gap: 6px;
+    }
+    .tab-btn {
+      min-height: 54px; border: none; background: transparent; color: var(--text-muted);
+      border-radius: 12px; font-size: 0.78rem; font-weight: 700; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+    }
+    .tab-btn.active { background: var(--accent-soft); color: var(--accent-text); }
+    .tab-btn span.ico { font-size: 1.2rem; line-height: 1; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Cluster Pills & Stats */
+    .cluster-bar {
+      display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 10px;
+      scrollbar-width: none;
+    }
+    .cluster-bar::-webkit-scrollbar { display: none; }
+    .pill {
+      white-space: nowrap; min-height: 38px; padding: 6px 14px;
+      border-radius: 999px; border: 1px solid var(--border);
+      background: var(--surface); color: var(--text);
+      font-size: 0.8rem; font-weight: 600; cursor: pointer;
+    }
+    .pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .stats-strip {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+      padding: 10px 14px; margin-bottom: 14px; font-size: 0.82rem;
+    }
+    .stat-chips { display: flex; gap: 10px; flex-wrap: wrap; }
+    .stat-chip b { color: var(--accent-text); }
+    .search-row { display: flex; gap: 8px; width: 100%; margin-top: 4px; }
+    .search-input {
+      flex: 1; min-height: 38px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--surface-2); color: var(--text); padding: 0 12px; font-size: 0.88rem;
+    }
+
+    /* Flashcard */
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .card-top-meta {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 16px; border-bottom: 1px solid var(--border);
+      font-size: 0.78rem; color: var(--text-muted); font-weight: 600;
+    }
+    .emoji-box {
+      position: relative; width: 100%; min-height: 230px;
+      background: linear-gradient(135deg, #d6d3d1 0%, #a8a29e 100%);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    [data-theme="dark"] .emoji-box {
+      background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+    }
+    .emoji-art {
+      font-size: clamp(5rem, 22vw, 9rem); line-height: 1.15; letter-spacing: 0.08em;
+      text-align: center; padding: 20px; user-select: none;
+      filter: drop-shadow(0 8px 14px rgba(15, 23, 42, 0.16));
+    }
+    .visual-caption-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 12px 16px 14px; text-align: center;
+      background: linear-gradient(to top, rgba(0,0,0,0.58), transparent);
+      color: #fff; pointer-events: none;
+    }
+    .visual-badge {
+      display: inline-block; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em;
+      background: rgba(255,255,255,0.2); padding: 3px 8px; border-radius: 6px; margin-bottom: 4px;
+    }
+    .visual-caption { font-size: 0.92rem; font-weight: 700; margin: 0; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+
+    .card-body { padding: 18px 16px; }
+    .front-hint {
+      text-align: center; padding: 10px 0 6px;
+    }
+    .front-hanzi-teaser { font-size: 2.6rem; font-weight: 800; line-height: 1.2; margin-bottom: 6px; }
+    .audio-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0;
+    }
+    .btn {
+      min-height: 48px; padding: 10px 14px; border-radius: 14px;
+      border: 1px solid var(--border); background: var(--surface-2); color: var(--text);
+      font-size: 0.92rem; font-weight: 700; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff; border-color: var(--accent); width: 100%;
+    }
+    .btn-warn { background: #fef3c7; color: #92400e; border-color: #fcd34d; }
+    [data-theme="dark"] .btn-warn { background: #451a03; color: #fde68a; border-color: #b45309; }
+    .btn-good { background: #dcfce7; color: #166534; border-color: #86efac; }
+    [data-theme="dark"] .btn-good { background: #052e16; color: #86efac; border-color: #15803d; }
+    .btn:active { transform: scale(0.98); }
+
+    /* Back of Card */
+    .back-section { display: none; }
+    .card.flipped .front-only { display: none; }
+    .card.flipped .back-section { display: block; }
+
+    .target-header {
+      text-align: center; padding-bottom: 14px; border-bottom: 1px solid var(--border);
+    }
+    .target-pinyin { font-size: 1.45rem; font-weight: 800; letter-spacing: 0.02em; }
+    .target-hanzi { font-size: 3.1rem; font-weight: 800; line-height: 1.15; margin: 4px 0; }
+    .target-pos {
+      display: inline-block; font-size: 0.74rem; font-weight: 700; text-transform: uppercase;
+      padding: 2px 10px; border-radius: 999px; background: var(--surface-2); color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .target-english { font-size: 1.12rem; font-weight: 700; }
+
+    .tone-legend {
+      display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
+      font-size: 0.72rem; margin-top: 8px; font-weight: 700;
+    }
+    .t1 { color: var(--t1); }
+    .t2 { color: var(--t2); }
+    .t3 { color: var(--t3); }
+    .t4 { color: var(--t4); }
+    .t0 { color: var(--t0); }
+
+    .frame-box {
+      margin-top: 16px; padding: 14px; border-radius: 14px;
+      background: var(--surface-2); border: 1px solid var(--border);
+    }
+    .frame-pattern {
+      display: inline-block; font-size: 0.78rem; font-weight: 700;
+      color: var(--accent-text); background: var(--accent-soft);
+      padding: 4px 10px; border-radius: 8px; margin-bottom: 10px;
+    }
+    .sentence-pinyin { font-size: 1.08rem; font-weight: 700; margin-bottom: 4px; }
+    .sentence-hanzi { font-size: 1.55rem; font-weight: 700; line-height: 1.4; }
+    .hl-word {
+      background: var(--highlight-bg); color: var(--highlight-text);
+      padding: 1px 6px; border-radius: 8px; font-weight: 900;
+    }
+    .sentence-english { font-size: 0.96rem; color: var(--text-muted); margin-top: 6px; }
+
+    .slot-swap-area { margin-top: 14px; }
+    .slot-label { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; }
+    .swap-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .swap-pill {
+      min-height: 40px; padding: 6px 14px; border-radius: 12px;
+      border: 1px solid var(--border); background: var(--surface); color: var(--text);
+      font-size: 0.92rem; font-weight: 700; cursor: pointer;
+    }
+    .swap-pill.active {
+      background: var(--accent); color: #fff; border-color: var(--accent);
+    }
+    .retention-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px;
+    }
+    .nav-card-row {
+      display: flex; justify-content: space-between; align-items: center; margin-top: 12px; gap: 10px;
+    }
+
+    /* Tab 2: Commute Player */
+    .commute-panel {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px 16px; box-shadow: var(--shadow);
+    }
+    .step-timeline {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 14px 0;
+    }
+    .step-node {
+      text-align: center; padding: 8px 4px; border-radius: 10px;
+      background: var(--surface-2); font-size: 0.7rem; font-weight: 700; color: var(--text-muted);
+      border: 1px solid transparent;
+    }
+    .step-node.active {
+      background: var(--accent-soft); color: var(--accent-text); border-color: var(--accent);
+    }
+    .commute-display {
+      text-align: center; padding: 18px 12px; border-radius: 14px;
+      background: var(--surface-2); margin-bottom: 14px;
+    }
+    .commute-hanzi { font-size: 2.3rem; font-weight: 800; }
+    .commute-sentence { font-size: 1.25rem; font-weight: 700; margin-top: 8px; }
+    .commute-controls {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px;
+    }
+    .commute-options {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center;
+      padding-top: 10px; border-top: 1px solid var(--border); font-size: 0.85rem;
+    }
+
+    /* Tab 3: Sentence Matrix */
+    .matrix-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow);
+      margin-bottom: 14px;
+    }
+    .frame-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+    .matrix-slots {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center;
+      padding: 14px 10px; background: var(--surface-2); border-radius: 14px; margin-bottom: 14px;
+    }
+    .slot-chip {
+      min-height: 46px; padding: 8px 14px; border-radius: 12px;
+      border: 2px dashed var(--accent); background: var(--surface); color: var(--text);
+      font-size: 1rem; font-weight: 800; cursor: pointer;
+      display: inline-flex; flex-direction: column; align-items: center;
+    }
+    .slot-chip small { font-size: 0.66rem; color: var(--accent-text); font-weight: 700; text-transform: uppercase; }
+    .fixed-token { font-size: 1.25rem; font-weight: 800; padding: 0 4px; }
+    .matrix-output { text-align: center; padding: 12px; border-top: 1px solid var(--border); }
+
+    /* Modal / Wheel Picker / Checklist */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 60; background: rgba(0,0,0,0.55);
+      display: none; align-items: flex-end; justify-content: center;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-sheet {
+      width: 100%; max-width: 640px; max-height: 85vh;
+      background: var(--surface); border-radius: 20px 20px 0 0;
+      padding: 16px; display: flex; flex-direction: column; gap: 10px;
+      border-top: 1px solid var(--border);
+    }
+    .modal-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    }
+    .wheel-viewport {
+      position: relative; height: 260px; overflow-y: auto;
+      scroll-snap-type: y mandatory;
+      border: 1px solid var(--border); border-radius: 14px; background: var(--surface-2);
+    }
+    .wheel-item {
+      height: 52px; scroll-snap-align: center;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px; cursor: pointer; border-bottom: 1px solid var(--border);
+      font-weight: 700;
+    }
+    .wheel-item.selected { background: var(--accent-soft); color: var(--accent-text); }
+    .checklist-scroll {
+      overflow-y: auto; max-height: 65vh; border: 1px solid var(--border); border-radius: 12px;
+    }
+    .check-row {
+      display: grid; grid-template-columns: 44px 72px 1fr 78px; gap: 8px; align-items: center;
+      padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 0.84rem; cursor: pointer;
+    }
+    .check-row:hover { background: var(--surface-2); }
+    .badge-status {
+      font-size: 0.7rem; padding: 2px 8px; border-radius: 999px; text-align: center; font-weight: 700;
+      background: var(--surface-2); color: var(--text-muted);
+    }
+    .badge-status.done { background: #dcfce7; color: #166534; }
+    .settings-field { display: flex; flex-direction: column; gap: 4px; font-size: 0.84rem; }
+    .settings-field input {
+      min-height: 40px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--surface-2); color: var(--text); padding: 0 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <h1>HSK 1 Sentence Frames</h1>
+      <span id="headerSubtitle">300 Words · Slot-and-Filler Mastery</span>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="btnChecklist" title="300-Word Checklist">📋 300</button>
+      <button class="icon-btn" id="btnSettings" title="API Settings">⚙️</button>
+      <button class="icon-btn" id="btnTheme" title="Toggle Dark/Light Mode">🌓</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- TAB 1: INTERACTIVE FLASHCARDS -->
+    <section id="tab-flashcards" class="tab-panel active">
+      <div class="cluster-bar" id="clusterBar"></div>
+
+      <div class="stats-strip">
+        <div class="stat-chips">
+          <span class="stat-chip">Queue: <b id="statQueue">0</b></span>
+          <span class="stat-chip">Mastered: <b id="statMastered">0</b>/300</span>
+          <span class="stat-chip">Learning: <b id="statLearning">0</b></span>
+        </div>
+        <button class="pill" id="btnResetProgress" style="min-height:30px;padding:3px 10px;">Reset</button>
+        <div class="search-row">
+          <input class="search-input" id="searchInput" type="search" placeholder="Jump by # (1-300), Hanzi, Pinyin, or English..." />
+        </div>
+      </div>
+
+      <article class="card" id="flashcard">
+        <div class="card-top-meta">
+          <span id="cardMetaLeft">#1 · Cluster 1</span>
+          <span id="cardMetaRight">Slot Frame</span>
+        </div>
+
+        <div class="emoji-box" id="emojiBox">
+          <div class="emoji-art" id="emojiArt" role="img"></div>
+          <div class="visual-caption-overlay">
+            <span class="visual-badge">Emoji mnemonic</span>
+            <p class="visual-caption" id="visualCaption"></p>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="front-only front-hint">
+            <div class="front-hanzi-teaser" id="frontHanzi"></div>
+            <div style="font-size:0.86rem;color:var(--text-muted);">Listen & picture the context before flipping</div>
+          </div>
+
+          <div class="audio-row">
+            <button class="btn" id="btnPlayWord">🔊 Word (0.9x)</button>
+            <button class="btn" id="btnPlaySentence">🎧 Sentence (0.85x)</button>
+          </div>
+
+          <button class="btn btn-primary front-only" id="btnFlip">Flip Card / Show Meaning</button>
+
+          <div class="back-section">
+            <div class="target-header">
+              <div class="target-pinyin" id="backPinyin"></div>
+              <div class="target-hanzi" id="backHanzi"></div>
+              <div class="target-pos" id="backPos"></div>
+              <div class="target-english" id="backEnglish"></div>
+              <div class="tone-legend">
+                <span class="t1">1st Red</span>
+                <span class="t2">2nd Green</span>
+                <span class="t3">3rd Blue</span>
+                <span class="t4">4th Purple</span>
+                <span class="t0">Neutral Grey</span>
+              </div>
+            </div>
+
+            <div class="frame-box">
+              <div class="frame-pattern" id="backFrame"></div>
+              <div class="sentence-pinyin" id="backSentencePinyin"></div>
+              <div class="sentence-hanzi" id="backSentenceHanzi"></div>
+              <div class="sentence-english" id="backSentenceEnglish"></div>
+
+              <div class="slot-swap-area">
+                <div class="slot-label">Interactive Slot Swap (live Pinyin & Audio):</div>
+                <div class="swap-pills" id="swapPills"></div>
+              </div>
+            </div>
+
+            <div class="retention-row">
+              <button class="btn btn-warn" id="btnStillLearning">↻ Still Learning (+3)</button>
+              <button class="btn btn-good" id="btnMastered">✓ Mastered</button>
+            </div>
+          </div>
+
+          <div class="nav-card-row">
+            <button class="btn" id="btnPrevCard">← Prev</button>
+            <button class="btn" id="btnFlipToggle" style="flex:1;">Flip Card</button>
+            <button class="btn" id="btnNextCard">Next →</button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- TAB 2: COMMUTE AUDIO LOOP -->
+    <section id="tab-commute" class="tab-panel">
+      <div class="commute-panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+          <div>
+            <h2 style="margin:0;font-size:1.1rem;">30-Min Commute Audio Loop</h2>
+            <span style="font-size:0.8rem;color:var(--text-muted);" id="commuteTrackInfo">Item 1 of 300</span>
+          </div>
+          <select id="commuteClusterSelect" class="pill">
+            <option value="all">All 300 Words</option>
+            <option value="1">Cluster 1: Actions & Objects</option>
+            <option value="2">Cluster 2: Spatial & Places</option>
+            <option value="3">Cluster 3: Time & Quantity</option>
+            <option value="4">Cluster 4: People & Roles</option>
+            <option value="5">Cluster 5: Questions & Grammar</option>
+            <option value="6">Cluster 6: Descriptors & Social</option>
+          </select>
+        </div>
+
+        <div class="step-timeline">
+          <div class="step-node" data-step="0">1. Word</div>
+          <div class="step-node" data-step="1">2. Pause 2s</div>
+          <div class="step-node" data-step="2">3. Sent ×2</div>
+          <div class="step-node" data-step="3">4. English</div>
+          <div class="step-node" data-step="4">5. Pause 3s</div>
+        </div>
+
+        <div class="commute-display">
+          <div class="commute-hanzi" id="commuteHanzi">爱</div>
+          <div id="commutePinyin" style="font-weight:700;margin-top:4px;"></div>
+          <div class="commute-sentence" id="commuteSentence"></div>
+          <div id="commuteEnglish" style="color:var(--text-muted);margin-top:6px;font-size:0.95rem;"></div>
+          <div id="commuteStatusMsg" style="margin-top:10px;font-size:0.8rem;font-weight:700;color:var(--accent-text);">Ready for hands-free loop</div>
+        </div>
+
+        <div class="commute-controls">
+          <button class="btn" id="btnCommutePrev">⏮ Skip Prev</button>
+          <button class="btn btn-primary" id="btnCommutePlayPause">▶ Start Loop</button>
+          <button class="btn" id="btnCommuteNext">⏭ Skip Next</button>
+        </div>
+
+        <div class="commute-options">
+          <label style="display:flex;align-items:center;gap:6px;font-weight:600;cursor:pointer;">
+            <input type="checkbox" id="chkLoopCluster" checked /> Loop Current Cluster
+          </label>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <span style="font-weight:600;">Speed:</span>
+            <button class="pill active" id="btnSpeed08">0.8x</button>
+            <button class="pill" id="btnSpeed10">1.0x</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: SENTENCE FRAME MATRIX -->
+    <section id="tab-matrix" class="tab-panel">
+      <div class="matrix-card">
+        <h2 style="margin:0 0 10px;font-size:1.1rem;">Sentence Frame Matrix</h2>
+        <div class="frame-tabs">
+          <button class="pill active" data-frame="A">Frame A: Location Action</button>
+          <button class="pill" data-frame="B">Frame B: Desire + Action</button>
+          <button class="pill" data-frame="C">Frame C: Object Position</button>
+        </div>
+
+        <div style="font-size:0.82rem;color:var(--text-muted);text-align:center;margin-bottom:8px;" id="matrixFormulaDesc"></div>
+        <div class="matrix-slots" id="matrixSlots"></div>
+
+        <div class="matrix-output">
+          <div class="sentence-pinyin" id="matrixPinyin"></div>
+          <div class="sentence-hanzi" id="matrixHanzi"></div>
+          <div class="sentence-english" id="matrixEnglish"></div>
+          <div class="audio-row" style="margin-top:14px;">
+            <button class="btn btn-primary" id="btnMatrixSpeak">🔊 Play Custom Sentence</button>
+            <button class="btn" id="btnMatrixRandom">🎲 Randomize</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tab-nav">
+    <button class="tab-btn active" data-tab="flashcards"><span class="ico">🗂️</span>Flashcards</button>
+    <button class="tab-btn" data-tab="commute"><span class="ico">🎧</span>Commute Loop</button>
+    <button class="tab-btn" data-tab="matrix"><span class="ico">🧩</span>Sentence Matrix</button>
+  </nav>
+
+  <!-- Wheel Picker Modal -->
+  <div class="modal-backdrop" id="wheelModal">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <strong id="wheelTitle">Select Word</strong>
+        <button class="icon-btn" id="btnCloseWheel">Done</button>
+      </div>
+      <div class="wheel-viewport" id="wheelViewport"></div>
+    </div>
+  </div>
+
+  <!-- 300-Word Checklist Modal -->
+  <div class="modal-backdrop" id="checklistModal">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <strong>300-Word HSK 1 Checklist (<span id="chkSummary">0/300 Mastered</span>)</strong>
+        <button class="icon-btn" id="btnCloseChecklist">✕</button>
+      </div>
+      <div class="checklist-scroll" id="checklistBody"></div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-backdrop" id="settingsModal">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <strong>Optional Google Cloud TTS</strong>
+        <button class="icon-btn" id="btnCloseSettings">Save</button>
+      </div>
+      <p style="margin:0;font-size:0.8rem;color:var(--text-muted);">
+        Flashcards and emoji mnemonics work offline. Optionally add a Google Cloud Text-to-Speech API key for audio; browser speech remains available without a key.
+      </p>
+      <div class="settings-field">
+        <label>Google Cloud TTS API Key (optional)</label>
+        <input type="password" id="inpTtsKey" placeholder="AIza..." />
+      </div>
+    </div>
+  </div>
+
+<script src="raw_cards.js"></script>
+<script>
+// ============================================================
+// 1. CLUSTER METADATA & EXACT 300-WORD HSK 1 DATABASE
+// ============================================================
+const CLUSTERS = {
+  all: "All 300",
+  "1": "1. Actions & Objects",
+  "2": "2. Spatial & Places",
+  "3": "3. Time & Quantity",
+  "4": "4. People & Roles",
+  "5": "5. Questions & Grammar",
+  "6": "6. Descriptors & Social"
+};
+
+// RAW_CARDS is loaded from raw_cards.js before this application script.
+
+// ============================================================
+// 2. LOOKUP & DYNAMIC HYDRATION (EMOJI MNEMONICS + SLOT SWAP)
+// ============================================================
+const SLOT_EN_MAP = {
+  "我":"I","你":"you","他":"he","她":"she","它":"it","我们":"we","你们":"you all","他们":"they","她们":"they","它们":"they",
+  "大家":"everyone","爸爸":"dad","妈妈":"mom","哥哥":"older brother","姐姐":"older sister","弟弟":"younger brother","妹妹":"younger sister",
+  "儿子":"son","女儿":"daughter","孩子":"child","小朋友":"little child","家人":"family","朋友":"friend","同学":"classmate",
+  "老师":"teacher","学生":"student","大学生":"university student","中学生":"middle school student","小学生":"primary school student",
+  "医生":"doctor","先生":"Mr.","女士":"lady","男朋友":"boyfriend","女朋友":"girlfriend","人":"people",
+  "茶":"tea","水":"water","牛奶":"milk","苹果":"apple","包子":"steamed buns","面包":"bread","鸡蛋":"egg",
+  "米饭":"cooked rice","面条儿":"noodles","饺子":"dumplings","水果":"fruit","菜":"dishes","饭":"meal",
+  "早饭":"breakfast","午饭":"lunch","晚饭":"dinner","喝茶":"drink tea","休息":"rest","回家":"go home",
+  "汉语":"Chinese","中文":"Chinese","汉字":"Chinese characters","字":"character","书":"book","杯子":"cup","电脑":"computer",
+  "手机":"cell phone","电话":"telephone","电视":"television","电影":"movie","衣服":"clothes","新衣服":"new clothes",
+  "桌子":"table","椅子":"chair","车":"car","出租车":"taxi","火车":"train","飞机":"airplane","猫":"cat","狗":"dog",
+  "学校":"school","大学":"university","小学":"primary school","中学":"middle school","公司":"company","医院":"hospital",
+  "商店":"store","书店":"bookstore","超市":"supermarket","饭店":"restaurant","电影院":"cinema","房间":"room","家":"home",
+  "中国":"China","这里":"here","那里":"there","这儿":"here","那儿":"there","这边":"this side","那边":"that side","外边":"outside",
+  "上":"on","下":"under","里":"inside","外":"outside","前":"front","后":"behind",
+  "一":"one","二":"two","两":"two","三":"three","四":"four","五":"five","六":"six","七":"seven","八":"eight","九":"nine","十":"ten",
+  "百":"hundred","千":"thousand","半":"half","零":"zero","上午":"morning","下午":"afternoon","晚上":"evening","中午":"noon",
+  "早上":"morning","白天":"daytime","今天":"today","明天":"tomorrow","昨天":"yesterday","今年":"this year","明年":"next year","去年":"last year",
+  "星期":"week","星期日":"Sunday","星期天":"Sunday","元":"yuan","块":"yuan","岁":"years old","年":"year","月":"month","天":"days",
+  "小时":"hour","分钟":"minutes","分":"minutes","点":"o'clock","号":"day","日":"day","个":"piece","本":"volume","件":"piece","口":"member","只":"little",
+  "爱":"to love","吃":"to eat","喝":"to drink","买":"to buy","卖":"to sell","看":"to look","读书":"reading","学习":"studying",
+  "工作":"working","睡觉":"to sleep","起床":"get up","坐":"sit","写":"write","读":"read","唱":"sing","听":"listen",
+  "打电话":"making a phone call","做饭":"cooking","上班":"to work","下班":"get off work","上课":"attend class","下课":"finish class",
+  "看病":"to see a doctor","生病":"got sick","下雨":"raining","下雪":"snowing","说话":"talking","认识":"know","知道":"know",
+  "觉得":"feel","看见":"saw","听见":"heard","找":"looking for","开":"open","开车":"drive","去":"to go","来":"to come","回":"return","到":"arrived",
+  "大":"big","小":"small","多":"many","少":"few","好":"good","坏":"bad","热":"hot","冷":"cold","高兴":"happy","漂亮":"beautiful",
+  "好看":"good-looking","好吃":"delicious","好听":"pleasant","好玩儿":"fun","贵":"expensive","便宜":"cheap","新":"new","早":"early","晚":"late","忙":"busy",
+  "很":"very","非常":"extremely","太":"too","真":"really","有点儿":"a little","不":"not","没":"not","没有":"don't have","会":"can","能":"can","可以":"may","想":"want","要":"want",
+  "谁":"who","什么":"what","哪":"which","哪个":"which one","哪里":"where","哪儿":"where","哪些":"which ones","多少":"how much","几":"what",
+  "怎么":"how","怎么样":"how","这":"this","这个":"this one","这些":"these","那":"that","那个":"that one","那些":"those",
+  "的":"my","了":"already","吗":"question","呢":"and you","吧":"suggestion","也":"also","都":"all","还":"still","再":"again","和":"and","正在":"in the process of",
+  "谢谢":"thank you","不客气":"you're welcome","对不起":"sorry","没关系":"it's okay","你好":"hello","再见":"goodbye","请问":"excuse me","喂":"hello","请":"please",
+  "我的":"my","他的":"his","她的":"her"
+};
+
+const EXTRA_PINYIN_MAP = {
+  "我的":"wǒ de","他的":"tā de","她的":"tā de",
+  "喝茶":"hē chá","回家":"huí jiā","新衣服":"xīn yīfu","大衣服":"dà yīfu","小衣服":"xiǎo yīfu",
+  "十分":"shí fēn","二十分":"èrshí fēn","点半":"diǎn bàn","点十分":"diǎn shí fēn",
+  "病了":"bìng le","气":"qì","鸟":"niǎo","床":"chuáng","沙发":"shāfā","下雪":"xià xuě","刮风":"guā fēng",
+  "风":"fēng","角":"jiǎo","条":"tiáo","位":"wèi","跑":"pǎo","走":"zǒu","用":"yòng","记得":"jìde",
+  "鞋":"xié","跟":"gēn","别":"bié","需要":"xūyào","关":"guān","累":"lèi","坏":"huài",
+  "北京":"Běijīng","上海":"Shànghǎi","哪国人":"nǎ guó rén","什么时候":"shénme shíhou","坐车":"zuòchē",
+  "好不好":"hǎo bu hǎo","热不热":"rè bu rè","里边":"lǐbian","很多":"hěn duō","很忙":"hěn máng","在家":"zài jiā"
+};
+
+const CARD_BY_HANZI = {};
+const CARDS = RAW_CARDS.map(r => {
+  const obj = {
+    id: r[0],
+    word_hanzi: r[1],
+    word_pinyin: r[2],
+    pos: r[3] || "phrase",
+    word_english: r[4],
+    cluster: r[5],
+    sentence_frame: r[6],
+    tplH: r[7],
+    tplP: r[8],
+    tplE: r[9],
+    defaultSlot: r[10],
+    interchangeable_options: r[11],
+    emoji: r[12]
+  };
+  CARD_BY_HANZI[obj.word_hanzi] = obj;
+  return obj;
+});
+
+function getWordPinyin(hanzi) {
+  if (EXTRA_PINYIN_MAP[hanzi]) return EXTRA_PINYIN_MAP[hanzi];
+  if (CARD_BY_HANZI[hanzi]) return CARD_BY_HANZI[hanzi].word_pinyin;
+  return hanzi;
+}
+function getWordEnglish(hanzi) {
+  if (SLOT_EN_MAP[hanzi]) return SLOT_EN_MAP[hanzi];
+  if (CARD_BY_HANZI[hanzi]) return CARD_BY_HANZI[hanzi].word_english.split(/[;,]/)[0].trim();
+  return hanzi;
+}
+function capitalize(str) {
+  if (!str) return str;
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+function resolveCardSentence(card, chosenSlot) {
+  const slot = chosenSlot || card.defaultSlot;
+  const sH = card.tplH.replace("{S}", slot);
+  const sP = capitalize(card.tplP.replace("{S}", getWordPinyin(slot)));
+  const sE = capitalize(card.tplE.replace("{S}", getWordEnglish(slot)));
+  const hl = card.tplH.includes(card.word_hanzi) ? card.word_hanzi : slot;
+  return { hanzi: sH, pinyin: sP, english: sE, highlight: hl, slot };
+}
+
+// Hydrate default fields onto every card object so every entry strictly satisfies the full schema
+CARDS.forEach(c => {
+  const res = resolveCardSentence(c, c.defaultSlot);
+  c.example_sentence_hanzi = res.hanzi;
+  c.example_sentence_pinyin = res.pinyin;
+  c.example_sentence_english = res.english;
+  c.target_word_highlight = res.highlight;
+});
+
+// ============================================================
+// 3. TONAL PINYIN PARSER & COLORIZER
+// ============================================================
+const TONE_MAP = {
+  "ā":1,"ē":1,"ī":1,"ō":1,"ū":1,"ǖ":1,"Ā":1,"Ē":1,"Ī":1,"Ō":1,"Ū":1,"Ǖ":1,
+  "á":2,"é":2,"í":2,"ó":2,"ú":2,"ǘ":2,"Á":2,"É":2,"Í":2,"Ó":2,"Ú":2,"Ǘ":2,
+  "ǎ":3,"ě":3,"ǐ":3,"ǒ":3,"ǔ":3,"ǚ":3,"Ǎ":3,"Ě":3,"Ǐ":3,"Ǒ":3,"Ǔ":3,"Ǚ":3,
+  "à":4,"è":4,"ì":4,"ò":4,"ù":4,"ǜ":4,"À":4,"È":4,"Ì":4,"Ò":4,"Ù":4,"Ǜ":4
+};
+function detectTone(syllable) {
+  for (const ch of syllable) {
+    if (TONE_MAP[ch]) return TONE_MAP[ch];
+  }
+  return 0;
+}
+const SYLLABLE_RE = /([bpmfdtnlgkhjqxrzcsyw]|zh|ch|sh)?([aeiouüāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]+(?:ng|n|r)?)/gi;
+function colorizePinyinHTML(pinyinStr) {
+  if (!pinyinStr) return "";
+  return pinyinStr.split(/(\s+|[.,!?;:'"’—–-])/).map(token => {
+    if (!token || /^[\s.,!?;:'"’—–-]+$/.test(token)) return escapeHtml(token);
+    const parts = token.match(SYLLABLE_RE);
+    if (!parts) return escapeHtml(token);
+    return parts.map(syl => {
+      const t = detectTone(syl);
+      return `<span class="t${t}">${escapeHtml(syl)}</span>`;
+    }).join("");
+  }).join("");
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[m]));
+}
+
+// ============================================================
+// 4. AUDIO ENGINE (Google Cloud TTS optional + Web Speech API)
+// ============================================================
+let audioCtx = null;
+function ensureAudioCtx() {
+  if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+}
+function stopSpeech() {
+  if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+}
+async function speakText(text, lang = "zh-CN", rate = 0.9) {
+  const ttsKey = localStorage.getItem("hsk1_tts_key") || "";
+  if (ttsKey) {
+    try {
+      const res = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${encodeURIComponent(ttsKey)}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          input: { text },
+          voice: { languageCode: lang, ssmlGender: "FEMALE" },
+          audioConfig: { audioEncoding: "MP3", speakingRate: rate }
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.audioContent) {
+          const audio = new Audio("data:audio/mp3;base64," + data.audioContent);
+          return new Promise(resolve => {
+            audio.onended = resolve;
+            audio.onerror = resolve;
+            audio.play().catch(resolve);
+          });
+        }
+      }
+    } catch (e) {}
+  }
+
+  return new Promise(resolve => {
+    if (!("speechSynthesis" in window)) {
+      setTimeout(resolve, 700);
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lang;
+    u.rate = rate;
+    const voices = window.speechSynthesis.getVoices();
+    const match = voices.find(v => v.lang.toLowerCase().startsWith(lang.toLowerCase().slice(0,2)) && v.name.includes("Google"))
+               || voices.find(v => v.lang.toLowerCase().startsWith(lang.toLowerCase().slice(0,2)));
+    if (match) u.voice = match;
+    u.onend = () => resolve();
+    u.onerror = () => resolve();
+    window.speechSynthesis.speak(u);
+  });
+}
+
+// ============================================================
+// 5. FLASHCARD STATE, RETENTION (+3 RE-QUEUE), & RENDERING
+// ============================================================
+let activeCluster = "all";
+let deckQueue = [...CARDS];
+let deckPos = 0;
+let currentSwapSlot = null;
+let masteredIds = new Set(JSON.parse(localStorage.getItem("hsk1_mastered") || "[]"));
+let learningIds = new Set(JSON.parse(localStorage.getItem("hsk1_learning") || "[]"));
+
+function saveProgress() {
+  localStorage.setItem("hsk1_mastered", JSON.stringify([...masteredIds]));
+  localStorage.setItem("hsk1_learning", JSON.stringify([...learningIds]));
+}
+
+function buildClusterBar() {
+  const bar = document.getElementById("clusterBar");
+  bar.innerHTML = "";
+  Object.entries(CLUSTERS).forEach(([k, label]) => {
+    const btn = document.createElement("button");
+    btn.className = "pill" + (activeCluster === k ? " active" : "");
+    btn.textContent = label;
+    btn.onclick = () => {
+      activeCluster = k;
+      deckQueue = k === "all" ? [...CARDS] : CARDS.filter(c => c.cluster === k);
+      deckPos = 0;
+      currentSwapSlot = null;
+      buildClusterBar();
+      renderCard();
+    };
+    bar.appendChild(btn);
+  });
+}
+
+function getCurrentCard() {
+  if (!deckQueue.length) deckQueue = [...CARDS];
+  if (deckPos >= deckQueue.length) deckPos = 0;
+  if (deckPos < 0) deckPos = deckQueue.length - 1;
+  return deckQueue[deckPos];
+}
+
+function renderCard(keepFlipped = false) {
+  const card = getCurrentCard();
+  const fcEl = document.getElementById("flashcard");
+  if (!keepFlipped) {
+    fcEl.classList.remove("flipped");
+    currentSwapSlot = card.defaultSlot;
+  }
+  const activeSlot = currentSwapSlot || card.defaultSlot;
+  const resolved = resolveCardSentence(card, activeSlot);
+
+  document.getElementById("statQueue").textContent = `${deckPos + 1} / ${deckQueue.length}`;
+  document.getElementById("statMastered").textContent = masteredIds.size;
+  document.getElementById("statLearning").textContent = learningIds.size;
+
+  document.getElementById("cardMetaLeft").textContent = `#${card.id} · Cluster ${card.cluster}`;
+  document.getElementById("cardMetaRight").textContent = masteredIds.has(card.id)
+    ? "✓ Mastered"
+    : learningIds.has(card.id) ? "↻ Still Learning" : "Active Card";
+
+  // Emoji visual mnemonic, stored directly on each card in raw_cards.js.
+  const emojiArt = document.getElementById("emojiArt");
+  const emojiBox = document.getElementById("emojiBox");
+
+  const grads = {
+    "1": "linear-gradient(135deg, #78716c 0%, #44403c 100%)",
+    "2": "linear-gradient(135deg, #64748b 0%, #334155 100%)",
+    "3": "linear-gradient(135deg, #92400e 0%, #451a03 100%)",
+    "4": "linear-gradient(135deg, #115e59 0%, #134e4a 100%)",
+    "5": "linear-gradient(135deg, #3730a3 0%, #1e1b4b 100%)",
+    "6": "linear-gradient(135deg, #831843 0%, #500724 100%)"
+  };
+  emojiBox.style.background = grads[card.cluster] || grads["1"];
+  emojiArt.textContent = card.emoji;
+  emojiArt.setAttribute("aria-label", `${card.word_hanzi}: ${card.word_english}; ${card.emoji}`);
+  document.getElementById("visualCaption").textContent = capitalize(card.word_english);
+
+  // Front
+  document.getElementById("frontHanzi").textContent = card.word_hanzi;
+
+  // Back
+  document.getElementById("backPinyin").innerHTML = colorizePinyinHTML(card.word_pinyin);
+  document.getElementById("backHanzi").textContent = card.word_hanzi;
+  document.getElementById("backPos").textContent = card.pos;
+  document.getElementById("backEnglish").textContent = card.word_english;
+  document.getElementById("backFrame").textContent = "Frame: " + card.sentence_frame;
+  document.getElementById("backSentencePinyin").innerHTML = colorizePinyinHTML(resolved.pinyin);
+
+  const hlEsc = escapeHtml(resolved.highlight);
+  const sentHtml = escapeHtml(resolved.hanzi).replace(hlEsc, `<span class="hl-word">${hlEsc}</span>`);
+  document.getElementById("backSentenceHanzi").innerHTML = sentHtml;
+  document.getElementById("backSentenceEnglish").textContent = resolved.english;
+
+  // Swap pills
+  const pillsEl = document.getElementById("swapPills");
+  pillsEl.innerHTML = "";
+  const allOpts = Array.from(new Set([card.defaultSlot, ...card.interchangeable_options]));
+  allOpts.forEach(opt => {
+    const pBtn = document.createElement("button");
+    pBtn.className = "swap-pill" + (opt === activeSlot ? " active" : "");
+    pBtn.textContent = `${opt} (${getWordPinyin(opt)})`;
+    pBtn.onclick = () => {
+      currentSwapSlot = opt;
+      renderCard(true);
+      const updated = resolveCardSentence(card, opt);
+      speakText(updated.hanzi, "zh-CN", 0.85);
+    };
+    pillsEl.appendChild(pBtn);
+  });
+}
+
+// Flashcard controls
+document.getElementById("btnPlayWord").onclick = () => {
+  const c = getCurrentCard();
+  speakText(c.word_hanzi, "zh-CN", 0.9);
+};
+document.getElementById("btnPlaySentence").onclick = () => {
+  const c = getCurrentCard();
+  const res = resolveCardSentence(c, currentSwapSlot || c.defaultSlot);
+  speakText(res.hanzi, "zh-CN", 0.85);
+};
+document.getElementById("btnFlip").onclick = () => {
+  document.getElementById("flashcard").classList.add("flipped");
+};
+document.getElementById("btnFlipToggle").onclick = () => {
+  document.getElementById("flashcard").classList.toggle("flipped");
+};
+document.getElementById("btnPrevCard").onclick = () => {
+  deckPos = (deckPos - 1 + deckQueue.length) % deckQueue.length;
+  renderCard(false);
+};
+document.getElementById("btnNextCard").onclick = () => {
+  deckPos = (deckPos + 1) % deckQueue.length;
+  renderCard(false);
+};
+
+// Retention: Still Learning (re-queue in 3 cards) & Mastered
+document.getElementById("btnStillLearning").onclick = () => {
+  const c = getCurrentCard();
+  learningIds.add(c.id);
+  masteredIds.delete(c.id);
+  saveProgress();
+  const insertAt = Math.min(deckQueue.length, deckPos + 4);
+  deckQueue.splice(insertAt, 0, c);
+  deckPos++;
+  renderCard(false);
+};
+document.getElementById("btnMastered").onclick = () => {
+  const c = getCurrentCard();
+  masteredIds.add(c.id);
+  learningIds.delete(c.id);
+  saveProgress();
+  if (deckQueue.length > 1) {
+    deckQueue.splice(deckPos, 1);
+    if (deckPos >= deckQueue.length) deckPos = 0;
+  }
+  renderCard(false);
+};
+document.getElementById("btnResetProgress").onclick = () => {
+  masteredIds.clear();
+  learningIds.clear();
+  saveProgress();
+  deckQueue = activeCluster === "all" ? [...CARDS] : CARDS.filter(c => c.cluster === activeCluster);
+  deckPos = 0;
+  renderCard(false);
+};
+
+// Search / Jump
+document.getElementById("searchInput").addEventListener("input", e => {
+  const q = e.target.value.trim().toLowerCase();
+  if (!q) {
+    deckQueue = activeCluster === "all" ? [...CARDS] : CARDS.filter(c => c.cluster === activeCluster);
+    deckPos = 0;
+    renderCard(false);
+    return;
+  }
+  const num = Number(q);
+  if (Number.isInteger(num) && num >= 1 && num <= 300) {
+    const found = CARDS.find(c => c.id === num);
+    if (found) {
+      deckQueue = [found];
+      deckPos = 0;
+      renderCard(false);
+    }
+    return;
+  }
+  const matches = CARDS.filter(c =>
+    c.word_hanzi.includes(q) ||
+    c.word_pinyin.toLowerCase().includes(q) ||
+    c.word_english.toLowerCase().includes(q)
+  );
+  if (matches.length) {
+    deckQueue = matches;
+    deckPos = 0;
+    renderCard(false);
+  }
+});
+
+// ============================================================
+// 6. TAB 2: COMMUTE AUDIO LOOP PLAYER
+// ============================================================
+let commuteList = [...CARDS];
+let commuteIdx = 0;
+let commutePlaying = false;
+let commuteSpeed = 0.8;
+let commuteRunToken = 0;
+
+function sleepWithToken(ms, token) {
+  return new Promise(resolve => {
+    const start = Date.now();
+    const timer = setInterval(() => {
+      if (!commutePlaying || token !== commuteRunToken) {
+        clearInterval(timer);
+        resolve(false);
+      } else if (Date.now() - start >= ms) {
+        clearInterval(timer);
+        resolve(true);
+      }
+    }, 100);
+  });
+}
+
+function setCommuteStep(stepIdx, msg) {
+  document.querySelectorAll(".step-node").forEach(n => {
+    n.classList.toggle("active", Number(n.dataset.step) === stepIdx);
+  });
+  document.getElementById("commuteStatusMsg").textContent = msg;
+}
+
+function renderCommuteCard() {
+  const c = commuteList[commuteIdx] || CARDS[0];
+  document.getElementById("commuteTrackInfo").textContent = `Item ${commuteIdx + 1} of ${commuteList.length} (#${c.id})`;
+  document.getElementById("commuteHanzi").textContent = c.word_hanzi;
+  document.getElementById("commutePinyin").innerHTML = colorizePinyinHTML(c.word_pinyin);
+  document.getElementById("commuteSentence").textContent = c.example_sentence_hanzi;
+  document.getElementById("commuteEnglish").textContent = c.example_sentence_english;
+}
+
+async function runCommuteLoop(token) {
+  while (commutePlaying && token === commuteRunToken) {
+    const c = commuteList[commuteIdx];
+    renderCommuteCard();
+
+    // Step 0: Spoken target word
+    setCommuteStep(0, `Speaking word: ${c.word_hanzi}`);
+    await speakText(c.word_hanzi, "zh-CN", commuteSpeed);
+    if (!commutePlaying || token !== commuteRunToken) break;
+
+    // Step 1: 2-second silent pause for mental recall
+    setCommuteStep(1, "2s mental recall pause...");
+    if (!(await sleepWithToken(2000, token))) break;
+
+    // Step 2: Spoken full sentence twice
+    setCommuteStep(2, "Speaking sentence (1/2)...");
+    await speakText(c.example_sentence_hanzi, "zh-CN", commuteSpeed);
+    if (!commutePlaying || token !== commuteRunToken) break;
+    if (!(await sleepWithToken(700, token))) break;
+    setCommuteStep(2, "Speaking sentence (2/2)...");
+    await speakText(c.example_sentence_hanzi, "zh-CN", commuteSpeed);
+    if (!commutePlaying || token !== commuteRunToken) break;
+
+    // Step 3: English translation once
+    setCommuteStep(3, "Speaking English translation...");
+    await speakText(c.example_sentence_english, "en-US", 1.0);
+    if (!commutePlaying || token !== commuteRunToken) break;
+
+    // Step 4: 3-second pause before next card
+    setCommuteStep(4, "3s pause before next card...");
+    if (!(await sleepWithToken(3000, token))) break;
+
+    // Advance
+    if (commuteIdx + 1 < commuteList.length) {
+      commuteIdx++;
+    } else if (document.getElementById("chkLoopCluster").checked) {
+      commuteIdx = 0;
+    } else {
+      commutePlaying = false;
+      document.getElementById("btnCommutePlayPause").textContent = "▶ Start Loop";
+      setCommuteStep(-1, "Cluster complete");
+      break;
+    }
+  }
+}
+
+document.getElementById("btnCommutePlayPause").onclick = () => {
+  ensureAudioCtx();
+  commutePlaying = !commutePlaying;
+  commuteRunToken++;
+  const btn = document.getElementById("btnCommutePlayPause");
+  if (commutePlaying) {
+    btn.textContent = "⏸ Pause Loop";
+    runCommuteLoop(commuteRunToken);
+  } else {
+    btn.textContent = "▶ Resume Loop";
+    stopSpeech();
+    setCommuteStep(-1, "Paused");
+  }
+};
+document.getElementById("btnCommuteNext").onclick = () => {
+  stopSpeech();
+  commuteIdx = (commuteIdx + 1) % commuteList.length;
+  renderCommuteCard();
+  if (commutePlaying) {
+    commuteRunToken++;
+    runCommuteLoop(commuteRunToken);
+  }
+};
+document.getElementById("btnCommutePrev").onclick = () => {
+  stopSpeech();
+  commuteIdx = (commuteIdx - 1 + commuteList.length) % commuteList.length;
+  renderCommuteCard();
+  if (commutePlaying) {
+    commuteRunToken++;
+    runCommuteLoop(commuteRunToken);
+  }
+};
+document.getElementById("commuteClusterSelect").onchange = e => {
+  const val = e.target.value;
+  commuteList = val === "all" ? [...CARDS] : CARDS.filter(c => c.cluster === val);
+  commuteIdx = 0;
+  stopSpeech();
+  renderCommuteCard();
+  if (commutePlaying) {
+    commuteRunToken++;
+    runCommuteLoop(commuteRunToken);
+  }
+};
+document.getElementById("btnSpeed08").onclick = () => {
+  commuteSpeed = 0.8;
+  document.getElementById("btnSpeed08").classList.add("active");
+  document.getElementById("btnSpeed10").classList.remove("active");
+};
+document.getElementById("btnSpeed10").onclick = () => {
+  commuteSpeed = 1.0;
+  document.getElementById("btnSpeed10").classList.add("active");
+  document.getElementById("btnSpeed08").classList.remove("active");
+};
+
+// ============================================================
+// 7. TAB 3: SENTENCE FRAME MATRIX & SCROLLABLE WHEEL PICKER
+// ============================================================
+const MATRIX_POOLS = {
+  Subject: ["我","你","他","她","我们","你们","他们","大家","爸爸","妈妈","哥哥","姐姐","弟弟","妹妹","老师","学生","朋友","医生","同学","孩子"],
+  Location: ["家","学校","大学","小学","中学","公司","商店","书店","超市","饭店","医院","电影院","房间","中国","外边","这里","那里"],
+  Action: ["读书","学习","工作","休息","睡觉","玩","说话","打电话","做饭","上课","上班","看病","吃","喝","看","写","唱"],
+  Verb: ["吃","喝","买","看","听","读","写","唱","学","学习","做","找","去","回","开","坐","喜欢","爱"],
+  Object: ["茶","水","牛奶","苹果","包子","面包","米饭","面条儿","饺子","鸡蛋","水果","菜","书","杯子","电脑","手机","衣服","电视","猫","狗"],
+  Position: ["桌子上","椅子上","房间里","家里","学校","医院","商店","超市","饭店","书店","外边","这里","那里","前边","后边","上","下","里","外"]
+};
+// Ensure extra position phrases resolve pinyin & English
+Object.assign(EXTRA_PINYIN_MAP, {
+  "桌子上":"zhuōzi shàng","椅子上":"yǐzi shàng","房间里":"fángjiān lǐ","家里":"jiā lǐ","前边":"qiánbiān","后边":"hòubiān"
+});
+Object.assign(SLOT_EN_MAP, {
+  "桌子上":"on the table","椅子上":"on the chair","房间里":"in the room","家里":"at home","前边":"in front","后边":"behind"
+});
+
+const MATRIX_FRAMES = {
+  A: {
+    desc: "[Subject] + 在 + [Location] + [Action]",
+    tokens: [
+      { type: "slot", key: "Subject", pool: "Subject" },
+      { type: "fixed", h: "在", p: "zài", e: "at" },
+      { type: "slot", key: "Location", pool: "Location" },
+      { type: "slot", key: "Action", pool: "Action" }
+    ],
+    state: { Subject: "我", Location: "家", Action: "学习" }
+  },
+  B: {
+    desc: "[Subject] + 想 + [Verb] + [Object]",
+    tokens: [
+      { type: "slot", key: "Subject", pool: "Subject" },
+      { type: "fixed", h: "想", p: "xiǎng", e: "want(s) to" },
+      { type: "slot", key: "Verb", pool: "Verb" },
+      { type: "slot", key: "Object", pool: "Object" }
+    ],
+    state: { Subject: "我", Verb: "喝", Object: "茶" }
+  },
+  C: {
+    desc: "[Object] + 在 + [Position]",
+    tokens: [
+      { type: "slot", key: "Object", pool: "Object" },
+      { type: "fixed", h: "在", p: "zài", e: "is" },
+      { type: "slot", key: "Position", pool: "Position" }
+    ],
+    state: { Object: "苹果", Position: "桌子上" }
+  }
+};
+let activeMatrixFrame = "A";
+let activeWheelTarget = null;
+
+function renderMatrix() {
+  const f = MATRIX_FRAMES[activeMatrixFrame];
+  document.getElementById("matrixFormulaDesc").textContent = f.desc;
+  const slotsEl = document.getElementById("matrixSlots");
+  slotsEl.innerHTML = "";
+
+  const hParts = [], pParts = [], eParts = [];
+  f.tokens.forEach(tok => {
+    if (tok.type === "fixed") {
+      const sp = document.createElement("span");
+      sp.className = "fixed-token";
+      sp.textContent = tok.h;
+      slotsEl.appendChild(sp);
+      hParts.push(tok.h);
+      pParts.push(tok.p);
+      eParts.push(tok.e);
+    } else {
+      const val = f.state[tok.key];
+      const chip = document.createElement("button");
+      chip.className = "slot-chip";
+      chip.innerHTML = `<small>${tok.key}</small><span>${escapeHtml(val)}</span>`;
+      chip.onclick = () => openWheelPicker(tok.key, tok.pool);
+      slotsEl.appendChild(chip);
+      hParts.push(val);
+      pParts.push(getWordPinyin(val));
+      eParts.push(getWordEnglish(val).replace(/^to\s+/i, ""));
+    }
+  });
+
+  const fullH = hParts.join("") + "。";
+  const fullP = capitalize(pParts.join(" ")) + ".";
+  const fullE = capitalize(eParts.join(" ")) + ".";
+  document.getElementById("matrixPinyin").innerHTML = colorizePinyinHTML(fullP);
+  document.getElementById("matrixHanzi").textContent = fullH;
+  document.getElementById("matrixEnglish").textContent = fullE;
+}
+
+function openWheelPicker(slotKey, poolName) {
+  activeWheelTarget = { slotKey, poolName };
+  const f = MATRIX_FRAMES[activeMatrixFrame];
+  const currentVal = f.state[slotKey];
+  const list = MATRIX_POOLS[poolName];
+  document.getElementById("wheelTitle").textContent = `Choose ${slotKey} (HSK 1)`;
+  const vp = document.getElementById("wheelViewport");
+  vp.innerHTML = "";
+  let selectedEl = null;
+
+  list.forEach(word => {
+    const row = document.createElement("div");
+    row.className = "wheel-item" + (word === currentVal ? " selected" : "");
+    row.innerHTML = `<span>${escapeHtml(word)} <small style="font-weight:500;color:var(--text-muted);">${escapeHtml(getWordPinyin(word))}</small></span><span style="font-size:0.84rem;color:var(--text-muted);">${escapeHtml(getWordEnglish(word))}</span>`;
+    row.onclick = () => {
+      f.state[slotKey] = word;
+      renderMatrix();
+      document.getElementById("wheelModal").classList.remove("open");
+      speakText(document.getElementById("matrixHanzi").textContent, "zh-CN", 0.85);
+    };
+    if (word === currentVal) selectedEl = row;
+    vp.appendChild(row);
+  });
+
+  document.getElementById("wheelModal").classList.add("open");
+  if (selectedEl) selectedEl.scrollIntoView({ block: "center" });
+}
+
+document.querySelectorAll(".frame-tabs .pill").forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll(".frame-tabs .pill").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeMatrixFrame = btn.dataset.frame;
+    renderMatrix();
+  };
+});
+document.getElementById("btnMatrixSpeak").onclick = () => {
+  speakText(document.getElementById("matrixHanzi").textContent, "zh-CN", 0.85);
+};
+document.getElementById("btnMatrixRandom").onclick = () => {
+  const f = MATRIX_FRAMES[activeMatrixFrame];
+  f.tokens.forEach(tok => {
+    if (tok.type === "slot") {
+      const pool = MATRIX_POOLS[tok.pool];
+      f.state[tok.key] = pool[Math.floor(Math.random() * pool.length)];
+    }
+  });
+  renderMatrix();
+};
+document.getElementById("btnCloseWheel").onclick = () => {
+  document.getElementById("wheelModal").classList.remove("open");
+};
+
+// ============================================================
+// 8. TABS, CHECKLIST (ALL 300 WORDS), THEME, & SETTINGS
+// ============================================================
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+  };
+});
+
+document.getElementById("btnTheme").onclick = () => {
+  const html = document.documentElement;
+  const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  html.setAttribute("data-theme", next);
+  localStorage.setItem("hsk1_theme", next);
+};
+if (localStorage.getItem("hsk1_theme") === "dark") {
+  document.documentElement.setAttribute("data-theme", "dark");
+}
+
+// 300-word Checklist Modal
+document.getElementById("btnChecklist").onclick = () => {
+  document.getElementById("chkSummary").textContent = `${masteredIds.size}/300 Mastered`;
+  const body = document.getElementById("checklistBody");
+  body.innerHTML = "";
+  CARDS.forEach(c => {
+    const row = document.createElement("div");
+    row.className = "check-row";
+    const status = masteredIds.has(c.id) ? `<span class="badge-status done">Mastered</span>` :
+                   learningIds.has(c.id) ? `<span class="badge-status">Learning</span>` :
+                   `<span class="badge-status">New</span>`;
+    row.innerHTML = `<b>#${c.id}</b><b>${escapeHtml(c.word_hanzi)}</b><span>${escapeHtml(c.word_pinyin)} · ${escapeHtml(c.word_english)}</span>${status}`;
+    row.onclick = () => {
+      activeCluster = "all";
+      deckQueue = [...CARDS];
+      deckPos = c.id - 1;
+      buildClusterBar();
+      renderCard(false);
+      document.getElementById("checklistModal").classList.remove("open");
+      document.querySelector('.tab-btn[data-tab="flashcards"]').click();
+    };
+    body.appendChild(row);
+  });
+  document.getElementById("checklistModal").classList.add("open");
+};
+document.getElementById("btnCloseChecklist").onclick = () => {
+  document.getElementById("checklistModal").classList.remove("open");
+};
+
+// Settings Modal
+document.getElementById("btnSettings").onclick = () => {
+  document.getElementById("inpTtsKey").value = localStorage.getItem("hsk1_tts_key") || "";
+  document.getElementById("settingsModal").classList.add("open");
+};
+document.getElementById("btnCloseSettings").onclick = () => {
+  localStorage.setItem("hsk1_tts_key", document.getElementById("inpTtsKey").value.trim());
+  document.getElementById("settingsModal").classList.remove("open");
+};
+
+// Init
+buildClusterBar();
+renderCard(false);
+renderCommuteCard();
+renderMatrix();
+</script>
+</body>
+</html>
