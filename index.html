@@ -145,17 +145,6 @@
       text-align: center; padding: 20px; user-select: none;
       filter: drop-shadow(0 8px 14px rgba(15, 23, 42, 0.16));
     }
-    .visual-caption-overlay {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 12px 16px 14px; text-align: center;
-      background: linear-gradient(to top, rgba(0,0,0,0.58), transparent);
-      color: #fff; pointer-events: none;
-    }
-    .visual-badge {
-      display: inline-block; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em;
-      background: rgba(255,255,255,0.2); padding: 3px 8px; border-radius: 6px; margin-bottom: 4px;
-    }
-    .visual-caption { font-size: 0.92rem; font-weight: 700; margin: 0; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
 
     .card-body { padding: 18px 16px; }
     .front-hint {
@@ -379,10 +368,6 @@
 
         <div class="emoji-box" id="emojiBox">
           <div class="emoji-art" id="emojiArt" role="img"></div>
-          <div class="visual-caption-overlay">
-            <span class="visual-badge">Emoji mnemonic</span>
-            <p class="visual-caption" id="visualCaption"></p>
-          </div>
         </div>
 
         <div class="card-body">
@@ -849,8 +834,7 @@ function renderCard(keepFlipped = false) {
   };
   emojiBox.style.background = grads[card.cluster] || grads["1"];
   emojiArt.textContent = card.emoji;
-  emojiArt.setAttribute("aria-label", `${card.word_hanzi}: ${card.word_english}; ${card.emoji}`);
-  document.getElementById("visualCaption").textContent = capitalize(card.word_english);
+  emojiArt.setAttribute("aria-label", `Visual cue for ${card.word_hanzi}`);
 
   // Front
   document.getElementById("frontHanzi").textContent = card.word_hanzi;
