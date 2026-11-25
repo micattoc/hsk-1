@@ -1426,7 +1426,7 @@ const RAW_CARDS = [
     "今天+几月+几+{S}",
     "今天五月八{S}。",
     "Jīntiān wǔ yuè bā {S}.",
-    "Today is May eighth ().",
+    "Today is May 8.",
     "号",
     [
       "号",
@@ -2030,7 +2030,7 @@ const RAW_CARDS = [
     "[主语]+吃+{S}",
     "我吃早饭{S}。",
     "Wǒ chī zǎofàn {S}.",
-    "I ate breakfast ().",
+    "I ate breakfast.",
     "了",
     [
       "了",
@@ -2161,7 +2161,7 @@ const RAW_CARDS = [
     "你+是+[名词]+{S}",
     "你是学生{S}？",
     "Nǐ shì xuéshēng {S}?",
-    "Are you a student ()?",
+    "Are you a student?",
     "吗",
     [
       "吗",
@@ -2332,7 +2332,7 @@ const RAW_CARDS = [
     "[代词]+{S}+是同学",
     "他{S}是同学。",
     "Tā{S} shì tóngxué.",
-    "They () are classmates.",
+    "They are classmates.",
     "们",
     [
       "们",
@@ -2710,7 +2710,7 @@ const RAW_CARDS = [
     "你+{S}",
     "我很好，你{S}？",
     "Wǒ hěn hǎo, nǐ {S}?",
-    "I am very well, and you ()?",
+    "I am very well. How about you?",
     "呢",
     [
       "呢",
@@ -3242,7 +3242,7 @@ const RAW_CARDS = [
     "十月+一+{S}",
     "今天是五月一{S}。",
     "Jīntiān shì wǔ yuè yī {S}.",
-    "Today is May first ().",
+    "Today is May 1.",
     "日",
     [
       "日",
@@ -4513,7 +4513,7 @@ const RAW_CARDS = [
     "这+{S}+[名词]",
     "这{S}苹果很甜。",
     "Zhè {S} píngguǒ hěn hǎochī.",
-    "These () apples are delicious.",
+    "These apples are sweet.",
     "些",
     [
       "些",
@@ -4741,7 +4741,7 @@ const RAW_CARDS = [
     "外面+有+{S}",
     "今年下了很多{S}。",
     "Jīntiān xià {S} le.",
-    "It is snowing () today.",
+    "It snowed a lot this year.",
     "雪",
     [
       "雪",
@@ -5042,7 +5042,7 @@ const RAW_CARDS = [
     "外面+下+{S}+了",
     "今天下大{S}了。",
     "Jīntiān xià dà {S} le.",
-    "It is raining heavily () today.",
+    "It is raining heavily today.",
     "雨",
     [
       "雨",
@@ -5099,7 +5099,7 @@ const RAW_CARDS = [
     "请+{S}+说一遍",
     "请{S}喝一杯。",
     "Qǐng {S} hē yì bēi.",
-    "Please drink another cup ().",
+    "Please drink another cup.",
     "再",
     [
       "再",

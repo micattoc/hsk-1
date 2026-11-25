@@ -472,8 +472,8 @@
           </label>
           <div style="display:flex;gap:6px;align-items:center;">
             <span style="font-weight:600;">Speed:</span>
+            <button class="pill" id="btnSpeed05">0.5x</button>
             <button class="pill active" id="btnSpeed08">0.8x</button>
-            <button class="pill" id="btnSpeed10">1.0x</button>
           </div>
         </div>
       </div>
@@ -661,15 +661,6 @@ function resolveCardSentence(card, chosenSlot) {
   return { hanzi: sH, pinyin: sP, english: sE, highlight: hl, slot };
 }
 
-// Hydrate default fields onto every card object so every entry strictly satisfies the full schema
-CARDS.forEach(c => {
-  const res = resolveCardSentence(c, c.defaultSlot);
-  c.example_sentence_hanzi = res.hanzi;
-  c.example_sentence_pinyin = res.pinyin;
-  c.example_sentence_english = res.english;
-  c.target_word_highlight = res.highlight;
-});
-
 // ============================================================
 // 3. TONAL PINYIN PARSER & COLORIZER
 // ============================================================
@@ -700,6 +691,13 @@ function colorizePinyinHTML(pinyinStr) {
 }
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[m]));
+}
+function highlightedHanziHTML(sentence, target) {
+  const escapedTarget = escapeHtml(target);
+  return escapeHtml(sentence).replace(
+    escapedTarget,
+    `<span class="hl-word">${escapedTarget}</span>`
+  );
 }
 
 // ============================================================
@@ -847,9 +845,7 @@ function renderCard(keepFlipped = false) {
   document.getElementById("backFrame").textContent = "Frame: " + card.sentence_frame;
   document.getElementById("backSentencePinyin").innerHTML = colorizePinyinHTML(resolved.pinyin);
 
-  const hlEsc = escapeHtml(resolved.highlight);
-  const sentHtml = escapeHtml(resolved.hanzi).replace(hlEsc, `<span class="hl-word">${hlEsc}</span>`);
-  document.getElementById("backSentenceHanzi").innerHTML = sentHtml;
+  document.getElementById("backSentenceHanzi").innerHTML = highlightedHanziHTML(resolved.hanzi, resolved.highlight);
   document.getElementById("backSentenceEnglish").textContent = resolved.english;
 
   // Swap pills
@@ -990,16 +986,18 @@ function setCommuteStep(stepIdx, msg) {
 
 function renderCommuteCard() {
   const c = commuteList[commuteIdx] || CARDS[0];
+  const example = resolveCardSentence(c, c.defaultSlot);
   document.getElementById("commuteTrackInfo").textContent = `Item ${commuteIdx + 1} of ${commuteList.length} (#${c.id})`;
   document.getElementById("commuteHanzi").textContent = c.word_hanzi;
   document.getElementById("commutePinyin").innerHTML = colorizePinyinHTML(c.word_pinyin);
-  document.getElementById("commuteSentence").textContent = c.example_sentence_hanzi;
-  document.getElementById("commuteEnglish").textContent = c.example_sentence_english;
+  document.getElementById("commuteSentence").innerHTML = highlightedHanziHTML(example.hanzi, example.highlight);
+  document.getElementById("commuteEnglish").textContent = example.english;
 }
 
 async function runCommuteLoop(token) {
   while (commutePlaying && token === commuteRunToken) {
     const c = commuteList[commuteIdx];
+    const example = resolveCardSentence(c, c.defaultSlot);
     renderCommuteCard();
 
     // Step 0: Spoken target word
@@ -1013,16 +1011,16 @@ async function runCommuteLoop(token) {
 
     // Step 2: Spoken full sentence twice
     setCommuteStep(2, "Speaking sentence (1/2)...");
-    await speakText(c.example_sentence_hanzi, "zh-CN", commuteSpeed);
+    await speakText(example.hanzi, "zh-CN", commuteSpeed);
     if (!commutePlaying || token !== commuteRunToken) break;
     if (!(await sleepWithToken(700, token))) break;
     setCommuteStep(2, "Speaking sentence (2/2)...");
-    await speakText(c.example_sentence_hanzi, "zh-CN", commuteSpeed);
+    await speakText(example.hanzi, "zh-CN", commuteSpeed);
     if (!commutePlaying || token !== commuteRunToken) break;
 
     // Step 3: English translation once
     setCommuteStep(3, "Speaking English translation...");
-    await speakText(c.example_sentence_english, "en-US", 1.0);
+    await speakText(example.english, "en-US", commuteSpeed);
     if (!commutePlaying || token !== commuteRunToken) break;
 
     // Step 4: 3-second pause before next card
@@ -1086,15 +1084,15 @@ document.getElementById("commuteClusterSelect").onchange = e => {
     runCommuteLoop(commuteRunToken);
   }
 };
+document.getElementById("btnSpeed05").onclick = () => {
+  commuteSpeed = 0.5;
+  document.getElementById("btnSpeed05").classList.add("active");
+  document.getElementById("btnSpeed08").classList.remove("active");
+};
 document.getElementById("btnSpeed08").onclick = () => {
   commuteSpeed = 0.8;
   document.getElementById("btnSpeed08").classList.add("active");
-  document.getElementById("btnSpeed10").classList.remove("active");
-};
-document.getElementById("btnSpeed10").onclick = () => {
-  commuteSpeed = 1.0;
-  document.getElementById("btnSpeed10").classList.add("active");
-  document.getElementById("btnSpeed08").classList.remove("active");
+  document.getElementById("btnSpeed05").classList.remove("active");
 };
 
 // ============================================================
