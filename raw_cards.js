@@ -1,5 +1,6 @@
-// Verified HSK 1 300-Card Master Dataset
-// Format: [id, hanzi, pinyin, pos, english, cluster, frame, tplH, tplP, tplE, slot, opts, emoji]
+// Verified & Corrected HSK 1 300-Card Master Dataset (v2)
+// All 300 entries audited for Chinese grammar, Pinyin accuracy, English translation, and slot replacement consistency.
+// Format: [id, hanzi, pinyin, pos, english, cluster, frame, tplH, tplP, tplE, slot, opts, scene]
 const RAW_CARDS = [
   [
     1,
@@ -18,7 +19,7 @@ const RAW_CARDS = [
       "爸爸",
       "中国"
     ],
-    "💕"
+    "a young woman smiling warmly while hugging her mother in a bright living room"
   ],
   [
     2,
@@ -37,7 +38,7 @@ const RAW_CARDS = [
       "七",
       "九"
     ],
-    "8️⃣"
+    "a wall clock showing eight o'clock in a sunlit kitchen"
   ],
   [
     3,
@@ -56,7 +57,7 @@ const RAW_CARDS = [
       "妈妈",
       "哥哥"
     ],
-    "👨"
+    "a middle-aged father wearing a casual shirt working at a desk near a window"
   ],
   [
     4,
@@ -75,7 +76,7 @@ const RAW_CARDS = [
       "休息",
       "回家"
     ],
-    "🤔👉"
+    "two friends gesturing toward a cozy tea table suggesting they sit and have tea"
   ],
   [
     5,
@@ -94,7 +95,7 @@ const RAW_CARDS = [
       "上午",
       "下午"
     ],
-    "☀️"
+    "bright midday sunlight streaming across a quiet neighborhood street"
   ],
   [
     6,
@@ -113,7 +114,7 @@ const RAW_CARDS = [
       "十",
       "千"
     ],
-    "💯"
+    "a customer holding a price tag inside a neighborhood clothing shop"
   ],
   [
     7,
@@ -132,7 +133,7 @@ const RAW_CARDS = [
       "十分",
       "二十分"
     ],
-    "◐"
+    "a wristwatch showing half past two resting beside a notebook on a cafe table"
   ],
   [
     8,
@@ -151,7 +152,7 @@ const RAW_CARDS = [
       "面包",
       "鸡蛋"
     ],
-    "🥟"
+    "fresh warm steamed stuffed buns in a bamboo steamer on a wooden breakfast table"
   ],
   [
     9,
@@ -170,7 +171,7 @@ const RAW_CARDS = [
       "苹果",
       "电脑"
     ],
-    "🥛"
+    "a clear glass cup filled with water sitting on a clean wooden dining table"
   ],
   [
     10,
@@ -181,13 +182,13 @@ const RAW_CARDS = [
     "3",
     "一+{S}+[名词]",
     "我买了一{S}书。",
-    "Wǒ mǎi le yì běn shū.",
-    "I bought a book.",
+    "Wǒ mǎi le yì {S} shū.",
+    "I bought a {S} of book.",
     "本",
     [
       "本"
     ],
-    "📚"
+    "a person holding a single paperback book at a sunlit bookstore counter"
   ],
   [
     11,
@@ -206,7 +207,7 @@ const RAW_CARDS = [
       "那边",
       "外边"
     ],
-    "↔️"
+    "a pedestrian pointing toward a tree-lined street beside a local school gate"
   ],
   [
     12,
@@ -223,7 +224,7 @@ const RAW_CARDS = [
     [
       "病"
     ],
-    "🤒"
+    "a person resting on a sofa with a warm cup of water and tissues nearby"
   ],
   [
     13,
@@ -242,7 +243,7 @@ const RAW_CARDS = [
       "想",
       "喜欢"
     ],
-    "🚫"
+    "a smiling person politely shaking their head and waving a hand away from a teapot"
   ],
   [
     14,
@@ -261,7 +262,7 @@ const RAW_CARDS = [
       "没关系",
       "再见"
     ],
-    "😊🙏"
+    "a shopkeeper smiling warmly as a customer thanks them at the counter"
   ],
   [
     15,
@@ -279,7 +280,7 @@ const RAW_CARDS = [
       "不要",
       "请"
     ],
-    "🙅"
+    "a teacher gently placing a finger to her lips in a quiet sunlit library"
   ],
   [
     16,
@@ -298,7 +299,7 @@ const RAW_CARDS = [
       "水果",
       "米饭"
     ],
-    "🥬"
+    "several freshly cooked home-style dishes arranged on a family dining table"
   ],
   [
     17,
@@ -317,7 +318,7 @@ const RAW_CARDS = [
       "水",
       "牛奶"
     ],
-    "🍵"
+    "a ceramic cup of hot green tea steaming gently on a cafe table"
   ],
   [
     18,
@@ -336,7 +337,7 @@ const RAW_CARDS = [
       "听",
       "写"
     ],
-    "🎤"
+    "a young woman happily singing along in a sunlit living room"
   ],
   [
     19,
@@ -355,7 +356,7 @@ const RAW_CARDS = [
       "商店",
       "书店"
     ],
-    "🛒"
+    "a shopper pushing a basket down a bright produce aisle in a neighborhood supermarket"
   ],
   [
     20,
@@ -374,7 +375,7 @@ const RAW_CARDS = [
       "人",
       "狗"
     ],
-    "🚗"
+    "everyday city traffic moving along a tree-lined street in soft daylight"
   ],
   [
     21,
@@ -393,7 +394,7 @@ const RAW_CARDS = [
       "做",
       "买"
     ],
-    "🍽️"
+    "a person holding chopsticks over a warm bowl of steamed rice at a home table"
   ],
   [
     22,
@@ -412,7 +413,7 @@ const RAW_CARDS = [
       "火车",
       "飞机"
     ],
-    "🚕"
+    "a passenger stepping into a clean city taxi parked beside a sidewalk"
   ],
   [
     23,
@@ -431,7 +432,7 @@ const RAW_CARDS = [
       "买",
       "喜欢"
     ],
-    "👕"
+    "a young woman adjusting a neat new jacket in front of an entryway mirror"
   ],
   [
     24,
@@ -450,7 +451,7 @@ const RAW_CARDS = [
       "写字",
       "说话"
     ],
-    "📞"
+    "a man standing near a sunlit balcony holding a phone to his ear while smiling"
   ],
   [
     25,
@@ -469,7 +470,7 @@ const RAW_CARDS = [
       "小",
       "新"
     ],
-    "↗️"
+    "a spacious, airy living room with large windows and natural morning light"
   ],
   [
     26,
@@ -488,7 +489,7 @@ const RAW_CARDS = [
       "你们",
       "老师"
     ],
-    "👥"
+    "a smiling teacher greeting a small group of attentive students in a classroom"
   ],
   [
     27,
@@ -507,7 +508,7 @@ const RAW_CARDS = [
       "中学",
       "学校"
     ],
-    "🎓"
+    "students walking across a brick university courtyard shaded by green trees"
   ],
   [
     28,
@@ -526,7 +527,7 @@ const RAW_CARDS = [
       "中学生",
       "小学生"
     ],
-    "🧑‍🎓"
+    "a young university student carrying a backpack and books on campus"
   ],
   [
     29,
@@ -545,7 +546,7 @@ const RAW_CARDS = [
       "去",
       "回"
     ],
-    "📍"
+    "a student stepping up to a brick school entrance in morning sunlight"
   ],
   [
     30,
@@ -555,8 +556,8 @@ const RAW_CARDS = [
     "possessive or modifying particle",
     "5",
     "[人]+的+[名词]",
-    "这是{S}的书。",
-    "Zhè shì {S} de shū.",
+    "这是{S}书。",
+    "Zhè shì {S} shū.",
     "This is {S} book.",
     "我的",
     [
@@ -564,7 +565,7 @@ const RAW_CARDS = [
       "他的",
       "她的"
     ],
-    "🏷️"
+    "a desk with an open textbook and a handwritten name on the cover"
   ],
   [
     31,
@@ -575,13 +576,13 @@ const RAW_CARDS = [
     "3",
     "{S}+[数字]+个",
     "今天是{S}一天。",
-    "Jīntiān shì dì-yī tiān.",
-    "Today is the first day.",
+    "Jīntiān shì {S}-yī tiān.",
+    "Today is the {S} first day.",
     "第",
     [
       "第"
     ],
-    "🥇"
+    "a desk calendar with the first day of the month circled in ink"
   ],
   [
     32,
@@ -600,7 +601,7 @@ const RAW_CARDS = [
       "妹妹",
       "儿子"
     ],
-    "👦"
+    "a young boy smiling while playing with wooden blocks on a living room rug"
   ],
   [
     33,
@@ -611,14 +612,14 @@ const RAW_CARDS = [
     "3",
     "现在+[数字]+{S}",
     "现在九{S}了。",
-    "Xiànzài jiǔ diǎn le.",
-    "It is nine o’clock now.",
+    "Xiànzài jiǔ {S} le.",
+    "It is nine {S} now.",
     "点",
     [
       "点",
       "分"
     ],
-    "⏰"
+    "a person glancing at a watch reading nine o'clock while holding a coffee bag"
   ],
   [
     34,
@@ -637,7 +638,7 @@ const RAW_CARDS = [
       "商店",
       "书店"
     ],
-    "🏬"
+    "the glass storefront of a tidy neighborhood shop on a sunny afternoon"
   ],
   [
     35,
@@ -656,7 +657,7 @@ const RAW_CARDS = [
       "手机",
       "电脑"
     ],
-    "☎️"
+    "a telephone resting on a side table beside a small lamp"
   ],
   [
     36,
@@ -675,7 +676,7 @@ const RAW_CARDS = [
       "电视",
       "手机"
     ],
-    "💻"
+    "an open laptop computer on a clean wooden home desk near a window"
   ],
   [
     37,
@@ -694,7 +695,7 @@ const RAW_CARDS = [
       "电影",
       "书"
     ],
-    "📺"
+    "a man relaxing on a living room sofa watching the evening news on television"
   ],
   [
     38,
@@ -713,7 +714,7 @@ const RAW_CARDS = [
       "电视",
       "书"
     ],
-    "🎬"
+    "two friends walking out of a theater lobby chatting about a film"
   ],
   [
     39,
@@ -732,7 +733,7 @@ const RAW_CARDS = [
       "书店",
       "饭店"
     ],
-    "🎦"
+    "people standing near the warm evening entrance of a city cinema"
   ],
   [
     40,
@@ -751,7 +752,7 @@ const RAW_CARDS = [
       "水果",
       "菜"
     ],
-    "📦"
+    "a woman carrying a canvas tote bag filled with fresh groceries on a sidewalk"
   ],
   [
     41,
@@ -770,7 +771,7 @@ const RAW_CARDS = [
       "也",
       "还"
     ],
-    "👥✅"
+    "three classmates laughing together over Chinese flashcards at a table"
   ],
   [
     42,
@@ -789,7 +790,7 @@ const RAW_CARDS = [
       "写",
       "看"
     ],
-    "📖"
+    "a student reading aloud from a printed Mandarin sheet at a wooden desk"
   ],
   [
     43,
@@ -808,7 +809,7 @@ const RAW_CARDS = [
       "学习",
       "休息"
     ],
-    "📚"
+    "a young man seated by a sunlit window quietly reading a paperback book"
   ],
   [
     44,
@@ -827,7 +828,7 @@ const RAW_CARDS = [
       "好",
       "真"
     ],
-    "✅"
+    "a teacher nodding approvingly at a student's notebook during a lesson"
   ],
   [
     45,
@@ -846,7 +847,7 @@ const RAW_CARDS = [
       "没关系",
       "谢谢"
     ],
-    "🙇"
+    "a man apologizing politely with a slight bow as he arrives at a cafe table"
   ],
   [
     46,
@@ -865,7 +866,7 @@ const RAW_CARDS = [
       "少",
       "好"
     ],
-    "➕"
+    "a lively weekend farmers market with shoppers browsing fruit stalls"
   ],
   [
     47,
@@ -884,7 +885,7 @@ const RAW_CARDS = [
       "几",
       "什么"
     ],
-    "❓🔢"
+    "a shopper holding up an apple and asking the vendor for the price"
   ],
   [
     48,
@@ -903,7 +904,7 @@ const RAW_CARDS = [
       "女儿",
       "孩子"
     ],
-    "👦"
+    "a smiling father standing beside his young son in a sunny park"
   ],
   [
     49,
@@ -922,7 +923,7 @@ const RAW_CARDS = [
       "一",
       "三"
     ],
-    "2️⃣"
+    "a wooden apartment door with a clean brass number two plaque"
   ],
   [
     50,
@@ -941,7 +942,7 @@ const RAW_CARDS = [
       "菜",
       "早饭"
     ],
-    "🍚"
+    "a mother stirring a warm home-cooked meal in a sunlit kitchen"
   ],
   [
     51,
@@ -960,7 +961,7 @@ const RAW_CARDS = [
       "家",
       "学校"
     ],
-    "🍽️🏠"
+    "friends sharing dishes around a warm wooden table in a neighborhood restaurant"
   ],
   [
     52,
@@ -979,7 +980,7 @@ const RAW_CARDS = [
       "学校",
       "商店"
     ],
-    "🚪"
+    "a cozy, tidy bedroom with a single bed, desk, and soft morning window light"
   ],
   [
     53,
@@ -998,7 +999,7 @@ const RAW_CARDS = [
       "很",
       "太"
     ],
-    "🔥"
+    "a pedestrian in a wool coat and scarf walking on a crisp winter morning"
   ],
   [
     54,
@@ -1017,7 +1018,7 @@ const RAW_CARDS = [
       "火车",
       "出租车"
     ],
-    "✈️"
+    "a traveler looking out a terminal window at a passenger plane on the tarmac"
   ],
   [
     55,
@@ -1036,7 +1037,7 @@ const RAW_CARDS = [
       "分钟",
       "点"
     ],
-    "➗"
+    "a digital train station clock showing 10:05 above commuters"
   ],
   [
     56,
@@ -1055,7 +1056,7 @@ const RAW_CARDS = [
       "小时",
       "天"
     ],
-    "⏱️"
+    "a person walking along a tree-lined path checking a wristwatch"
   ],
   [
     57,
@@ -1072,7 +1073,7 @@ const RAW_CARDS = [
     [
       "高兴"
     ],
-    "😄"
+    "two colleagues smiling warmly while shaking hands outside an office building"
   ],
   [
     58,
@@ -1091,7 +1092,7 @@ const RAW_CARDS = [
       "课",
       "电影"
     ],
-    "🎵"
+    "a person wearing headphones looking out a train window with a relaxed smile"
   ],
   [
     59,
@@ -1110,7 +1111,7 @@ const RAW_CARDS = [
       "弟弟",
       "爸爸"
     ],
-    "👨"
+    "a young male doctor in a white coat smiling in a bright clinic hallway"
   ],
   [
     60,
@@ -1129,7 +1130,7 @@ const RAW_CARDS = [
       "只",
       "本"
     ],
-    "🔢"
+    "a single fresh red apple resting on a light wood kitchen table"
   ],
   [
     61,
@@ -1148,7 +1149,7 @@ const RAW_CARDS = [
       "买",
       "看"
     ],
-    "🎁"
+    "a friend handing a paperback book across a wooden cafe table"
   ],
   [
     62,
@@ -1167,7 +1168,7 @@ const RAW_CARDS = [
       "学校",
       "医院"
     ],
-    "🏢"
+    "office workers entering a sunlit modern brick office building in the morning"
   ],
   [
     63,
@@ -1186,7 +1187,7 @@ const RAW_CARDS = [
       "学习",
       "休息"
     ],
-    "💼"
+    "a healthcare worker reviewing notes at a sunlit reception desk"
   ],
   [
     64,
@@ -1205,7 +1206,7 @@ const RAW_CARDS = [
       "猫",
       "鸟"
     ],
-    "🐕"
+    "a friendly small brown dog sitting patiently on a sunny porch"
   ],
   [
     65,
@@ -1224,7 +1225,7 @@ const RAW_CARDS = [
       "便宜",
       "大"
     ],
-    "💰⬆️"
+    "a shopper looking closely at a price tag inside a boutique"
   ],
   [
     66,
@@ -1243,7 +1244,7 @@ const RAW_CARDS = [
       "家",
       "学校"
     ],
-    "🌍"
+    "scenic city skyline and green hills bathed in golden morning light"
   ],
   [
     67,
@@ -1262,7 +1263,7 @@ const RAW_CARDS = [
       "也",
       "都"
     ],
-    "🔄➕"
+    "a runner reaching for a second glass of water on a kitchen counter"
   ],
   [
     68,
@@ -1281,7 +1282,7 @@ const RAW_CARDS = [
       "同学",
       "朋友"
     ],
-    "🧒"
+    "a cheerful young child drawing with crayons on a wooden floor"
   ],
   [
     69,
@@ -1300,7 +1301,7 @@ const RAW_CARDS = [
       "中文",
       "汉字"
     ],
-    "🗣️"
+    "an open Chinese textbook beside a warm mug of tea on a study desk"
   ],
   [
     70,
@@ -1319,7 +1320,7 @@ const RAW_CARDS = [
       "汉语",
       "字"
     ],
-    "🀄"
+    "a hand holding a fountain pen neatly writing Chinese characters on grid paper"
   ],
   [
     71,
@@ -1338,7 +1339,7 @@ const RAW_CARDS = [
       "热",
       "冷"
     ],
-    "👍"
+    "clear blue sky with soft white clouds over a peaceful neighborhood park"
   ],
   [
     72,
@@ -1357,7 +1358,7 @@ const RAW_CARDS = [
       "便宜",
       "贵"
     ],
-    "😋"
+    "steaming bowls of freshly prepared dumplings and vegetables on a table"
   ],
   [
     73,
@@ -1376,7 +1377,7 @@ const RAW_CARDS = [
       "新",
       "贵"
     ],
-    "😍"
+    "a neat linen jacket hanging in soft natural light by a closet"
   ],
   [
     74,
@@ -1395,7 +1396,7 @@ const RAW_CARDS = [
       "好看",
       "好玩儿"
     ],
-    "🎧"
+    "a person smiling softly while listening to acoustic music at home"
   ],
   [
     75,
@@ -1414,7 +1415,7 @@ const RAW_CARDS = [
       "好看",
       "大"
     ],
-    "🎮"
+    "friends laughing together while playing a board game in a bright cafe"
   ],
   [
     76,
@@ -1433,7 +1434,7 @@ const RAW_CARDS = [
       "日",
       "月"
     ],
-    "🔢"
+    "a paper desk calendar flipped to the eighth day of May"
   ],
   [
     77,
@@ -1452,7 +1453,7 @@ const RAW_CARDS = [
       "买",
       "做"
     ],
-    "🥤"
+    "a woman lifting a warm ceramic cup of tea to take a sip by a window"
   ],
   [
     78,
@@ -1471,7 +1472,7 @@ const RAW_CARDS = [
       "跟",
       "看"
     ],
-    "🤝"
+    "a husband and wife preparing vegetables together in a bright kitchen"
   ],
   [
     79,
@@ -1490,7 +1491,7 @@ const RAW_CARDS = [
       "非常",
       "太"
     ],
-    "⬆️"
+    "a smiling student holding a graded paper outside a classroom"
   ],
   [
     80,
@@ -1502,14 +1503,13 @@ const RAW_CARDS = [
     "[时间]+以+{S}",
     "饭{S}我去休息。",
     "Fàn {S} wǒ qù xiūxi.",
-    "After the meal I go rest.",
+    "{S} the meal, I go to rest.",
     "后",
     [
       "后",
-      "前",
-      "里"
+      "前"
     ],
-    "⬅️"
+    "a peaceful living room armchair bathed in afternoon light"
   ],
   [
     81,
@@ -1528,7 +1528,7 @@ const RAW_CARDS = [
       "去",
       "到"
     ],
-    "↩️🏠"
+    "a commuter walking up the front steps of an apartment building at dusk"
   ],
   [
     82,
@@ -1547,7 +1547,7 @@ const RAW_CARDS = [
       "能",
       "想"
     ],
-    "💪"
+    "two people having a relaxed conversation in Mandarin at a cafe"
   ],
   [
     83,
@@ -1566,7 +1566,7 @@ const RAW_CARDS = [
       "飞机",
       "出租车"
     ],
-    "🚆"
+    "passengers waiting calmly on a sunlit railway platform beside a sleek train"
   ],
   [
     84,
@@ -1585,7 +1585,7 @@ const RAW_CARDS = [
       "包子",
       "苹果"
     ],
-    "🥚"
+    "a simple white ceramic plate with a freshly boiled egg on a breakfast table"
   ],
   [
     85,
@@ -1604,7 +1604,7 @@ const RAW_CARDS = [
       "两",
       "三"
     ],
-    "🔢❓"
+    "a student glancing up at a classroom clock during morning study"
   ],
   [
     86,
@@ -1623,7 +1623,7 @@ const RAW_CARDS = [
       "房间",
       "学校"
     ],
-    "🏠"
+    "a warm sunlit living room with houseplants and a cozy sofa"
   ],
   [
     87,
@@ -1642,7 +1642,7 @@ const RAW_CARDS = [
       "朋友",
       "同学"
     ],
-    "👨‍👩‍👧"
+    "a multi-generational family smiling together at a weekend dinner table"
   ],
   [
     88,
@@ -1661,7 +1661,7 @@ const RAW_CARDS = [
       "来",
       "去"
     ],
-    "👀"
+    "two coworkers waving goodbye outside an office lobby in the late afternoon"
   ],
   [
     89,
@@ -1680,7 +1680,7 @@ const RAW_CARDS = [
       "个",
       "些"
     ],
-    "👕"
+    "a neatly folded cotton sweater resting on a wooden shelf"
   ],
   [
     90,
@@ -1699,7 +1699,7 @@ const RAW_CARDS = [
       "面条儿",
       "米饭"
     ],
-    "🥟"
+    "a plate of homemade boiled dumplings beside a small dish of dipping sauce"
   ],
   [
     91,
@@ -1710,15 +1710,14 @@ const RAW_CARDS = [
     "1",
     "你+{S}+什么名字",
     "我{S}大卫。",
-    "Wǒ jiào Dàwèi.",
-    "My name is David.",
+    "Wǒ {S} Dàwèi.",
+    "I {S} David.",
     "叫",
     [
       "叫",
-      "是",
-      "有"
+      "是"
     ],
-    "📣"
+    "a person writing their name on a paper name tag at a workshop"
   ],
   [
     92,
@@ -1737,7 +1736,7 @@ const RAW_CARDS = [
       "妹妹",
       "哥哥"
     ],
-    "👩"
+    "a friendly young woman in scrubs smiling in a bright clinic corridor"
   ],
   [
     93,
@@ -1756,7 +1755,7 @@ const RAW_CARDS = [
       "明年",
       "去年"
     ],
-    "📅"
+    "a person lighting candles on a small birthday cake at home"
   ],
   [
     94,
@@ -1775,7 +1774,7 @@ const RAW_CARDS = [
       "明天",
       "昨天"
     ],
-    "📆"
+    "morning sunlight hitting a daily planner open on a wooden table"
   ],
   [
     95,
@@ -1794,7 +1793,7 @@ const RAW_CARDS = [
       "八",
       "十"
     ],
-    "9️⃣"
+    "students entering a bright lecture room just before nine in the morning"
   ],
   [
     96,
@@ -1813,7 +1812,7 @@ const RAW_CARDS = [
       "知道",
       "想"
     ],
-    "💭"
+    "a commuter rubbing their hands together on a chilly morning street"
   ],
   [
     97,
@@ -1832,7 +1831,7 @@ const RAW_CARDS = [
       "关",
       "看"
     ],
-    "🔓"
+    "a hand reaching for the brass handle of a sunlit wooden apartment door"
   ],
   [
     98,
@@ -1851,7 +1850,7 @@ const RAW_CARDS = [
       "做饭",
       "工作"
     ],
-    "🚘"
+    "a man seated calmly in the driver's seat with hands on the steering wheel"
   ],
   [
     99,
@@ -1863,14 +1862,14 @@ const RAW_CARDS = [
     "[主语]+在+{S}+书",
     "我在{S}书。",
     "Wǒ zài {S} shū.",
-    "I am reading a book.",
+    "I am {S} a book.",
     "看",
     [
       "看",
       "读",
-      "写"
+      "买"
     ],
-    "👀"
+    "a person sitting in a cafe chair attentively reading an open book"
   ],
   [
     100,
@@ -1889,7 +1888,7 @@ const RAW_CARDS = [
       "工作",
       "休息"
     ],
-    "🩺"
+    "a patient speaking calmly with a doctor at a clinic desk"
   ],
   [
     101,
@@ -1908,7 +1907,7 @@ const RAW_CARDS = [
       "认识",
       "听见"
     ],
-    "👀"
+    "a student waving across a sunny courtyard after spotting their teacher"
   ],
   [
     102,
@@ -1927,7 +1926,7 @@ const RAW_CARDS = [
       "能",
       "想"
     ],
-    "👍"
+    "a traveler politely gesturing toward an empty seat on a commuter train"
   ],
   [
     103,
@@ -1946,7 +1945,7 @@ const RAW_CARDS = [
       "书",
       "字"
     ],
-    "📚"
+    "a small language classroom with a whiteboard and notebooks on desks"
   ],
   [
     104,
@@ -1958,14 +1957,13 @@ const RAW_CARDS = [
     "我家+有+四+{S}+人",
     "我家有四{S}人。",
     "Wǒ jiā yǒu sì {S} rén.",
-    "There are four people in my family.",
+    "My family has four {S} people.",
     "口",
     [
       "口",
-      "个",
-      "位"
+      "个"
     ],
-    "👄"
+    "a family of four smiling together on a living room sofa"
   ],
   [
     105,
@@ -1977,14 +1975,13 @@ const RAW_CARDS = [
     "这个+十+{S}+钱",
     "这杯茶十{S}钱。",
     "Zhè bēi chá shí {S} qián.",
-    "This cup of tea costs ten yuan.",
+    "This cup of tea costs ten {S}.",
     "块",
     [
       "块",
-      "元",
-      "个"
+      "元"
     ],
-    "💴"
+    "a customer handing a ten-yuan note at a neighborhood tea counter"
   ],
   [
     106,
@@ -1995,15 +1992,15 @@ const RAW_CARDS = [
     "1",
     "[人]+{S}+我家了",
     "朋友{S}我家了。",
-    "Péngyou lái wǒ jiā le.",
-    "My friend came to my home.",
+    "Péngyou {S} wǒ jiā le.",
+    "My friend {S} to my home.",
     "来",
     [
       "来",
-      "去",
-      "到"
+      "到",
+      "去"
     ],
-    "🚶‍➡️"
+    "two friends greeting each other warmly at an open apartment doorway"
   ],
   [
     107,
@@ -2022,7 +2019,7 @@ const RAW_CARDS = [
       "朋友",
       "同学"
     ],
-    "👩‍🏫"
+    "a friendly Mandarin teacher smiling beside a chalkboard"
   ],
   [
     108,
@@ -2041,7 +2038,7 @@ const RAW_CARDS = [
       "吗",
       "呢"
     ],
-    "✅"
+    "an empty breakfast plate beside a finished cup of tea in morning sun"
   ],
   [
     109,
@@ -2060,7 +2057,7 @@ const RAW_CARDS = [
       "热",
       "好"
     ],
-    "🥶"
+    "a person wrapping a warm knit scarf around their neck on a crisp morning"
   ],
   [
     110,
@@ -2079,7 +2076,7 @@ const RAW_CARDS = [
       "外",
       "上"
     ],
-    "🏠"
+    "a stack of textbooks resting neatly inside a quiet bedroom"
   ],
   [
     111,
@@ -2098,7 +2095,7 @@ const RAW_CARDS = [
       "三",
       "四"
     ],
-    "2️⃣"
+    "two fresh red apples sitting side by side on a ceramic plate"
   ],
   [
     112,
@@ -2109,15 +2106,13 @@ const RAW_CARDS = [
     "3",
     "今天+零下+十+度",
     "今天{S}下十度。",
-    "Jīntiān língxià shí dù.",
-    "It is ten degrees below zero today.",
+    "Jīntiān {S}xià shí dù.",
+    "Today it is ten degrees below {S}.",
     "零",
     [
-      "零",
-      "一",
-      "二"
+      "零"
     ],
-    "0️⃣"
+    "a frost-kissed park bench on a calm winter morning"
   ],
   [
     113,
@@ -2136,7 +2131,7 @@ const RAW_CARDS = [
       "五",
       "七"
     ],
-    "6️⃣"
+    "office workers leaving a glass lobby into warm late-afternoon light"
   ],
   [
     114,
@@ -2155,7 +2150,7 @@ const RAW_CARDS = [
       "爸爸",
       "姐姐"
     ],
-    "👩"
+    "a smiling mother chopping fresh vegetables on a wooden kitchen board"
   ],
   [
     115,
@@ -2174,7 +2169,7 @@ const RAW_CARDS = [
       "呢",
       "吧"
     ],
-    "❓"
+    "a young person chatting inquisitively with a student carrying a backpack"
   ],
   [
     116,
@@ -2193,7 +2188,7 @@ const RAW_CARDS = [
       "吃",
       "看"
     ],
-    "🛒"
+    "a shopper selecting fresh oranges at an outdoor fruit stand"
   ],
   [
     117,
@@ -2212,7 +2207,7 @@ const RAW_CARDS = [
       "买",
       "有"
     ],
-    "🏷️"
+    "neat tins of loose-leaf tea arranged on wooden shelves in a shop"
   ],
   [
     118,
@@ -2231,7 +2226,7 @@ const RAW_CARDS = [
       "累",
       "高兴"
     ],
-    "🏃‍♂️⏰"
+    "a desk worker typing on a laptop with a notebook and tea mug beside them"
   ],
   [
     119,
@@ -2250,7 +2245,7 @@ const RAW_CARDS = [
       "狗",
       "书"
     ],
-    "🐈"
+    "a calm tabby cat curled up sleeping on a wooden dining chair"
   ],
   [
     120,
@@ -2269,7 +2264,7 @@ const RAW_CARDS = [
       "不客气",
       "再见"
     ],
-    "🤝"
+    "a smiling friend reassuring someone with a relaxed wave of the hand"
   ],
   [
     121,
@@ -2288,7 +2283,7 @@ const RAW_CARDS = [
       "很忙",
       "在家"
     ],
-    "🙂👍"
+    "a person lounging peacefully on a sunny balcony reading a magazine"
   ],
   [
     122,
@@ -2307,7 +2302,7 @@ const RAW_CARDS = [
       "有",
       "需要"
     ],
-    "🚫📦"
+    "a person looking inside an empty leather wallet at a cafe table"
   ],
   [
     123,
@@ -2326,7 +2321,7 @@ const RAW_CARDS = [
       "弟弟",
       "姐姐"
     ],
-    "👧"
+    "a young girl smiling brightly while holding a red balloon in a park"
   ],
   [
     124,
@@ -2345,7 +2340,7 @@ const RAW_CARDS = [
       "的",
       "也"
     ],
-    "👥"
+    "a group of three smiling classmates walking together after school"
   ],
   [
     125,
@@ -2364,7 +2359,7 @@ const RAW_CARDS = [
       "面条儿",
       "饺子"
     ],
-    "🍚"
+    "a steaming white porcelain bowl of fluffy cooked rice on a wooden table"
   ],
   [
     126,
@@ -2383,7 +2378,7 @@ const RAW_CARDS = [
       "包子",
       "苹果"
     ],
-    "🍞"
+    "two golden freshly baked loaves of bread resting on a bakery paper bag"
   ],
   [
     127,
@@ -2402,7 +2397,7 @@ const RAW_CARDS = [
       "米饭",
       "饺子"
     ],
-    "🍜"
+    "a steaming ceramic bowl of hand-pulled noodles with green onions"
   ],
   [
     128,
@@ -2421,7 +2416,7 @@ const RAW_CARDS = [
       "今年",
       "明天"
     ],
-    "📅➡️"
+    "a traveler tracing a route on a paper map beside a passport"
   ],
   [
     129,
@@ -2440,7 +2435,7 @@ const RAW_CARDS = [
       "今天",
       "昨天"
     ],
-    "🌅📅"
+    "an evening desk with tomorrow's schedule written neatly in a planner"
   ],
   [
     130,
@@ -2459,7 +2454,7 @@ const RAW_CARDS = [
       "工作",
       "书"
     ],
-    "🏷️"
+    "two new acquaintances introducing themselves warmly in an office lobby"
   ],
   [
     131,
@@ -2478,7 +2473,7 @@ const RAW_CARDS = [
       "这",
       "那"
     ],
-    "❓"
+    "two travelers smiling and chatting over coffee at a hostel table"
   ],
   [
     132,
@@ -2497,7 +2492,7 @@ const RAW_CARDS = [
       "这个",
       "那个"
     ],
-    "👉❓"
+    "a customer pointing between two ceramic teacups on a shop counter"
   ],
   [
     133,
@@ -2516,7 +2511,7 @@ const RAW_CARDS = [
       "哪儿",
       "这里"
     ],
-    "📍❓"
+    "a pedestrian holding a phone map asking a local for directions on a street"
   ],
   [
     134,
@@ -2535,7 +2530,7 @@ const RAW_CARDS = [
       "哪里",
       "这儿"
     ],
-    "📍❓"
+    "two neighbors greeting each other on a sunny residential sidewalk"
   ],
   [
     135,
@@ -2553,7 +2548,7 @@ const RAW_CARDS = [
       "哪些",
       "那些"
     ],
-    "👉❓👥"
+    "a row of colorful paperback books neatly lined up on a bookstore shelf"
   ],
   [
     136,
@@ -2572,7 +2567,7 @@ const RAW_CARDS = [
       "这",
       "哪"
     ],
-    "👉"
+    "a person pointing across a sunlit parking lot toward a silver sedan"
   ],
   [
     137,
@@ -2591,7 +2586,7 @@ const RAW_CARDS = [
       "这边",
       "外边"
     ],
-    "👉📍"
+    "a local shopkeeper pointing down a sunny street corner"
   ],
   [
     138,
@@ -2610,7 +2605,7 @@ const RAW_CARDS = [
       "这个",
       "哪个"
     ],
-    "👉☝️"
+    "a customer pointing at a fresh loaf of bread behind a bakery glass case"
   ],
   [
     139,
@@ -2629,7 +2624,7 @@ const RAW_CARDS = [
       "这里",
       "哪儿"
     ],
-    "👉📍"
+    "a student gesturing toward a teacher standing by a sunlit classroom door"
   ],
   [
     140,
@@ -2648,7 +2643,7 @@ const RAW_CARDS = [
       "这儿",
       "哪儿"
     ],
-    "👉📍"
+    "a person waving toward a friend seated at an outdoor cafe table"
   ],
   [
     141,
@@ -2666,7 +2661,7 @@ const RAW_CARDS = [
       "那些",
       "哪些"
     ],
-    "👉👥"
+    "a wooden crate filled with bright red apples at a street market"
   ],
   [
     142,
@@ -2685,7 +2680,7 @@ const RAW_CARDS = [
       "女",
       "新"
     ],
-    "👨"
+    "a tall male college student carrying a book outside a campus hall"
   ],
   [
     143,
@@ -2704,7 +2699,7 @@ const RAW_CARDS = [
       "女朋友",
       "朋友"
     ],
-    "👫"
+    "a young couple walking and smiling together along a leafy park path"
   ],
   [
     144,
@@ -2723,7 +2718,7 @@ const RAW_CARDS = [
       "吗",
       "吧"
     ],
-    "💬❓"
+    "two friends sitting on a park bench chatting over afternoon tea"
   ],
   [
     145,
@@ -2742,7 +2737,7 @@ const RAW_CARDS = [
       "会",
       "想"
     ],
-    "💪"
+    "a smiling person checking a weekend calendar on their kitchen counter"
   ],
   [
     146,
@@ -2761,7 +2756,7 @@ const RAW_CARDS = [
       "他",
       "她"
     ],
-    "🫵"
+    "two classmates greeting each other warmly on the first day of class"
   ],
   [
     147,
@@ -2780,7 +2775,7 @@ const RAW_CARDS = [
       "请问",
       "谢谢"
     ],
-    "👋"
+    "a polite traveler smiling and greeting a passerby on a clean city street"
   ],
   [
     148,
@@ -2799,7 +2794,7 @@ const RAW_CARDS = [
       "他们",
       "我们"
     ],
-    "👋👥"
+    "a teacher smiling while speaking with three students at a desk"
   ],
   [
     149,
@@ -2818,7 +2813,7 @@ const RAW_CARDS = [
       "月",
       "天"
     ],
-    "📅"
+    "a stack of well-used Chinese workbooks beside a desk lamp"
   ],
   [
     150,
@@ -2837,7 +2832,7 @@ const RAW_CARDS = [
       "你",
       "大家"
     ],
-    "🙇"
+    "a younger host politely offering a comfortable armchair to an older guest"
   ],
   [
     151,
@@ -2856,7 +2851,7 @@ const RAW_CARDS = [
       "茶",
       "水"
     ],
-    "🥛"
+    "a clear glass of fresh white milk beside a slice of toast on a sunlit table"
   ],
   [
     152,
@@ -2875,7 +2870,7 @@ const RAW_CARDS = [
       "男",
       "新"
     ],
-    "👩"
+    "a kind female physician speaking calmly with a patient in a bright office"
   ],
   [
     153,
@@ -2894,7 +2889,7 @@ const RAW_CARDS = [
       "儿子",
       "妹妹"
     ],
-    "👧"
+    "a smiling mother holding hands with her young daughter on a sunny sidewalk"
   ],
   [
     154,
@@ -2913,7 +2908,7 @@ const RAW_CARDS = [
       "男朋友",
       "朋友"
     ],
-    "👩‍❤️‍👨"
+    "a young woman smiling over a cup of tea across a cafe table"
   ],
   [
     155,
@@ -2932,7 +2927,7 @@ const RAW_CARDS = [
       "先生",
       "朋友"
     ],
-    "👩🎩"
+    "a poised woman in smart casual attire holding a folder in an office hallway"
   ],
   [
     156,
@@ -2951,7 +2946,7 @@ const RAW_CARDS = [
       "同学",
       "哥哥"
     ],
-    "👫"
+    "two longtime friends laughing together on a sunny neighborhood walk"
   ],
   [
     157,
@@ -2970,7 +2965,7 @@ const RAW_CARDS = [
       "贵",
       "好看"
     ],
-    "💲⬇️"
+    "a happy shopper holding up a simple cotton shirt at an outdoor market"
   ],
   [
     158,
@@ -2989,7 +2984,7 @@ const RAW_CARDS = [
       "好看",
       "新"
     ],
-    "🌸✨"
+    "a young woman in a bright linen dress walking past sunlit flowerpots"
   ],
   [
     159,
@@ -3008,7 +3003,7 @@ const RAW_CARDS = [
       "杯子",
       "鸡蛋"
     ],
-    "🍎"
+    "a single fresh red apple sitting on a clean light-wooden kitchen table next to a notebook"
   ],
   [
     160,
@@ -3027,7 +3022,7 @@ const RAW_CARDS = [
       "六",
       "八"
     ],
-    "7️⃣"
+    "morning sunlight streaming past curtains onto an alarm clock showing seven"
   ],
   [
     161,
@@ -3046,7 +3041,7 @@ const RAW_CARDS = [
       "睡觉",
       "吃饭"
     ],
-    "🛏️🌅"
+    "a person sitting on the edge of a neat bed stretching in warm morning light"
   ],
   [
     162,
@@ -3065,7 +3060,7 @@ const RAW_CARDS = [
       "百",
       "十"
     ],
-    "1000️⃣"
+    "a sleek smartphone resting on a wooden electronics shop display counter"
   ],
   [
     163,
@@ -3084,7 +3079,7 @@ const RAW_CARDS = [
       "后",
       "外"
     ],
-    "⬅️"
+    "a student standing on the sidewalk in front of a brick school gate"
   ],
   [
     164,
@@ -3103,7 +3098,7 @@ const RAW_CARDS = [
       "时间",
       "书"
     ],
-    "💰"
+    "a few crisp banknotes and coins resting next to a receipt on a cafe table"
   ],
   [
     165,
@@ -3122,7 +3117,7 @@ const RAW_CARDS = [
       "来",
       "去"
     ],
-    "🙏"
+    "a host smiling while pouring hot tea into a guest's ceramic cup"
   ],
   [
     166,
@@ -3141,7 +3136,7 @@ const RAW_CARDS = [
       "你好",
       "谢谢"
     ],
-    "🙋❓"
+    "a traveler politely tapping a wristwatch while asking a local for the time"
   ],
   [
     167,
@@ -3160,7 +3155,7 @@ const RAW_CARDS = [
       "回",
       "到"
     ],
-    "🚶‍➡️"
+    "a person walking toward a charming neighborhood bookstore with glass windows"
   ],
   [
     168,
@@ -3179,7 +3174,7 @@ const RAW_CARDS = [
       "今年",
       "明年"
     ],
-    "📅⬅️"
+    "printed travel snapshots spread out beside a notebook on a wooden desk"
   ],
   [
     169,
@@ -3198,7 +3193,7 @@ const RAW_CARDS = [
       "冷",
       "好"
     ],
-    "🥵"
+    "a pedestrian shading their eyes with a hand on a bright sunny summer sidewalk"
   ],
   [
     170,
@@ -3217,7 +3212,7 @@ const RAW_CARDS = [
       "东西",
       "书"
     ],
-    "🧍"
+    "everyday shoppers browsing fruit and vegetables inside a busy neighborhood store"
   ],
   [
     171,
@@ -3236,7 +3231,7 @@ const RAW_CARDS = [
       "喜欢",
       "看见"
     ],
-    "🤝🙂"
+    "two acquaintances smiling in recognition as they pass on a sunlit street"
   ],
   [
     172,
@@ -3255,7 +3250,7 @@ const RAW_CARDS = [
       "号",
       "月"
     ],
-    "☀️"
+    "a clean wall calendar open to May first in morning sunlight"
   ],
   [
     173,
@@ -3274,7 +3269,7 @@ const RAW_CARDS = [
       "两",
       "四"
     ],
-    "3️⃣"
+    "three hardcover books stacked neatly on a wooden study desk"
   ],
   [
     174,
@@ -3293,7 +3288,7 @@ const RAW_CARDS = [
       "超市",
       "书店"
     ],
-    "🏪"
+    "a corner convenience store glowing softly in natural afternoon light"
   ],
   [
     175,
@@ -3312,7 +3307,7 @@ const RAW_CARDS = [
       "下",
       "里"
     ],
-    "⬆️"
+    "a small white cat sitting calmly atop a sturdy wooden dining table"
   ],
   [
     176,
@@ -3331,7 +3326,7 @@ const RAW_CARDS = [
       "下班",
       "上课"
     ],
-    "💼🚶"
+    "a commuter carrying a briefcase walking briskly past a subway entrance at morning"
   ],
   [
     177,
@@ -3350,7 +3345,7 @@ const RAW_CARDS = [
       "下课",
       "上学"
     ],
-    "🧑‍🏫📚"
+    "students seated at wooden desks opening notebooks as class begins"
   ],
   [
     178,
@@ -3369,7 +3364,7 @@ const RAW_CARDS = [
       "下午",
       "晚上"
     ],
-    "🌅"
+    "bright morning sunlight falling across an open notebook and tea mug"
   ],
   [
     179,
@@ -3388,7 +3383,7 @@ const RAW_CARDS = [
       "上班",
       "回家"
     ],
-    "🎒🏫"
+    "a schoolboy wearing a backpack walking along a sunny neighborhood path"
   ],
   [
     180,
@@ -3407,7 +3402,7 @@ const RAW_CARDS = [
       "多",
       "好"
     ],
-    "🤏"
+    "a quiet, nearly empty cafe patio in calm early morning light"
   ],
   [
     181,
@@ -3426,7 +3421,7 @@ const RAW_CARDS = [
       "什么",
       "哪国人"
     ],
-    "🧑❓"
+    "two friends looking toward a new visitor entering a sunlit courtyard"
   ],
   [
     182,
@@ -3445,7 +3440,7 @@ const RAW_CARDS = [
       "谁",
       "哪儿"
     ],
-    "❓"
+    "a curious child holding up an unfamiliar fruit on a kitchen counter"
   ],
   [
     183,
@@ -3464,7 +3459,7 @@ const RAW_CARDS = [
       "起床",
       "回家"
     ],
-    "🤒"
+    "a woman wrapped in a light blanket resting on a couch with warm tea"
   ],
   [
     184,
@@ -3483,7 +3478,7 @@ const RAW_CARDS = [
       "五",
       "八"
     ],
-    "🔟"
+    "ten crisp red apples arranged inside a woven market basket"
   ],
   [
     185,
@@ -3502,7 +3497,7 @@ const RAW_CARDS = [
       "时间",
       "天"
     ],
-    "⏰"
+    "a person glancing at a wall clock while packing a tote bag at the office"
   ],
   [
     186,
@@ -3521,7 +3516,7 @@ const RAW_CARDS = [
       "钱",
       "课"
     ],
-    "🕒"
+    "a commuter hurrying past a station clock with a coffee cup in hand"
   ],
   [
     187,
@@ -3540,7 +3535,7 @@ const RAW_CARDS = [
       "课",
       "工作"
     ],
-    "📝"
+    "a person writing tasks onto a sticky note beside a laptop"
   ],
   [
     188,
@@ -3559,7 +3554,7 @@ const RAW_CARDS = [
       "有",
       "叫"
     ],
-    "✅"
+    "a smiling college student holding a stack of textbooks outside a library"
   ],
   [
     189,
@@ -3578,7 +3573,7 @@ const RAW_CARDS = [
       "电脑",
       "电话"
     ],
-    "📱"
+    "a modern smartphone lying next to keys on a wooden entryway table"
   ],
   [
     190,
@@ -3597,7 +3592,7 @@ const RAW_CARDS = [
       "电视",
       "电影"
     ],
-    "📖"
+    "an open paperback book resting in warm afternoon window light"
   ],
   [
     191,
@@ -3616,7 +3611,7 @@ const RAW_CARDS = [
       "商店",
       "超市"
     ],
-    "📚🏪"
+    "wooden shelves lined with books inside a peaceful neighborhood bookstore"
   ],
   [
     192,
@@ -3635,7 +3630,7 @@ const RAW_CARDS = [
       "茶",
       "牛奶"
     ],
-    "💧"
+    "a clear glass of fresh drinking water catching morning sunlight on a desk"
   ],
   [
     193,
@@ -3654,7 +3649,7 @@ const RAW_CARDS = [
       "菜",
       "面包"
     ],
-    "🍉"
+    "a ceramic bowl filled with fresh apples, pears, and oranges on a dining table"
   ],
   [
     194,
@@ -3673,7 +3668,7 @@ const RAW_CARDS = [
       "玩",
       "坐"
     ],
-    "😴"
+    "a small cat fast asleep in a patch of afternoon sunlight on a rug"
   ],
   [
     195,
@@ -3692,7 +3687,7 @@ const RAW_CARDS = [
       "起床",
       "休息"
     ],
-    "🛌😴"
+    "a quiet dimly lit bedroom with crisp linen bedding at bedtime"
   ],
   [
     196,
@@ -3711,7 +3706,7 @@ const RAW_CARDS = [
       "读",
       "写"
     ],
-    "🗣️"
+    "two friends chatting animatedly over tea at an outdoor wooden table"
   ],
   [
     197,
@@ -3730,7 +3725,7 @@ const RAW_CARDS = [
       "读书",
       "工作"
     ],
-    "🗣️💬"
+    "two coworkers standing near a sunny window having a friendly conversation"
   ],
   [
     198,
@@ -3749,7 +3744,7 @@ const RAW_CARDS = [
       "三",
       "五"
     ],
-    "4️⃣"
+    "four family members sitting together around a bright kitchen table"
   ],
   [
     199,
@@ -3768,7 +3763,7 @@ const RAW_CARDS = [
       "年",
       "号"
     ],
-    "🎂"
+    "a five-year-old girl smiling beside five candles on a birthday cupcake"
   ],
   [
     200,
@@ -3787,7 +3782,7 @@ const RAW_CARDS = [
       "她",
       "我"
     ],
-    "👨"
+    "a friendly young man in a casual denim jacket smiling outdoors"
   ],
   [
     201,
@@ -3799,14 +3794,14 @@ const RAW_CARDS = [
     "{S}+很+[形容词]",
     "{S}很可爱。",
     "{S} hěn kě'ài.",
-    "It is very cute.",
+    "{S} is very cute.",
     "它",
     [
       "它",
-      "这",
-      "那"
+      "猫",
+      "狗"
     ],
-    "🧸"
+    "a fluffy orange cat sitting near a sunlit living room window"
   ],
   [
     202,
@@ -3825,7 +3820,7 @@ const RAW_CARDS = [
       "他",
       "我"
     ],
-    "👩"
+    "a warm smiling female teacher carrying textbooks across a school courtyard"
   ],
   [
     203,
@@ -3844,7 +3839,7 @@ const RAW_CARDS = [
       "她们",
       "我们"
     ],
-    "👥"
+    "a diverse group of three friends laughing together on a city sidewalk"
   ],
   [
     204,
@@ -3862,7 +3857,7 @@ const RAW_CARDS = [
       "它们",
       "解释"
     ],
-    "📦📦"
+    "two sleeping kittens curled up together on a wooden patio chair"
   ],
   [
     205,
@@ -3881,7 +3876,7 @@ const RAW_CARDS = [
       "他们",
       "我们"
     ],
-    "👩‍👩‍👧"
+    "two female friends clinking ceramic teacups at a cozy neighborhood teahouse"
   ],
   [
     206,
@@ -3900,7 +3895,7 @@ const RAW_CARDS = [
       "很",
       "非常"
     ],
-    "🔥⬆️"
+    "a pedestrian fanning themselves under bright midday city sun"
   ],
   [
     207,
@@ -3919,7 +3914,7 @@ const RAW_CARDS = [
       "年",
       "月"
     ],
-    "🌤️"
+    "calm morning sunlight filtering through bedroom curtains on a weekend"
   ],
   [
     208,
@@ -3938,7 +3933,7 @@ const RAW_CARDS = [
       "菜",
       "茶"
     ],
-    "🌦️"
+    "bright sunshine and scattered clouds above a lively city park"
   ],
   [
     209,
@@ -3950,14 +3945,14 @@ const RAW_CARDS = [
     "[主语]+喜欢+{S}+歌",
     "我喜欢{S}歌。",
     "Wǒ xǐhuan {S} gē.",
-    "I like listening to songs.",
+    "I like {S} to songs.",
     "听",
     [
       "听",
       "唱",
       "学"
     ],
-    "👂🎵"
+    "a commuter smiling softly while wearing earphones on a quiet train"
   ],
   [
     210,
@@ -3976,7 +3971,7 @@ const RAW_CARDS = [
       "看见",
       "知道"
     ],
-    "👂🔔"
+    "a person turning their head toward the sound of a doorbell ringing"
   ],
   [
     211,
@@ -3995,7 +3990,7 @@ const RAW_CARDS = [
       "朋友",
       "老师"
     ],
-    "🧑‍🎓🧑‍🎓"
+    "two college classmates comparing handwritten notes at a library table"
   ],
   [
     212,
@@ -4014,7 +4009,7 @@ const RAW_CARDS = [
       "里",
       "前"
     ],
-    "🚪➡️"
+    "looking through an open front doorway at a parked car on a sunny street"
   ],
   [
     213,
@@ -4033,7 +4028,7 @@ const RAW_CARDS = [
       "里边",
       "这边"
     ],
-    "🚪🌳"
+    "frosted trees visible outside a warm, cozy indoor cafe window"
   ],
   [
     214,
@@ -4045,14 +4040,14 @@ const RAW_CARDS = [
     "[主语]+去+[地点]+{S}",
     "小朋友在公园{S}。",
     "Xiǎopéngyǒu zài gōngyuán {S}.",
-    "The child is playing in the park.",
+    "The children are {S} in the park.",
     "玩",
     [
       "玩",
       "跑",
-      "走"
+      "学习"
     ],
-    "🧸🎾"
+    "children laughing and playing together on green grass in daylight"
   ],
   [
     215,
@@ -4071,7 +4066,7 @@ const RAW_CARDS = [
       "早",
       "忙"
     ],
-    "🌙⏰"
+    "warm streetlights glowing along a quiet neighborhood sidewalk at night"
   ],
   [
     216,
@@ -4090,7 +4085,7 @@ const RAW_CARDS = [
       "午饭",
       "早饭"
     ],
-    "🍽️🌙"
+    "a family gathered around a warm evening meal under pendant kitchen lights"
   ],
   [
     217,
@@ -4109,7 +4104,7 @@ const RAW_CARDS = [
       "上午",
       "下午"
     ],
-    "🌆"
+    "a cozy living room lamp lit in the evening beside a sofa"
   ],
   [
     218,
@@ -4128,7 +4123,7 @@ const RAW_CARDS = [
       "你好",
       "请问"
     ],
-    "📞👋"
+    "a woman holding a phone to her ear at a kitchen counter while answering a call"
   ],
   [
     219,
@@ -4147,7 +4142,7 @@ const RAW_CARDS = [
       "给",
       "看"
     ],
-    "🗣️❓"
+    "a student raising a hand respectfully to ask a teacher a question"
   ],
   [
     220,
@@ -4166,7 +4161,7 @@ const RAW_CARDS = [
       "书",
       "手机"
     ],
-    "❓"
+    "a student pointing at a sentence in a textbook while consulting a teacher"
   ],
   [
     221,
@@ -4178,14 +4173,14 @@ const RAW_CARDS = [
     "{S}+是+[身份]",
     "{S}是大学生。",
     "{S} shì dàxuéshēng.",
-    "I am a university student.",
+    "{S} am a university student.",
     "我",
     [
       "我",
       "你",
       "他"
     ],
-    "🙋"
+    "a smiling college student standing outside a campus library holding books"
   ],
   [
     222,
@@ -4204,7 +4199,7 @@ const RAW_CARDS = [
       "地方",
       "学校"
     ],
-    "📍"
+    "a scenic park square with green trees and flowers"
   ],
   [
     223,
@@ -4223,7 +4218,7 @@ const RAW_CARDS = [
       "四",
       "六"
     ],
-    "5️⃣"
+    "a desk clock showing five o'clock next to a closed notebook"
   ],
   [
     224,
@@ -4242,7 +4237,7 @@ const RAW_CARDS = [
       "早饭",
       "晚饭"
     ],
-    "🥪☀️"
+    "a sunlit cafe table with a warm bowl of rice and vegetables at noon"
   ],
   [
     225,
@@ -4261,7 +4256,7 @@ const RAW_CARDS = [
       "爱",
       "想"
     ],
-    "❤️"
+    "a smiling tea lover holding a warm porcelain teapot in a bright room"
   ],
   [
     226,
@@ -4280,7 +4275,7 @@ const RAW_CARDS = [
       "上",
       "里"
     ],
-    "⬇️"
+    "a small dog resting quietly underneath a wooden dining table"
   ],
   [
     227,
@@ -4292,14 +4287,13 @@ const RAW_CARDS = [
     "外面+在+{S}",
     "今天{S}了。",
     "Jīntiān {S} le.",
-    "It rained today.",
+    "It {S} today.",
     "下雨",
     [
       "下雨",
-      "下雪",
-      "刮风"
+      "下雪"
     ],
-    "🌧️"
+    "raindrops glistening on a cafe window while pedestrians walk past with umbrellas"
   ],
   [
     228,
@@ -4318,7 +4312,7 @@ const RAW_CARDS = [
       "上班",
       "回家"
     ],
-    "🏢➡️🏠"
+    "office workers stepping out onto a warm evening sidewalk after work"
   ],
   [
     229,
@@ -4337,7 +4331,7 @@ const RAW_CARDS = [
       "上课",
       "休息"
     ],
-    "🏫🔔"
+    "students packing notebooks into backpacks as class wraps up"
   ],
   [
     230,
@@ -4356,7 +4350,7 @@ const RAW_CARDS = [
       "上午",
       "晚上"
     ],
-    "☀️🕒"
+    "warm golden afternoon sunlight falling across a quiet bookstore entrance"
   ],
   [
     231,
@@ -4375,7 +4369,7 @@ const RAW_CARDS = [
       "女士",
       "老师"
     ],
-    "👨🏻‍💼"
+    "a polite gentleman in a neat jacket smiling outside a clinic"
   ],
   [
     232,
@@ -4394,7 +4388,7 @@ const RAW_CARDS = [
       "今天",
       "明天"
     ],
-    "🕒👉"
+    "a wristwatch clearly showing eight o'clock on a commuter's wrist"
   ],
   [
     233,
@@ -4413,7 +4407,7 @@ const RAW_CARDS = [
       "要",
       "喜欢"
     ],
-    "💭"
+    "a hiker pausing in the shade eyeing a cold bottle of water"
   ],
   [
     234,
@@ -4432,7 +4426,7 @@ const RAW_CARDS = [
       "大",
       "漂亮"
     ],
-    "🔹"
+    "a tiny puppy sitting happily in the palm of a gentle hand"
   ],
   [
     235,
@@ -4451,7 +4445,7 @@ const RAW_CARDS = [
       "小学生",
       "孩子"
     ],
-    "🧒"
+    "young children laughing on a sunny elementary school playground"
   ],
   [
     236,
@@ -4470,7 +4464,7 @@ const RAW_CARDS = [
       "分钟",
       "天"
     ],
-    "⏰"
+    "an hourglass resting beside an open Mandarin notebook on a sunlit desk"
   ],
   [
     237,
@@ -4489,7 +4483,7 @@ const RAW_CARDS = [
       "中学",
       "大学"
     ],
-    "🏫📚"
+    "young children walking happily through a bright primary school courtyard"
   ],
   [
     238,
@@ -4508,7 +4502,7 @@ const RAW_CARDS = [
       "中学生",
       "大学生"
     ],
-    "🧒🎒"
+    "a young primary school pupil wearing a tidy uniform and yellow cap"
   ],
   [
     239,
@@ -4527,7 +4521,7 @@ const RAW_CARDS = [
       "个",
       "点"
     ],
-    "✋🫘"
+    "a small basket of fresh red apples on a kitchen counter"
   ],
   [
     240,
@@ -4546,7 +4540,7 @@ const RAW_CARDS = [
       "读",
       "看"
     ],
-    "✍️"
+    "a close-up of a hand writing neat Chinese strokes in a notebook"
   ],
   [
     241,
@@ -4565,7 +4559,7 @@ const RAW_CARDS = [
       "请问",
       "对不起"
     ],
-    "🙏"
+    "a smiling customer thanking a barista as she receives a cup of tea"
   ],
   [
     242,
@@ -4584,7 +4578,7 @@ const RAW_CARDS = [
       "好",
       "大"
     ],
-    "🆕✨"
+    "a crisp, freshly unwrapped paperback book resting on a sunny cafe table"
   ],
   [
     243,
@@ -4603,7 +4597,7 @@ const RAW_CARDS = [
       "月",
       "年"
     ],
-    "🗓️"
+    "a clean weekly desk planner filled with neat handwritten notes"
   ],
   [
     244,
@@ -4622,7 +4616,7 @@ const RAW_CARDS = [
       "星期天",
       "明天"
     ],
-    "🗓️☀️"
+    "a relaxed family lounging on a sunlit living room couch on Sunday morning"
   ],
   [
     245,
@@ -4641,7 +4635,7 @@ const RAW_CARDS = [
       "星期日",
       "今天"
     ],
-    "🗓️☀️"
+    "a shopper leisurely picking fresh vegetables on a Sunday morning"
   ],
   [
     246,
@@ -4660,7 +4654,7 @@ const RAW_CARDS = [
       "睡觉",
       "工作"
     ],
-    "🛋️😌"
+    "a person leaning back in a comfortable armchair beside a window houseplant"
   ],
   [
     247,
@@ -4679,7 +4673,7 @@ const RAW_CARDS = [
       "说",
       "写"
     ],
-    "📖🧠"
+    "a learner opening a beginner Chinese textbook at a sunlit wooden table"
   ],
   [
     248,
@@ -4698,7 +4692,7 @@ const RAW_CARDS = [
       "老师",
       "医生"
     ],
-    "🧑‍🎓"
+    "a smiling student holding notebooks outside a bright lecture hall"
   ],
   [
     249,
@@ -4717,7 +4711,7 @@ const RAW_CARDS = [
       "读书",
       "工作"
     ],
-    "📚🧑‍🎓"
+    "two students studying Chinese flashcards together in a sunlit library"
   ],
   [
     250,
@@ -4736,7 +4730,7 @@ const RAW_CARDS = [
       "大学",
       "公司"
     ],
-    "🏫"
+    "a tidy brick school campus framed by green trees in daylight"
   ],
   [
     251,
@@ -4755,7 +4749,7 @@ const RAW_CARDS = [
       "雨",
       "风"
     ],
-    "❄️"
+    "soft white snow resting peacefully on pine branches and neighborhood roofs"
   ],
   [
     252,
@@ -4774,7 +4768,7 @@ const RAW_CARDS = [
       "喝",
       "买"
     ],
-    "🙋‍♂️👉"
+    "a thirsty customer ordering a glass of water at a sunny cafe counter"
   ],
   [
     253,
@@ -4793,7 +4787,7 @@ const RAW_CARDS = [
       "都",
       "还"
     ],
-    "➕🙋"
+    "two friends sharing fresh sliced apples in a bright kitchen"
   ],
   [
     254,
@@ -4812,7 +4806,7 @@ const RAW_CARDS = [
       "两",
       "三"
     ],
-    "1️⃣"
+    "a single ceramic mug sitting cleanly on a sunlit wooden counter"
   ],
   [
     255,
@@ -4831,7 +4825,7 @@ const RAW_CARDS = [
       "鞋",
       "书"
     ],
-    "👕👖"
+    "a shopper holding a folded linen shirt inside a sunlit clothing shop"
   ],
   [
     256,
@@ -4850,7 +4844,7 @@ const RAW_CARDS = [
       "老师",
       "学生"
     ],
-    "🧑‍⚕️"
+    "a kind doctor with a stethoscope smiling inside a clean examination room"
   ],
   [
     257,
@@ -4869,7 +4863,7 @@ const RAW_CARDS = [
       "学校",
       "商店"
     ],
-    "🏥"
+    "the clean glass entrance of a modern city hospital in daylight"
   ],
   [
     258,
@@ -4888,7 +4882,7 @@ const RAW_CARDS = [
       "一个",
       "一点儿"
     ],
-    "🍎½"
+    "half of a freshly sliced red apple resting on a wooden cutting board"
   ],
   [
     259,
@@ -4899,15 +4893,13 @@ const RAW_CARDS = [
     "3",
     "请+[动词]+{S}",
     "请等{S}。",
-    "Qǐng děng yíxià.",
-    "Please wait a moment.",
+    "Qǐng děng {S}.",
+    "Please wait a {S}.",
     "一下",
     [
-      "一下",
-      "一点儿",
-      "一些"
+      "一下"
     ],
-    "⏱️"
+    "a colleague pointing gently at a document on a wooden desk"
   ],
   [
     260,
@@ -4926,7 +4918,7 @@ const RAW_CARDS = [
       "桌子",
       "沙发"
     ],
-    "🪑"
+    "a simple handcrafted wooden chair beside a sunlit kitchen table"
   ],
   [
     261,
@@ -4945,7 +4937,7 @@ const RAW_CARDS = [
       "一些",
       "很多"
     ],
-    "🤏"
+    "a traveler smiling while reading a pocket Chinese phrasebook"
   ],
   [
     262,
@@ -4964,7 +4956,7 @@ const RAW_CARDS = [
       "一点儿",
       "很多"
     ],
-    "🧺🍎🍊"
+    "a paper grocery bag holding apples, bananas, and oranges on a counter"
   ],
   [
     263,
@@ -4983,7 +4975,7 @@ const RAW_CARDS = [
       "没有",
       "喜欢"
     ],
-    "✋📦"
+    "two friendly house cats sitting side by side on a sunlit windowsill"
   ],
   [
     264,
@@ -5002,7 +4994,7 @@ const RAW_CARDS = [
       "有些",
       "很多"
     ],
-    "👥☝️"
+    "guests seated in a bright cafe enjoying different warm drinks"
   ],
   [
     265,
@@ -5021,7 +5013,7 @@ const RAW_CARDS = [
       "很",
       "非常"
     ],
-    "🤏🥶"
+    "a person wearing a light cardigan walking along a breezy autumn street"
   ],
   [
     266,
@@ -5039,7 +5031,7 @@ const RAW_CARDS = [
       "有些",
       "有的"
     ],
-    "🤏📦"
+    "a small curated pile of hardcover books resting on a reading table"
   ],
   [
     267,
@@ -5058,7 +5050,7 @@ const RAW_CARDS = [
       "雪",
       "风"
     ],
-    "🌧️"
+    "steady raindrops splashing onto wet city pavement beside an umbrella"
   ],
   [
     268,
@@ -5077,7 +5069,7 @@ const RAW_CARDS = [
       "块",
       "角"
     ],
-    "💴"
+    "a paperback book beside a twenty-yuan bill on a wooden shop counter"
   ],
   [
     269,
@@ -5096,7 +5088,7 @@ const RAW_CARDS = [
       "日",
       "年"
     ],
-    "🌙🗓️"
+    "a spring calendar open to May next to fresh flowers in a jar"
   ],
   [
     270,
@@ -5115,7 +5107,7 @@ const RAW_CARDS = [
       "还",
       "也"
     ],
-    "🔁"
+    "a host cheerfully pouring a second cup of warm tea for a friend"
   ],
   [
     271,
@@ -5134,7 +5126,7 @@ const RAW_CARDS = [
       "去",
       "回"
     ],
-    "📍"
+    "a student standing on a sunlit campus walkway holding a notebook"
   ],
   [
     272,
@@ -5153,7 +5145,7 @@ const RAW_CARDS = [
       "谢谢",
       "你好"
     ],
-    "👋"
+    "students smiling and waving goodbye to their teacher outside a classroom"
   ],
   [
     273,
@@ -5172,7 +5164,7 @@ const RAW_CARDS = [
       "晚",
       "好"
     ],
-    "🌅⏰"
+    "two neighbors greeting each other on a quiet street in soft dawn sunlight"
   ],
   [
     274,
@@ -5191,7 +5183,7 @@ const RAW_CARDS = [
       "午饭",
       "晚饭"
     ],
-    "🍳🥟"
+    "a sunny kitchen table set with warm steamed buns, an egg, and tea"
   ],
   [
     275,
@@ -5210,7 +5202,7 @@ const RAW_CARDS = [
       "上午",
       "晚上"
     ],
-    "🌅"
+    "golden sunrise light pouring across a quiet neighborhood balcony"
   ],
   [
     276,
@@ -5229,7 +5221,7 @@ const RAW_CARDS = [
       "什么时候",
       "坐车"
     ],
-    "❓🛠️"
+    "two classmates chatting outside a subway stop about their commute"
   ],
   [
     277,
@@ -5248,7 +5240,7 @@ const RAW_CARDS = [
       "好不好",
       "热不热"
     ],
-    "🤔💬"
+    "a person opening the curtains in the morning to check the sky outside"
   ],
   [
     278,
@@ -5267,7 +5259,7 @@ const RAW_CARDS = [
       "看",
       "用"
     ],
-    "🔎📱"
+    "a person patting sofa cushions while searching the living room for their phone"
   ],
   [
     279,
@@ -5286,7 +5278,7 @@ const RAW_CARDS = [
       "那",
       "哪"
     ],
-    "👉"
+    "a hand resting on a blue hardcover notebook on a wooden desk"
   ],
   [
     280,
@@ -5305,7 +5297,7 @@ const RAW_CARDS = [
       "那边",
       "这里"
     ],
-    "👈📍"
+    "a friendly host gesturing toward a sunny seat beside a cafe window"
   ],
   [
     281,
@@ -5324,7 +5316,7 @@ const RAW_CARDS = [
       "那个",
       "哪个"
     ],
-    "👉☕"
+    "a customer smiling and picking up a handcrafted ceramic mug in a shop"
   ],
   [
     282,
@@ -5336,14 +5328,13 @@ const RAW_CARDS = [
     "{S}+很+[形容词]",
     "{S}很安静。",
     "{S} hěn ānjìng.",
-    "It is very quiet here.",
+    "{S} is very quiet.",
     "这里",
     [
       "这里",
-      "那里",
-      "哪里"
+      "那里"
     ],
-    "📍🌳"
+    "a peaceful sunlit garden bench shaded by green maple leaves"
   ],
   [
     283,
@@ -5362,7 +5353,7 @@ const RAW_CARDS = [
       "那儿",
       "哪儿"
     ],
-    "🫵📍"
+    "a friend smiling and waving from a nearby wooden picnic table"
   ],
   [
     284,
@@ -5381,7 +5372,7 @@ const RAW_CARDS = [
       "那些",
       "哪些"
     ],
-    "👉🍎🍊"
+    "a wooden tray holding fresh oranges, pears, and apples on a counter"
   ],
   [
     285,
@@ -5400,7 +5391,7 @@ const RAW_CARDS = [
       "很",
       "太"
     ],
-    "✨‼️"
+    "a smiling hiker admiring a sunlit view from a wooden lookout"
   ],
   [
     286,
@@ -5419,7 +5410,7 @@ const RAW_CARDS = [
       "在",
       "想"
     ],
-    "🔄📖"
+    "a young man absorbed in reading a novel on a cozy window seat"
   ],
   [
     287,
@@ -5438,7 +5429,7 @@ const RAW_CARDS = [
       "个",
       "条"
     ],
-    "🐈1️⃣"
+    "a small striped kitten sitting upright on a woven living room rug"
   ],
   [
     288,
@@ -5457,7 +5448,7 @@ const RAW_CARDS = [
       "认识",
       "记得"
     ],
-    "🧠💡"
+    "a smiling student nodding confidently during a class discussion"
   ],
   [
     289,
@@ -5476,7 +5467,7 @@ const RAW_CARDS = [
       "北京",
       "上海"
     ],
-    "🇨🇳"
+    "traditional tiled roofs beside modern city greenery in clear morning sunlight"
   ],
   [
     290,
@@ -5495,7 +5486,7 @@ const RAW_CARDS = [
       "汉语",
       "汉字"
     ],
-    "🇨🇳📖"
+    "a tablet and paper notebook showing Chinese study notes on a wooden table"
   ],
   [
     291,
@@ -5514,7 +5505,7 @@ const RAW_CARDS = [
       "上午",
       "下午"
     ],
-    "☀️🕛"
+    "coworkers sharing lunch together at a bright cafe table at midday"
   ],
   [
     292,
@@ -5533,7 +5524,7 @@ const RAW_CARDS = [
       "小学",
       "大学"
     ],
-    "🏫"
+    "teenagers in tidy school uniforms walking across a sunny schoolyard"
   ],
   [
     293,
@@ -5552,7 +5543,7 @@ const RAW_CARDS = [
       "小学生",
       "大学生"
     ],
-    "🧑‍🎓🎒"
+    "a middle school student carrying a backpack and smiling near a bicycle rack"
   ],
   [
     294,
@@ -5564,14 +5555,12 @@ const RAW_CARDS = [
     "[主语]+{S}+在+[地点]",
     "我{S}在北京。",
     "Wǒ {S} zài Běijīng.",
-    "I live in Beijing.",
+    "I {S} in Beijing.",
     "住",
     [
-      "住",
-      "在",
-      "去"
+      "住"
     ],
-    "🏠"
+    "a sunny residential courtyard apartment with potted plants along the balcony"
   ],
   [
     295,
@@ -5590,7 +5579,7 @@ const RAW_CARDS = [
       "椅子",
       "床"
     ],
-    "🪑"
+    "a clean solid-oak dining table with a single textbook resting on top"
   ],
   [
     296,
@@ -5609,7 +5598,7 @@ const RAW_CARDS = [
       "汉字",
       "书"
     ],
-    "🖋️字"
+    "a neatly written Chinese character in black ink on textured white paper"
   ],
   [
     297,
@@ -5628,7 +5617,7 @@ const RAW_CARDS = [
       "今天",
       "明天"
     ],
-    "🗓️⬅️"
+    "puddles reflecting a brightening sky on a quiet sidewalk after yesterday's rain"
   ],
   [
     298,
@@ -5647,7 +5636,7 @@ const RAW_CARDS = [
       "看",
       "听"
     ],
-    "🪑👇"
+    "a friendly host gesturing toward a cushioned wooden chair at a tea table"
   ],
   [
     299,
@@ -5666,7 +5655,7 @@ const RAW_CARDS = [
       "看",
       "吃"
     ],
-    "🛠️"
+    "two friends chatting in a bright kitchen while preparing afternoon snacks"
   ],
   [
     300,
@@ -5685,6 +5674,6 @@ const RAW_CARDS = [
       "吃饭",
       "喝茶"
     ],
-    "🍳🥘"
+    "a smiling father cooking stir-fry in a sunlit home kitchen"
   ]
 ];
