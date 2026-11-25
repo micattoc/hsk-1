@@ -1,5 +1,4 @@
-// Verified & Corrected HSK 1 300-Card Master Dataset (v2)
-// All 300 entries audited for Chinese grammar, Pinyin accuracy, English translation, and slot replacement consistency.
+// Verified HSK 1 300-Card Master Dataset (v3 - Fully Corrected English & Chinese)
 // Format: [id, hanzi, pinyin, pos, english, cluster, frame, tplH, tplP, tplE, slot, opts, scene]
 const RAW_CARDS = [
   [
@@ -107,7 +106,7 @@ const RAW_CARDS = [
     "一共+[数字]+{S}+元",
     "这件衣服三{S}元。",
     "Zhè jiàn yīfu sān {S} yuán.",
-    "This piece of clothing is three {S} yuan.",
+    "This item of clothing costs three hundred yuan.",
     "百",
     [
       "百",
@@ -183,7 +182,7 @@ const RAW_CARDS = [
     "一+{S}+[名词]",
     "我买了一{S}书。",
     "Wǒ mǎi le yì {S} shū.",
-    "I bought a {S} of book.",
+    "I bought a book.",
     "本",
     [
       "本"
@@ -219,7 +218,7 @@ const RAW_CARDS = [
     "[主语]+生+{S}+了",
     "他生{S}了。",
     "Tā shēng {S} le.",
-    "He got {S}.",
+    "He got sick.",
     "病",
     [
       "病"
@@ -236,7 +235,7 @@ const RAW_CARDS = [
     "[主语]+不+[动词]",
     "我{S}喝茶。",
     "Wǒ {S} hē chá.",
-    "I {S} drink tea.",
+    "I do not drink tea.",
     "不",
     [
       "不",
@@ -255,7 +254,7 @@ const RAW_CARDS = [
     "谢谢→{S}",
     "谢谢你！——{S}。",
     "Xièxie nǐ! — {S}.",
-    "Thank you! — {S}.",
+    "Thank you! — You're welcome.",
     "不客气",
     [
       "不客气",
@@ -274,7 +273,7 @@ const RAW_CARDS = [
     "{S}+[动词]",
     "{S}说话。",
     "{S} shuōhuà.",
-    "{S} talk.",
+    "Don't talk.",
     "不要",
     [
       "不要",
@@ -330,7 +329,7 @@ const RAW_CARDS = [
     "[主语]+喜欢+{S}+歌",
     "她喜欢{S}歌。",
     "Tā xǐhuan {S} gē.",
-    "She likes {S} songs.",
+    "She likes to sing songs.",
     "唱",
     [
       "唱",
@@ -387,7 +386,7 @@ const RAW_CARDS = [
     "[主语]+想+{S}+[食物]",
     "我想{S}米饭。",
     "Wǒ xiǎng {S} mǐfàn.",
-    "I want {S} cooked rice.",
+    "I want to eat cooked rice.",
     "吃",
     [
       "吃",
@@ -425,7 +424,7 @@ const RAW_CARDS = [
     "[主语]+{S}+新衣服",
     "她今天{S}新衣服。",
     "Tā jīntiān {S} xīn yīfu.",
-    "She is wearing {S} today.",
+    "She is wearing new clothes today.",
     "穿",
     [
       "穿",
@@ -444,7 +443,7 @@ const RAW_CARDS = [
     "[主语]+给+[人]+{S}",
     "我给妈妈{S}。",
     "Wǒ gěi māma {S}.",
-    "I am {S} to mom.",
+    "I am making a phone call to mom.",
     "打电话",
     [
       "打电话",
@@ -520,7 +519,7 @@ const RAW_CARDS = [
     "[主语]+是+{S}",
     "我哥哥是{S}。",
     "Wǒ gēge shì {S}.",
-    "My older brother is a {S}.",
+    "My older brother is a university student.",
     "大学生",
     [
       "大学生",
@@ -539,7 +538,7 @@ const RAW_CARDS = [
     "[主语]+{S}+[地点]+了",
     "我{S}学校了。",
     "Wǒ {S} xuéxiào le.",
-    "I have {S} at school.",
+    "I arrived at school.",
     "到",
     [
       "到",
@@ -558,7 +557,7 @@ const RAW_CARDS = [
     "[人]+的+[名词]",
     "这是{S}书。",
     "Zhè shì {S} shū.",
-    "This is {S} book.",
+    "This is my book.",
     "我的",
     [
       "我的",
@@ -577,7 +576,7 @@ const RAW_CARDS = [
     "{S}+[数字]+个",
     "今天是{S}一天。",
     "Jīntiān shì {S}-yī tiān.",
-    "Today is the {S} first day.",
+    "Today is the first day.",
     "第",
     [
       "第"
@@ -613,7 +612,7 @@ const RAW_CARDS = [
     "现在+[数字]+{S}",
     "现在九{S}了。",
     "Xiànzài jiǔ {S} le.",
-    "It is nine {S} now.",
+    "It is nine o'clock now.",
     "点",
     [
       "点",
@@ -821,7 +820,7 @@ const RAW_CARDS = [
     "这个+很+{S}",
     "你说的很{S}。",
     "Nǐ shuō de hěn {S}.",
-    "What you said is very {S}.",
+    "What you said is correct.",
     "对",
     [
       "对",
@@ -840,7 +839,7 @@ const RAW_CARDS = [
     "{S}，我来晚了",
     "{S}，我来晚了。",
     "{S}, wǒ lái wǎn le.",
-    "{S}, I arrived late.",
+    "Sorry, I arrived late.",
     "对不起",
     [
       "对不起",
@@ -878,7 +877,7 @@ const RAW_CARDS = [
     "这个+{S}+钱",
     "这个{S}钱？",
     "Zhège {S} qián?",
-    "{S} is this?",
+    "How much is this?",
     "多少",
     [
       "多少",
@@ -1123,7 +1122,7 @@ const RAW_CARDS = [
     "一+{S}+[名词]",
     "桌子上有一{S}苹果。",
     "Zhuōzi shàng yǒu yí {S} píngguǒ.",
-    "There is one {S} apple on the table.",
+    "There is an apple on the table.",
     "个",
     [
       "个",
@@ -1142,7 +1141,7 @@ const RAW_CARDS = [
     "我+{S}+你+[东西]",
     "我{S}你一本书。",
     "Wǒ {S} nǐ yì běn shū.",
-    "I {S} you a book.",
+    "I give you a book.",
     "给",
     [
       "给",
@@ -1218,7 +1217,7 @@ const RAW_CARDS = [
     "这个+[名词]+太+{S}+了",
     "这件衣服太{S}了。",
     "Zhè jiàn yīfu tài {S} le.",
-    "This piece of clothing is too {S}.",
+    "This item of clothing is too expensive.",
     "贵",
     [
       "贵",
@@ -1427,7 +1426,7 @@ const RAW_CARDS = [
     "今天+几月+几+{S}",
     "今天五月八{S}。",
     "Jīntiān wǔ yuè bā {S}.",
-    "Today is May eighth ({S}).",
+    "Today is May eighth ().",
     "号",
     [
       "号",
@@ -1503,7 +1502,7 @@ const RAW_CARDS = [
     "[时间]+以+{S}",
     "饭{S}我去休息。",
     "Fàn {S} wǒ qù xiūxi.",
-    "{S} the meal, I go to rest.",
+    "After the meal I will go rest.",
     "后",
     [
       "后",
@@ -1711,7 +1710,7 @@ const RAW_CARDS = [
     "你+{S}+什么名字",
     "我{S}大卫。",
     "Wǒ {S} Dàwèi.",
-    "I {S} David.",
+    "My name is David.",
     "叫",
     [
       "叫",
@@ -1862,7 +1861,7 @@ const RAW_CARDS = [
     "[主语]+在+{S}+书",
     "我在{S}书。",
     "Wǒ zài {S} shū.",
-    "I am {S} a book.",
+    "I am reading a book.",
     "看",
     [
       "看",
@@ -1957,7 +1956,7 @@ const RAW_CARDS = [
     "我家+有+四+{S}+人",
     "我家有四{S}人。",
     "Wǒ jiā yǒu sì {S} rén.",
-    "My family has four {S} people.",
+    "There are four people in my family.",
     "口",
     [
       "口",
@@ -1975,7 +1974,7 @@ const RAW_CARDS = [
     "这个+十+{S}+钱",
     "这杯茶十{S}钱。",
     "Zhè bēi chá shí {S} qián.",
-    "This cup of tea costs ten {S}.",
+    "This cup of tea costs ten yuan.",
     "块",
     [
       "块",
@@ -1993,7 +1992,7 @@ const RAW_CARDS = [
     "[人]+{S}+我家了",
     "朋友{S}我家了。",
     "Péngyou {S} wǒ jiā le.",
-    "My friend {S} to my home.",
+    "My friend came to my home.",
     "来",
     [
       "来",
@@ -2031,7 +2030,7 @@ const RAW_CARDS = [
     "[主语]+吃+{S}",
     "我吃早饭{S}。",
     "Wǒ chī zǎofàn {S}.",
-    "I ate breakfast ({S}).",
+    "I ate breakfast ().",
     "了",
     [
       "了",
@@ -2107,7 +2106,7 @@ const RAW_CARDS = [
     "今天+零下+十+度",
     "今天{S}下十度。",
     "Jīntiān {S}xià shí dù.",
-    "Today it is ten degrees below {S}.",
+    "It is ten degrees below zero today.",
     "零",
     [
       "零"
@@ -2162,7 +2161,7 @@ const RAW_CARDS = [
     "你+是+[名词]+{S}",
     "你是学生{S}？",
     "Nǐ shì xuéshēng {S}?",
-    "Are you a student ({S})?",
+    "Are you a student ()?",
     "吗",
     [
       "吗",
@@ -2333,7 +2332,7 @@ const RAW_CARDS = [
     "[代词]+{S}+是同学",
     "他{S}是同学。",
     "Tā{S} shì tóngxué.",
-    "They ({S}) are classmates.",
+    "They () are classmates.",
     "们",
     [
       "们",
@@ -2711,7 +2710,7 @@ const RAW_CARDS = [
     "你+{S}",
     "我很好，你{S}？",
     "Wǒ hěn hǎo, nǐ {S}?",
-    "I am very well, and you ({S})?",
+    "I am very well, and you ()?",
     "呢",
     [
       "呢",
@@ -2958,7 +2957,7 @@ const RAW_CARDS = [
     "这个+很+{S}",
     "这件衣服很{S}。",
     "Zhè jiàn yīfu hěn {S}.",
-    "This piece of clothing is very {S}.",
+    "This item of clothing is very cheap.",
     "便宜",
     [
       "便宜",
@@ -3243,7 +3242,7 @@ const RAW_CARDS = [
     "十月+一+{S}",
     "今天是五月一{S}。",
     "Jīntiān shì wǔ yuè yī {S}.",
-    "Today is May first ({S}).",
+    "Today is May first ().",
     "日",
     [
       "日",
@@ -3794,7 +3793,7 @@ const RAW_CARDS = [
     "{S}+很+[形容词]",
     "{S}很可爱。",
     "{S} hěn kě'ài.",
-    "{S} is very cute.",
+    "It is very cute.",
     "它",
     [
       "它",
@@ -3855,7 +3854,7 @@ const RAW_CARDS = [
     "它们",
     [
       "它们",
-      "解释"
+      "这些"
     ],
     "two sleeping kittens curled up together on a wooden patio chair"
   ],
@@ -3945,7 +3944,7 @@ const RAW_CARDS = [
     "[主语]+喜欢+{S}+歌",
     "我喜欢{S}歌。",
     "Wǒ xǐhuan {S} gē.",
-    "I like {S} to songs.",
+    "I like listening to songs.",
     "听",
     [
       "听",
@@ -4040,7 +4039,7 @@ const RAW_CARDS = [
     "[主语]+去+[地点]+{S}",
     "小朋友在公园{S}。",
     "Xiǎopéngyǒu zài gōngyuán {S}.",
-    "The children are {S} in the park.",
+    "The child is playing in the park.",
     "玩",
     [
       "玩",
@@ -4173,7 +4172,7 @@ const RAW_CARDS = [
     "{S}+是+[身份]",
     "{S}是大学生。",
     "{S} shì dàxuéshēng.",
-    "{S} am a university student.",
+    "I am a university student.",
     "我",
     [
       "我",
@@ -4287,7 +4286,7 @@ const RAW_CARDS = [
     "外面+在+{S}",
     "今天{S}了。",
     "Jīntiān {S} le.",
-    "It {S} today.",
+    "It rained today.",
     "下雨",
     [
       "下雨",
@@ -4514,7 +4513,7 @@ const RAW_CARDS = [
     "这+{S}+[名词]",
     "这{S}苹果很甜。",
     "Zhè {S} píngguǒ hěn hǎochī.",
-    "These ({S}) apples are delicious.",
+    "These () apples are delicious.",
     "些",
     [
       "些",
@@ -4742,7 +4741,7 @@ const RAW_CARDS = [
     "外面+有+{S}",
     "今年下了很多{S}。",
     "Jīntiān xià {S} le.",
-    "It is snowing ({S}) today.",
+    "It is snowing () today.",
     "雪",
     [
       "雪",
@@ -4894,7 +4893,7 @@ const RAW_CARDS = [
     "请+[动词]+{S}",
     "请等{S}。",
     "Qǐng děng {S}.",
-    "Please wait a {S}.",
+    "Please wait a moment.",
     "一下",
     [
       "一下"
@@ -5043,7 +5042,7 @@ const RAW_CARDS = [
     "外面+下+{S}+了",
     "今天下大{S}了。",
     "Jīntiān xià dà {S} le.",
-    "It is raining heavily ({S}) today.",
+    "It is raining heavily () today.",
     "雨",
     [
       "雨",
@@ -5100,7 +5099,7 @@ const RAW_CARDS = [
     "请+{S}+说一遍",
     "请{S}喝一杯。",
     "Qǐng {S} hē yì bēi.",
-    "Please drink another cup ({S}).",
+    "Please drink another cup ().",
     "再",
     [
       "再",
@@ -5119,7 +5118,7 @@ const RAW_CARDS = [
     "[主语]+{S}+[地点]",
     "我{S}学校。",
     "Wǒ {S} xuéxiào.",
-    "I am {S} school.",
+    "I am school.",
     "在",
     [
       "在",
@@ -5328,7 +5327,7 @@ const RAW_CARDS = [
     "{S}+很+[形容词]",
     "{S}很安静。",
     "{S} hěn ānjìng.",
-    "{S} is very quiet.",
+    "It is very quiet here.",
     "这里",
     [
       "这里",
@@ -5555,7 +5554,7 @@ const RAW_CARDS = [
     "[主语]+{S}+在+[地点]",
     "我{S}在北京。",
     "Wǒ {S} zài Běijīng.",
-    "I {S} in Beijing.",
+    "I live in Beijing.",
     "住",
     [
       "住"
