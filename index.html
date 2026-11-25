@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>HSK 1 Sentence-Frame Flashcards (300 Words)</title>
+  <title>HSK 1 Chinese Exam Prep (300 Words)</title>
   <style>
     :root {
       --bg: #f6f7fb;
@@ -52,7 +52,7 @@
       color: var(--text);
       line-height: 1.5;
       min-height: 100vh;
-      padding-bottom: 84px;
+      padding-bottom: 132px;
     }
     header {
       position: sticky; top: 0; z-index: 40;
@@ -82,9 +82,10 @@
       display: grid; grid-template-columns: repeat(3, 1fr);
       padding: 6px 8px env(safe-area-inset-bottom, 8px);
       gap: 6px;
+      grid-auto-rows: 50px;
     }
     .tab-btn {
-      min-height: 54px; border: none; background: transparent; color: var(--text-muted);
+      min-height: 44px; border: none; background: transparent; color: var(--text-muted);
       border-radius: 12px; font-size: 0.78rem; font-weight: 700; cursor: pointer;
       display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
     }
@@ -140,11 +141,10 @@
     [data-theme="dark"] .emoji-box {
       background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
     }
-    .emoji-art {
-      font-size: clamp(5rem, 22vw, 9rem); line-height: 1.15; letter-spacing: 0.08em;
-      text-align: center; padding: 20px; user-select: none;
-      filter: drop-shadow(0 8px 14px rgba(15, 23, 42, 0.16));
-    }
+    .flashcard-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .photo-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 20px; text-align: center; color: var(--text-muted); font-weight: 700; }
+    .photo-placeholder[hidden] { display: none; }
+    .photo-placeholder small { font-size: .75rem; font-weight: 500; overflow-wrap: anywhere; }
 
     .card-body { padding: 18px 16px; }
     .front-hint {
@@ -321,13 +321,38 @@
       min-height: 40px; border-radius: 10px; border: 1px solid var(--border);
       background: var(--surface-2); color: var(--text); padding: 0 10px;
     }
+    .exam-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); }
+    .exam-toolbar, .exam-controls { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+    .exam-toolbar { margin-bottom: 12px; }
+    .exam-toolbar select { max-width: 100%; }
+    .exam-counter { color: var(--text-muted); font-size: .84rem; font-weight: 700; }
+    .exam-instructions { color: var(--text-muted); font-size: .88rem; margin: 0 0 12px; }
+    .exam-prompt { font-size: 1.05rem; font-weight: 700; margin: 10px 0; line-height: 1.8; }
+    .exam-pinyin { color: var(--text-muted); font-size: .9rem; }
+    .exam-visual-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 12px 0; }
+    .exam-visual-grid.six { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .exam-photo-choice, .exam-answer-choice { min-width: 0; padding: 8px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-2); color: var(--text); cursor: pointer; font: inherit; }
+    .exam-photo-choice img, .exam-feature-photo { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 8px; background: var(--surface); }
+    .exam-photo-choice span { display: block; margin-top: 4px; font-weight: 800; }
+    .exam-choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 12px 0; }
+    .exam-answer-choice { text-align: left; min-height: 44px; }
+    .exam-answer-choice.correct, .exam-photo-choice.correct { border: 2px solid #16a34a; background: #dcfce7; color: #14532d; }
+    .exam-answer-choice.incorrect, .exam-photo-choice.incorrect { border: 2px solid #dc2626; background: #fee2e2; color: #7f1d1d; }
+    [data-theme="dark"] .exam-answer-choice.correct, [data-theme="dark"] .exam-photo-choice.correct { background: #14532d; color: #dcfce7; }
+    [data-theme="dark"] .exam-answer-choice.incorrect, [data-theme="dark"] .exam-photo-choice.incorrect { background: #7f1d1d; color: #fee2e2; }
+    .exam-feedback { min-height: 24px; font-weight: 700; margin: 8px 0; }
+    .exam-image-missing { display: grid; place-items: center; text-align: center; padding: 8px; color: var(--text-muted); font-size: .72rem; overflow-wrap: anywhere; }
+    .exam-transfer, .exam-report { padding: 16px; border-radius: 12px; background: var(--surface-2); margin: 12px 0; }
+    .exam-timer { font-size: 1.4rem; font-weight: 900; color: var(--accent-text); }
+    .exam-report-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    @media (max-width: 430px) { .exam-visual-grid { gap: 6px; } .exam-photo-choice { padding: 5px; } .exam-panel { padding: 12px; } }
   </style>
 </head>
 <body>
   <header>
     <div class="brand">
-      <h1>HSK 1 Sentence Frames</h1>
-      <span id="headerSubtitle">300 Words · Slot-and-Filler Mastery</span>
+      <h1>HSK 1 Chinese Exam Prep</h1>
+      <span id="headerSubtitle">300 Words · Flashcards, Practice & Mock Exams</span>
     </div>
     <div class="header-actions">
       <button class="icon-btn" id="btnChecklist" title="300-Word Checklist">📋 300</button>
@@ -361,7 +386,8 @@
         </div>
 
         <div class="emoji-box" id="emojiBox">
-          <div class="emoji-art" id="emojiArt" role="img"></div>
+          <img class="flashcard-photo" id="flashcardPhoto" alt="" />
+          <div class="photo-placeholder" id="flashcardPhotoPlaceholder" role="status">Photo will appear here<small></small></div>
         </div>
 
         <div class="card-body">
@@ -500,12 +526,43 @@
         </div>
       </div>
     </section>
+
+    <section id="tab-listening" class="tab-panel">
+      <div class="exam-panel">
+        <div class="exam-toolbar"><h2 style="margin:0;font-size:1.1rem;">Listening Exam Simulator · 听力</h2><select class="pill" id="listeningPartSelect"><option value="1">Part 1 · Picture judgment</option><option value="2">Part 2 · Three-picture choice</option><option value="3">Part 3 · Dialogue to picture</option><option value="4">Part 4 · Question anchor</option></select></div>
+        <p class="exam-instructions" id="listeningInstructions">Listen to the Chinese prompt twice. No English hints are shown.</p>
+        <div class="exam-counter" id="listeningCounter"></div>
+        <div id="listeningQuestion"></div>
+        <div class="exam-controls"><button class="btn btn-primary" id="btnListeningPlay">🔊 Play audio twice</button><button class="btn" id="btnListeningNext">Next question →</button></div>
+      </div>
+    </section>
+
+    <section id="tab-reading" class="tab-panel">
+      <div class="exam-panel">
+        <div class="exam-toolbar"><h2 style="margin:0;font-size:1.1rem;">Reading & Structure Sprint · 阅读</h2><select class="pill" id="readingPartSelect"><option value="1">Part 1 · Word-picture check</option><option value="2">Part 2 · Sentence to scene</option><option value="3">Part 3 · Dialogue Q&amp;A</option><option value="4">Part 4 · Cloze</option></select></div>
+        <p class="exam-instructions" id="readingInstructions">Choose the best answer. Pinyin is shown with Chinese, as in the exam papers.</p>
+        <div class="exam-counter" id="readingCounter"></div>
+        <div id="readingQuestion"></div>
+        <div class="exam-controls"><button class="btn" id="btnReadingNext">Next question →</button></div>
+      </div>
+    </section>
+
+    <section id="tab-mock" class="tab-panel">
+      <div class="exam-panel">
+        <div class="exam-toolbar"><h2 style="margin:0;font-size:1.1rem;">Full HSK 1 Mock Exam · 模拟考试</h2><span class="exam-timer" id="mockTimer">40:00</span></div>
+        <p class="exam-instructions" id="mockInstructions">40 questions · 20 listening + 20 reading · 40 minutes total. Start when ready.</p>
+        <div id="mockContent"><button class="btn btn-primary" id="btnStartMock">Start 40-minute exam</button></div>
+      </div>
+    </section>
   </main>
 
   <nav class="tab-nav">
     <button class="tab-btn active" data-tab="flashcards"><span class="ico">🗂️</span>Flashcards</button>
     <button class="tab-btn" data-tab="commute"><span class="ico">🎧</span>Commute Loop</button>
-    <button class="tab-btn" data-tab="matrix"><span class="ico">🧩</span>Sentence Matrix</button>
+    <button class="tab-btn" data-tab="matrix"><span class="ico">🧩</span>Matrix</button>
+    <button class="tab-btn" data-tab="listening"><span class="ico">🎧</span>Listening</button>
+    <button class="tab-btn" data-tab="reading"><span class="ico">📖</span>Reading</button>
+    <button class="tab-btn" data-tab="mock"><span class="ico">⏱️</span>Mock Exam</button>
   </nav>
 
   <!-- 300-Word Checklist Modal -->
@@ -626,7 +683,8 @@ const CARDS = RAW_CARDS.map(r => {
     tplE: r[9],
     defaultSlot: r[10],
     interchangeable_options: r[11],
-    emoji: r[12]
+    emoji: r[12],
+    scene: r[12]
   };
   CARD_BY_HANZI[obj.word_hanzi] = obj;
   return obj;
@@ -867,8 +925,9 @@ function renderCard(keepFlipped = false) {
     button.setAttribute("aria-pressed", button.classList.contains("active") ? "true" : "false");
   });
 
-  // Emoji visual mnemonic, stored directly on each card in raw_cards.js.
-  const emojiArt = document.getElementById("emojiArt");
+  // Photos use the same numbered assets as the exam practice sections.
+  const flashcardPhoto = document.getElementById("flashcardPhoto");
+  const photoPlaceholder = document.getElementById("flashcardPhotoPlaceholder");
   const emojiBox = document.getElementById("emojiBox");
 
   const grads = {
@@ -880,8 +939,14 @@ function renderCard(keepFlipped = false) {
     "6": "linear-gradient(135deg, #831843 0%, #500724 100%)"
   };
   emojiBox.style.background = grads[card.cluster] || grads["1"];
-  emojiArt.textContent = card.emoji;
-  emojiArt.setAttribute("aria-label", `Visual cue for ${card.word_hanzi}`);
+  const cardPhotoPath = photoPathForCard(card);
+  flashcardPhoto.alt = `Photo illustrating ${card.word_hanzi}`;
+  photoPlaceholder.querySelector("small").textContent = cardPhotoPath;
+  photoPlaceholder.hidden = false;
+  flashcardPhoto.hidden = true;
+  flashcardPhoto.onload = () => { flashcardPhoto.hidden = false; photoPlaceholder.hidden = true; };
+  flashcardPhoto.onerror = () => { flashcardPhoto.hidden = true; photoPlaceholder.hidden = false; };
+  flashcardPhoto.src = cardPhotoPath;
 
   // Front
   document.getElementById("frontHanzi").textContent = card.word_hanzi;
@@ -1312,7 +1377,283 @@ document.getElementById("btnMatrixRandom").onclick = () => {
 };
 
 // ============================================================
-// 8. TABS, CHECKLIST (ALL 300 WORDS), THEME, & SETTINGS
+// 8. EXAM PRACTICE QUESTION BANKS (built around RAW_CARDS + photo files)
+// ============================================================
+const EXAM_SCENES = [
+  { file:"scene-01-family-meal.webp", card:"吃", hanzi:"妈妈和孩子在家吃饭。", pinyin:"Māma hé háizi zài jiā chīfàn.", english:"A mother and child eat at home.", dialogue:["你吃饭了吗？","吃了。你呢？"], cluster:"1" },
+  { file:"scene-02-classroom-study.webp", card:"学习", hanzi:"学生在学校学习汉语。", pinyin:"Xuésheng zài xuéxiào xuéxí Hànyǔ.", english:"Students study Chinese at school.", dialogue:["你在哪儿学习汉语？","我在学校学习。"], cluster:"1" },
+  { file:"scene-03-doctor-hospital.webp", card:"医生", hanzi:"医生在医院看病。", pinyin:"Yīshēng zài yīyuàn kànbìng.", english:"A doctor sees a patient in a hospital.", dialogue:["医生在哪儿？","在医院。"], cluster:"2" },
+  { file:"scene-04-bookstore-buying-book.webp", card:"书", hanzi:"她在书店买书。", pinyin:"Tā zài shūdiàn mǎi shū.", english:"She buys a book at a bookstore.", dialogue:["她去哪儿了？","她去书店买书了。"], cluster:"2" },
+  { file:"scene-05-market-buying-fruit.webp", card:"水果", hanzi:"他在商店买水果。", pinyin:"Tā zài shāngdiàn mǎi shuǐguǒ.", english:"He buys fruit at a shop.", dialogue:["你想买什么？","我想买一些水果。"], cluster:"1" },
+  { file:"scene-06-friends-drinking-tea.webp", card:"喝茶", hanzi:"两个朋友在家喝茶。", pinyin:"Liǎng ge péngyou zài jiā hē chá.", english:"Two friends drink tea at home.", dialogue:["你喝茶吗？","喝，谢谢。"], cluster:"1" },
+  { file:"scene-07-clock-checking-time.webp", card:"几点", hanzi:"现在是十点十分。", pinyin:"Xiànzài shì shí diǎn shí fēn.", english:"It is ten ten now.", dialogue:["现在几点？","十点十分。"], cluster:"3" },
+  { file:"scene-08-taking-a-taxi.webp", card:"出租车", hanzi:"他们坐出租车回家。", pinyin:"Tāmen zuò chūzūchē huí jiā.", english:"They take a taxi home.", dialogue:["我们怎么回家？","坐出租车吧。"], cluster:"2" },
+  { file:"scene-09-family-watching-tv.webp", card:"电视", hanzi:"一家人在家看电视。", pinyin:"Yì jiā rén zài jiā kàn diànshì.", english:"A family watches television at home.", dialogue:["你在做什么？","我在家看电视。"], cluster:"1" },
+  { file:"scene-10-restaurant-eating-noodles.webp", card:"饭店", hanzi:"朋友在饭店吃面条。", pinyin:"Péngyou zài fàndiàn chī miàntiáo.", english:"Friends eat noodles at a restaurant.", dialogue:["你们在哪儿吃饭？","我们在饭店吃。"], cluster:"2" },
+  { file:"scene-11-giving-a-gift.webp", card:"朋友", hanzi:"她送给朋友一件衣服。", pinyin:"Tā sòng gěi péngyou yí jiàn yīfu.", english:"She gives a friend a piece of clothing.", dialogue:["这件衣服是谁的？","是朋友送给我的。"], cluster:"4" },
+  { file:"scene-12-phone-call-at-home.webp", card:"打电话", hanzi:"爸爸在家给朋友打电话。", pinyin:"Bàba zài jiā gěi péngyou dǎ diànhuà.", english:"Dad calls a friend from home.", dialogue:["喂，你在哪儿？","我在家里。"], cluster:"1" },
+  { file:"scene-13-child-reading-book.webp", card:"看", hanzi:"孩子在房间看书。", pinyin:"Háizi zài fángjiān kàn shū.", english:"A child reads in a room.", dialogue:["孩子在做什么？","他在看书。"], cluster:"1" },
+  { file:"scene-14-shopping-for-clothes.webp", card:"衣服", hanzi:"她和朋友在商店买衣服。", pinyin:"Tā hé péngyou zài shāngdiàn mǎi yīfu.", english:"She and a friend shop for clothes.", dialogue:["你买衣服了吗？","买了两件。"], cluster:"2" },
+  { file:"scene-15-office-working.webp", card:"工作", hanzi:"爸爸在公司工作。", pinyin:"Bàba zài gōngsī gōngzuò.", english:"Dad works at a company.", dialogue:["你爸爸在哪儿工作？","他在公司工作。"], cluster:"1" },
+  { file:"scene-16-rainy-day-going-home.webp", card:"下雨", hanzi:"外面下雨了，他们坐车回家。", pinyin:"Wàimiàn xiàyǔ le, tāmen zuò chē huí jiā.", english:"It is raining outside, so they ride home.", dialogue:["外面天气怎么样？","下雨了。"], cluster:"3" },
+  { file:"scene-17-birthday-cake.webp", card:"生日", hanzi:"今天是孩子的生日，大家很高兴。", pinyin:"Jīntiān shì háizi de shēngrì, dàjiā hěn gāoxìng.", english:"Today is the child's birthday, and everyone is happy.", dialogue:["今天是谁的生日？","是孩子的生日。"], cluster:"4" },
+  { file:"scene-18-family-at-train-station.webp", card:"火车", hanzi:"他们在火车站等朋友。", pinyin:"Tāmen zài huǒchēzhàn děng péngyou.", english:"They wait for a friend at the train station.", dialogue:["你们在哪儿等？","我们在火车站。"], cluster:"2" },
+  { file:"scene-19-position-book-on-table.webp", card:"桌子", hanzi:"书在桌子上，杯子在书旁边。", pinyin:"Shū zài zhuōzi shàng, bēizi zài shū pángbiān.", english:"A book is on the table, with a cup beside it.", dialogue:["书在哪儿？","在桌子上。"], cluster:"2" },
+  { file:"scene-20-measuring-height.webp", card:"问", hanzi:"老师在教室里问学生多高。", pinyin:"Lǎoshī zài jiàoshì lǐ wèn xuésheng duō gāo.", english:"A teacher asks a student how tall they are in a classroom.", dialogue:["那个学生多高？","一米六。"], cluster:"6" },
+  { file:"scene-21-picking-up-child.webp", card:"孩子", hanzi:"爸爸下班以后去学校接孩子。", pinyin:"Bàba xiàbān yǐhòu qù xuéxiào jiē háizi.", english:"Dad picks up his child from school after work.", dialogue:["孩子在哪儿？","在学校。"], cluster:"4" },
+  { file:"scene-22-family-eating-watermelon.webp", card:"西瓜", hanzi:"天气很热，一家人在家吃西瓜。", pinyin:"Tiānqì hěn rè, yì jiā rén zài jiā chī xīguā.", english:"It is hot, and a family eats watermelon at home.", dialogue:["今天天气怎么样？","很热。"], cluster:"3" },
+  { file:"scene-23-friend-visiting-home.webp", card:"来", hanzi:"朋友下午来我家喝茶。", pinyin:"Péngyou xiàwǔ lái wǒ jiā hē chá.", english:"A friend comes to my home for tea in the afternoon.", dialogue:["朋友什么时候来？","下午来。"], cluster:"3" },
+  { file:"scene-24-taking-photo-together.webp", card:"照片", hanzi:"两个朋友在公园照相。", pinyin:"Liǎng ge péngyou zài gōngyuán zhàoxiàng.", english:"Two friends take a photo together in a park.", dialogue:["他们在做什么？","他们在照相。"], cluster:"4" }
+];
+
+const ANCHOR_ITEMS = [
+  { statement:"她下午去商店买水果。", pinyin:"Tā xiàwǔ qù shāngdiàn mǎi shuǐguǒ.", ask:"她下午去哪儿？", askPinyin:"Tā xiàwǔ qù nǎr?", choices:["商店","医院","学校"], choicePinyin:["shāngdiàn","yīyuàn","xuéxiào"], answer:0, card:"商店" },
+  { statement:"王老师有两个儿子。", pinyin:"Wáng lǎoshī yǒu liǎng ge érzi.", ask:"王老师有几个儿子？", askPinyin:"Wáng lǎoshī yǒu jǐ ge érzi?", choices:["一个","两个","三个"], choicePinyin:["yí ge","liǎng ge","sān ge"], answer:1, card:"儿子" },
+  { statement:"今天是星期五。", pinyin:"Jīntiān shì xīngqīwǔ.", ask:"今天星期几？", askPinyin:"Jīntiān xīngqī jǐ?", choices:["星期三","星期五","星期日"], choicePinyin:["xīngqīsān","xīngqīwǔ","xīngqīrì"], answer:1, card:"星期" },
+  { statement:"李先生今年三十岁。", pinyin:"Lǐ xiānsheng jīnnián sānshí suì.", ask:"李先生今年多大？", askPinyin:"Lǐ xiānsheng jīnnián duō dà?", choices:["二十岁","三十岁","四十岁"], choicePinyin:["èrshí suì","sānshí suì","sìshí suì"], answer:1, card:"岁" },
+  { statement:"妈妈在医院工作。", pinyin:"Māma zài yīyuàn gōngzuò.", ask:"谁在医院工作？", askPinyin:"Shéi zài yīyuàn gōngzuò?", choices:["妈妈","爸爸","老师"], choicePinyin:["māma","bàba","lǎoshī"], answer:0, card:"医院" },
+  { statement:"他们坐出租车回家。", pinyin:"Tāmen zuò chūzūchē huí jiā.", ask:"他们怎么回家？", askPinyin:"Tāmen zěnme huí jiā?", choices:["坐出租车","坐飞机","坐火车"], choicePinyin:["zuò chūzūchē","zuò fēijī","zuò huǒchē"], answer:0, card:"出租车" },
+  { statement:"桌子上有三个苹果。", pinyin:"Zhuōzi shàng yǒu sān ge píngguǒ.", ask:"桌子上有多少个苹果？", askPinyin:"Zhuōzi shàng yǒu duōshao ge píngguǒ?", choices:["两个","三个","五个"], choicePinyin:["liǎng ge","sān ge","wǔ ge"], answer:1, card:"苹果" },
+  { statement:"爸爸早上七点去上班。", pinyin:"Bàba zǎoshang qī diǎn qù shàngbān.", ask:"爸爸几点去上班？", askPinyin:"Bàba jǐ diǎn qù shàngbān?", choices:["六点","七点","八点"], choicePinyin:["liù diǎn","qī diǎn","bā diǎn"], answer:1, card:"点" },
+  { statement:"小王今天不在家，他在公司。", pinyin:"Xiǎo Wáng jīntiān bú zài jiā, tā zài gōngsī.", ask:"小王今天在哪儿？", askPinyin:"Xiǎo Wáng jīntiān zài nǎr?", choices:["家","公司","学校"], choicePinyin:["jiā","gōngsī","xuéxiào"], answer:1, card:"公司" },
+  { statement:"妹妹喜欢喝牛奶。", pinyin:"Mèimei xǐhuan hē niúnǎi.", ask:"妹妹喜欢喝什么？", askPinyin:"Mèimei xǐhuan hē shénme?", choices:["茶","水","牛奶"], choicePinyin:["chá","shuǐ","niúnǎi"], answer:2, card:"牛奶" },
+  { statement:"这件衣服一百块钱。", pinyin:"Zhè jiàn yīfu yì bǎi kuài qián.", ask:"这件衣服多少钱？", askPinyin:"Zhè jiàn yīfu duōshao qián?", choices:["五十块","一百块","两百块"], choicePinyin:["wǔshí kuài","yì bǎi kuài","liǎng bǎi kuài"], answer:1, card:"衣服" },
+  { statement:"孩子在房间里睡觉。", pinyin:"Háizi zài fángjiān lǐ shuìjiào.", ask:"孩子在做什么？", askPinyin:"Háizi zài zuò shénme?", choices:["看书","睡觉","吃饭"], choicePinyin:["kàn shū","shuìjiào","chīfàn"], answer:1, card:"睡觉" }
+];
+
+const QA_ITEMS = [
+  { q:"医生在哪儿？", p:"Yīshēng zài nǎr?", a:"在医院。", ap:"Zài yīyuàn.", card:"医生" },
+  { q:"你是哪国人？", p:"Nǐ shì nǎ guó rén?", a:"我是中国人。", ap:"Wǒ shì Zhōngguó rén.", card:"中国" },
+  { q:"现在几点？", p:"Xiànzài jǐ diǎn?", a:"现在九点。", ap:"Xiànzài jiǔ diǎn.", card:"几点" },
+  { q:"你想吃什么？", p:"Nǐ xiǎng chī shénme?", a:"我想吃米饭。", ap:"Wǒ xiǎng chī mǐfàn.", card:"米饭" },
+  { q:"你去哪儿？", p:"Nǐ qù nǎr?", a:"我去学校。", ap:"Wǒ qù xuéxiào.", card:"学校" },
+  { q:"你认识那个先生吗？", p:"Nǐ rènshi nà ge xiānsheng ma?", a:"认识，他是我朋友。", ap:"Rènshi, tā shì wǒ péngyou.", card:"认识" },
+  { q:"你家有几口人？", p:"Nǐ jiā yǒu jǐ kǒu rén?", a:"我家有四口人。", ap:"Wǒ jiā yǒu sì kǒu rén.", card:"家" },
+  { q:"这个苹果多少钱？", p:"Zhè ge píngguǒ duōshao qián?", a:"五块钱一个。", ap:"Wǔ kuài qián yí ge.", card:"苹果" },
+  { q:"你怎么去公司？", p:"Nǐ zěnme qù gōngsī?", a:"我坐车去。", ap:"Wǒ zuò chē qù.", card:"公司" },
+  { q:"今天星期几？", p:"Jīntiān xīngqī jǐ?", a:"今天星期二。", ap:"Jīntiān xīngqī'èr.", card:"星期" },
+  { q:"你妈妈做什么工作？", p:"Nǐ māma zuò shénme gōngzuò?", a:"她是老师。", ap:"Tā shì lǎoshī.", card:"妈妈" },
+  { q:"你的杯子在哪儿？", p:"Nǐ de bēizi zài nǎr?", a:"在桌子上。", ap:"Zài zhuōzi shàng.", card:"杯子" },
+  { q:"你会说汉语吗？", p:"Nǐ huì shuō Hànyǔ ma?", a:"会说一点儿。", ap:"Huì shuō yìdiǎnr.", card:"汉语" },
+  { q:"你什么时候回家？", p:"Nǐ shénme shíhou huí jiā?", a:"下午五点回家。", ap:"Xiàwǔ wǔ diǎn huí jiā.", card:"回" },
+  { q:"外面天气怎么样？", p:"Wàimiàn tiānqì zěnmeyàng?", a:"今天很热。", ap:"Jīntiān hěn rè.", card:"天气" },
+  { q:"你看见我的手机了吗？", p:"Nǐ kànjiàn wǒ de shǒujī le ma?", a:"在椅子上。", ap:"Zài yǐzi shàng.", card:"手机" },
+  { q:"那个孩子多大？", p:"Nà ge háizi duō dà?", a:"他七岁。", ap:"Tā qī suì.", card:"孩子" },
+  { q:"你想喝什么？", p:"Nǐ xiǎng hē shénme?", a:"请给我一杯水。", ap:"Qǐng gěi wǒ yì bēi shuǐ.", card:"喝" },
+  { q:"这是谁的书？", p:"Zhè shì shéi de shū?", a:"是老师的。", ap:"Shì lǎoshī de.", card:"书" },
+  { q:"你昨天去哪儿了？", p:"Nǐ zuótiān qù nǎr le?", a:"我去商店了。", ap:"Wǒ qù shāngdiàn le.", card:"昨天" }
+];
+
+const CLOZE_ITEMS = [
+  { pre:"昨天是八", post:"十九日。", pp:"Zuótiān shì bā", sp:"shíjiǔ rì.", answer:"月", bank:["月","年","天","点","岁","个"], card:"月" },
+  { pre:"我们怎么回家？", post:"出租车吗？", pp:"Wǒmen zěnme huí jiā?", sp:"chūzūchē ma?", answer:"坐", bank:["坐","看","听","写","吃","买"], card:"坐" },
+  { pre:"我每天早上七", post:"起床。", pp:"Wǒ měitiān zǎoshang qī", sp:"qǐchuáng.", answer:"点", bank:["点","岁","月","本","个","年"], card:"点" },
+  { pre:"爸爸在医院", post:"。", pp:"Bàba zài yīyuàn", sp:".", answer:"工作", bank:["工作","桌子","苹果","天气","电影","名字"], card:"工作" },
+  { pre:"桌子", post:"有一个杯子。", pp:"Zhuōzi", sp:"yǒu yí ge bēizi.", answer:"上", bank:["上","下","里","人","月","吗"], card:"上" },
+  { pre:"我想", post:"一杯茶。", pp:"Wǒ xiǎng", sp:"yì bēi chá.", answer:"喝", bank:["喝","看","听","写","坐","来"], card:"喝" },
+  { pre:"她是我的好", post:"。", pp:"Tā shì wǒ de hǎo", sp:".", answer:"朋友", bank:["朋友","医生","苹果","天气","医院","星期"], card:"朋友" },
+  { pre:"今天星期", post:"，我们去看电影。", pp:"Jīntiān xīngqī", sp:", wǒmen qù kàn diànyǐng.", answer:"日", bank:["日","月","年","点","岁","本"], card:"星期" },
+  { pre:"你叫什么", post:"？", pp:"Nǐ jiào shénme", sp:"?", answer:"名字", bank:["名字","时间","水果","汉语","医院","朋友"], card:"名字" },
+  { pre:"妈妈不在家，她去", post:"了。", pp:"Māma bú zài jiā, tā qù", sp:"le.", answer:"商店", bank:["商店","桌子","弟弟","苹果","下雨","星期"], card:"商店" },
+  { pre:"孩子在房间里", post:"。", pp:"Háizi zài fángjiān lǐ", sp:".", answer:"睡觉", bank:["睡觉","工作","老师","水果","火车","名字"], card:"睡觉" },
+  { pre:"请问，医院在", post:"？", pp:"Qǐngwèn, yīyuàn zài", sp:"?", answer:"哪儿", bank:["哪儿","多少","什么","星期","名字","天气"], card:"哪儿" },
+  { pre:"这本书", post:"钱？", pp:"Zhè běn shū", sp:"qián?", answer:"多少", bank:["多少","怎么样","什么时候","哪国人","几点","几岁"], card:"多少" },
+  { pre:"我每天", post:"汉语。", pp:"Wǒ měitiān", sp:"Hànyǔ.", answer:"学习", bank:["学习","睡觉","下雨","做饭","看病","回家"], card:"学习" },
+  { pre:"外面", post:"了，请带伞。", pp:"Wàimiàn", sp:"le, qǐng dài sǎn.", answer:"下雨", bank:["下雨","下课","上班","看书","吃饭","买书"], card:"下雨" },
+  { pre:"小王今年二十", post:"。", pp:"Xiǎo Wáng jīnnián èrshí", sp:".", answer:"岁", bank:["岁","月","日","点","个","块"], card:"岁" },
+  { pre:"我家有四", post:"人。", pp:"Wǒ jiā yǒu sì", sp:"rén.", answer:"口", bank:["口","本","件","点","年","月"], card:"口" },
+  { pre:"请问，你是", post:"人？", pp:"Qǐngwèn, nǐ shì", sp:"rén?", answer:"哪国", bank:["哪国","哪个","什么","多少","谁的","哪儿"], card:"哪国" },
+  { pre:"你看见我的", post:"了吗？", pp:"Nǐ kànjiàn wǒ de", sp:"le ma?", answer:"手机", bank:["手机","米饭","天气","医生","学校","星期"], card:"手机" },
+  { pre:"对不", post:"，我今天不去学校。", pp:"Duì bu", sp:", wǒ jīntiān bú qù xuéxiào.", answer:"起", bank:["起","客气","认识","知道","漂亮","高兴"], card:"对不起" }
+];
+
+function photoPathForCard(card) { return `assets/photos/${String(card.id).padStart(3,"0")}.webp`; }
+function photoPathForScene(scene) { return `assets/photos/scenarios/${scene.file}`; }
+function examShuffle(list) { return [...list].sort(() => Math.random() - 0.5); }
+function examCardFor(word) { const fallback={"喝茶":"喝","几点":"点","生日":"孩子","高":"大","西瓜":"水果","照片":"看"}; return CARD_BY_HANZI[word] || CARD_BY_HANZI[fallback[word]] || CARDS[0]; }
+function examSceneImage(scene) { return { src:photoPathForScene(scene), label:scene.english, key:scene.file }; }
+function makePhotoQuestion(kind, card, wrongCount = 2) {
+  const wrongCards = examShuffle(CARDS.filter(item => item.id !== card.id)).slice(0, wrongCount);
+  return [{ src:photoPathForCard(card), label:card.scene || card.word_hanzi, key:String(card.id), cardId:card.id }, ...wrongCards.map(item => ({ src:photoPathForCard(item), label:item.scene || item.word_hanzi, key:String(item.id), cardId:item.id }))];
+}
+function makeScenePhotoChoices(scene, count = 6) {
+  const others = examShuffle(EXAM_SCENES.filter(item => item !== scene)).slice(0, count - 1);
+  return examShuffle([scene, ...others]).map(item => examSceneImage(item));
+}
+function makeTextChoices(correct, distractors, pinyin = []) {
+  return examShuffle([correct, ...examShuffle(distractors).slice(0, 5)]).map(text => ({ text, pinyin:pinyin[text] || "" }));
+}
+function makePracticeQuestion(family, part) {
+  if (family === "listening" && part === 1) {
+    const card = examShuffle(CARDS)[0], truth = Math.random() < 0.5;
+    const shown = truth ? card : examShuffle(CARDS.filter(c => c.id !== card.id))[0];
+    return { kind:"tf-photo", audio:[card.word_hanzi], image:{src:photoPathForCard(shown),label:shown.scene || shown.word_hanzi}, answer:String(truth), cardId:card.id };
+  }
+  if (family === "listening" && part === 2) {
+    const scene = examShuffle(EXAM_SCENES)[0];
+    return { kind:"photo-choice", audio:[scene.hanzi], images:makeScenePhotoChoices(scene,3), answer:scene.file, cardId:examCardFor(scene.card).id };
+  }
+  if (family === "listening" && part === 3) {
+    const scene = examShuffle(EXAM_SCENES)[0];
+    return { kind:"photo-choice", audio:scene.dialogue, images:makeScenePhotoChoices(scene,6), answer:scene.file, cardId:examCardFor(scene.card).id };
+  }
+  if (family === "listening" && part === 4) {
+    const item = examShuffle(ANCHOR_ITEMS)[0];
+    return { kind:"text-choice", audio:[item.statement, `问：${item.ask}`], prompt:item.ask, pinyin:item.askPinyin, choices:item.choices.map((text,i)=>({text,pinyin:item.choicePinyin[i]})), answer:item.choices[item.answer], cardId:examCardFor(item.card).id };
+  }
+  if (family === "reading" && part === 1) {
+    const card = examShuffle(CARDS)[0], truth = Math.random() < 0.5;
+    const other = examShuffle(CARDS.filter(c => c.id !== card.id))[0];
+    return { kind:"reading-check", prompt:truth ? card.word_hanzi : other.word_hanzi, pinyin:truth ? card.word_pinyin : other.word_pinyin, image:{src:photoPathForCard(card),label:card.scene || card.word_hanzi}, answer:String(truth), cardId:card.id };
+  }
+  if (family === "reading" && part === 2) {
+    const scene = examShuffle(EXAM_SCENES)[0];
+    return { kind:"photo-choice", prompt:scene.hanzi, pinyin:scene.pinyin, images:makeScenePhotoChoices(scene,6), answer:scene.file, cardId:examCardFor(scene.card).id };
+  }
+  if (family === "reading" && part === 3) {
+    const item = examShuffle(QA_ITEMS)[0];
+    const correct = {text:item.a,pinyin:item.ap};
+    const decoys = examShuffle(QA_ITEMS.filter(other=>other!==item)).slice(0,5).map(other=>({text:other.a,pinyin:other.ap}));
+    return { kind:"text-choice", prompt:item.q, pinyin:item.p, choices:examShuffle([correct,...decoys]), answer:item.a, cardId:examCardFor(item.card).id };
+  }
+  const item = examShuffle(CLOZE_ITEMS)[0];
+  return { kind:"cloze", prompt:`${item.pre}（　）${item.post}`, pinyin:`${item.pp} (　) ${item.sp}`, choices:examShuffle(item.bank).map(text=>({text,pinyin:getWordPinyin(text)})), answer:item.answer, cardId:examCardFor(item.card).id };
+}
+
+function renderExamQuestion(target, question, onAnswer, selected = null) {
+  target.innerHTML = "";
+  if (question.pinyin) { const p=document.createElement("div");p.className="exam-pinyin";p.textContent=question.pinyin;target.appendChild(p); }
+  const prompt = document.createElement("div"); prompt.className="exam-prompt"; prompt.textContent=question.prompt || ""; target.appendChild(prompt);
+  const addPhoto = (parent, photo, label, button = false, key = null) => {
+    const el = document.createElement(button ? "button" : "div");
+    if (button) { el.type="button";el.className="exam-photo-choice";el.setAttribute("aria-label",label); if (key!==null) el.dataset.key=key; }
+    const img = document.createElement("img"); img.src=photo;img.alt=label;
+    img.onerror=()=>{const missing=document.createElement("span");missing.className="exam-image-missing";missing.textContent=`Photo needed: ${photo}`;img.replaceWith(missing);};
+    el.appendChild(img);
+    if (button) { const caption=document.createElement("span");caption.textContent=String.fromCharCode(65+parent.children.length);el.appendChild(caption); }
+    parent.appendChild(el); return el;
+  };
+  if (question.image) { const wrap=document.createElement("div");wrap.style.maxWidth="340px";wrap.style.margin="12px auto";addPhoto(wrap,question.image.src,question.image.label);target.appendChild(wrap); }
+  if (question.images) {
+    const grid=document.createElement("div");grid.className=`exam-visual-grid${question.images.length>3?" six":""}`;
+    question.images.forEach((photo,index)=>{const btn=addPhoto(grid,photo.src,photo.label,true,String(photo.key || photo.src));btn.querySelector("span:not(.exam-image-missing)")?.replaceChildren(document.createTextNode(String.fromCharCode(65+index)));btn.disabled=selected!==null;if(selected!==null){if(String(question.answer)===String(photo.key || photo.src))btn.classList.add("correct");else if(String(selected)===String(photo.key || photo.src))btn.classList.add("incorrect");}btn.onclick=()=>onAnswer(String(photo.key || photo.src));});
+    target.appendChild(grid);
+  }
+  if (question.choices) {
+    const grid=document.createElement("div");grid.className="exam-choice-grid";
+    question.choices.forEach(option=>{const btn=document.createElement("button");btn.type="button";btn.className="exam-answer-choice";btn.innerHTML=`${option.pinyin?`<small>${escapeHtml(option.pinyin)}</small><br>`:""}${escapeHtml(option.text)}`;btn.disabled=selected!==null;const key=String(option.text);if(selected!==null&&key===String(question.answer))btn.classList.add("correct");else if(selected!==null&&key===String(selected))btn.classList.add("incorrect");btn.onclick=()=>onAnswer(key);grid.appendChild(btn);});target.appendChild(grid);
+  }
+  if (question.kind==="tf-photo" || question.kind==="reading-check") {
+    const grid=document.createElement("div");grid.className="exam-choice-grid";
+    [{text:"✓",key:"true"},{text:"×",key:"false"}].forEach(option=>{const btn=document.createElement("button");btn.type="button";btn.className="exam-answer-choice";btn.textContent=option.text;btn.disabled=selected!==null;if(selected!==null&&option.key===String(question.answer))btn.classList.add("correct");else if(selected!==null&&option.key===String(selected))btn.classList.add("incorrect");btn.onclick=()=>onAnswer(option.key);grid.appendChild(btn);});target.appendChild(grid);
+  }
+  if (selected!==null) { const result=document.createElement("p");result.className="exam-feedback";result.textContent=String(selected)===String(question.answer)?"Correct":"Not quite — the correct answer is highlighted.";target.appendChild(result); }
+}
+
+async function playExamAudio(question) {
+  for(let repeat=0;repeat<2;repeat++) {
+    for(const line of question.audio || []) { await speakText(line,"zh-CN",0.8); await new Promise(resolve=>setTimeout(resolve,180)); }
+    if(repeat===0) await new Promise(resolve=>setTimeout(resolve,500));
+  }
+}
+
+const practice = { listening:{part:1,index:0,items:[]}, reading:{part:1,index:0,items:[]} };
+function practiceSet(family,part,reset=false) {
+  const state=practice[family];state.part=Number(part);state.index=0;state.items=[];
+  drawPracticeQuestion(family);
+}
+function drawPracticeQuestion(family) {
+  const state=practice[family];
+  if(!state.items[state.index])state.items[state.index]=makePracticeQuestion(family,state.part);
+  const q=state.items[state.index],target=document.getElementById(family==="listening"?"listeningQuestion":"readingQuestion");
+  document.getElementById(family==="listening"?"listeningCounter":"readingCounter").textContent=`Part ${state.part} · Practice question ${state.index+1}`;
+  renderExamQuestion(target,q,answer=>renderExamQuestion(target,q,()=>{},answer));
+}
+document.getElementById("listeningPartSelect").onchange=e=>practiceSet("listening",e.target.value);
+document.getElementById("readingPartSelect").onchange=e=>practiceSet("reading",e.target.value);
+document.getElementById("btnListeningPlay").onclick=()=>playExamAudio(practice.listening.items[practice.listening.index]);
+document.getElementById("btnListeningNext").onclick=()=>{practice.listening.index++;drawPracticeQuestion("listening");};
+document.getElementById("btnReadingNext").onclick=()=>{practice.reading.index++;drawPracticeQuestion("reading");};
+practiceSet("listening",1);practiceSet("reading",1);
+
+// ============================================================
+// 9. FULL 40-QUESTION TIMED MOCK EXAM
+// ============================================================
+let mock = { active:false, stage:"idle", questions:[], index:0, answers:[], seconds:2400, timer:null, transferSeconds:180 };
+let transferTimer = null;
+function makeMockSet(family) {
+  const questions=[];
+  for(let part=1;part<=4;part++) {
+    const pool=[];
+    for(let n=0;n<5;n++) pool.push(makePracticeQuestion(family,part));
+    questions.push(...pool.map(q=>({...q,family,part})));
+  }
+  return questions;
+}
+function displayMockQuestion() {
+  if(!mock.active)return;
+  if(mock.stage==="listening"&&mock.index>=20){startTransferPeriod();return;}
+  if(mock.stage==="reading"&&mock.index>=40){finishMock();return;}
+  const q=mock.questions[mock.index],host=document.getElementById("mockContent");
+  document.getElementById("mockInstructions").textContent=`${mock.stage==="listening"?"Listening":"Reading"} · Question ${mock.stage==="listening"?mock.index+1:mock.index-19} of 20 · Part ${q.part}`;
+  host.innerHTML="";
+  const count=document.createElement("div");count.className="exam-counter";count.textContent=`Question ${mock.index+1} of 40`;host.appendChild(count);
+  const questionBox=document.createElement("div");host.appendChild(questionBox);
+  renderExamQuestion(questionBox,q,answer=>{
+    if(mock.answers[mock.index]!==undefined)return;
+    mock.answers[mock.index]=answer;
+    displayMockQuestion();
+  },mock.answers[mock.index]??null);
+  if(q.family==="listening"){const play=document.createElement("button");play.type="button";play.className="btn";play.textContent="🔊 Play audio twice";play.onclick=()=>playExamAudio(q);host.appendChild(play);}
+  const controls=document.createElement("div");controls.className="exam-controls";
+  const prev=document.createElement("button");prev.type="button";prev.className="btn";prev.textContent="← Previous";prev.disabled=mock.index===0||mock.index===20;prev.onclick=()=>{mock.index--;displayMockQuestion();};
+  const next=document.createElement("button");next.type="button";next.className="btn btn-primary";next.textContent=mock.index===39?"Finish exam":"Next →";next.onclick=()=>{if(mock.index<39){mock.index++;displayMockQuestion();}else finishMock();};
+  controls.append(prev,next);host.appendChild(controls);
+  if(q.family==="listening"&&mock.answers[mock.index]===undefined)playExamAudio(q);
+}
+function startTransferPeriod(){
+  mock.stage="transfer";mock.transferSeconds=180;
+  const host=document.getElementById("mockContent");host.innerHTML=`<div class="exam-transfer"><h3>Listening answer transfer</h3><p>Use this 3-minute pause to check your listening answers before the reading section begins.</p><div class="exam-timer" id="transferTimer">03:00</div><div class="exam-report-grid" id="transferAnswers"></div></div>`;
+  const grid=document.getElementById("transferAnswers");
+  for(let i=0;i<20;i++){
+    const q=mock.questions[i],answer=mock.answers[i];
+    let display=answer===undefined?"—":String(answer);
+    if(answer!==undefined&&q.images){const position=q.images.findIndex(photo=>String(photo.key||photo.src)===String(answer));if(position>=0)display=String.fromCharCode(65+position);}
+    const cell=document.createElement("div");cell.textContent=`${i+1}. ${display}`;grid.appendChild(cell);
+  }
+  document.getElementById("mockInstructions").textContent="Transfer time · Reading starts automatically when the 3-minute timer ends.";
+  transferTimer=setInterval(()=>{
+    mock.transferSeconds--;
+    const el=document.getElementById("transferTimer");if(el)el.textContent=`${String(Math.floor(mock.transferSeconds/60)).padStart(2,"0")}:${String(mock.transferSeconds%60).padStart(2,"0")}`;
+    if(mock.transferSeconds<=0){clearInterval(transferTimer);transferTimer=null;mock.stage="reading";mock.index=20;displayMockQuestion();}
+  },1000);
+}
+function finishMock(){
+  if(mock.timer){clearInterval(mock.timer);mock.timer=null;}
+  if(transferTimer){clearInterval(transferTimer);transferTimer=null;}
+  stopSpeech();
+  mock.active=false;mock.stage="done";
+  const score=mock.questions.reduce((n,q,i)=>n+(String(mock.answers[i])===String(q.answer)?1:0),0);
+  const parts=["Listening 1","Listening 2","Listening 3","Listening 4","Reading 1","Reading 2","Reading 3","Reading 4"].map((label,i)=>{const start=i<4?i*5:20+(i-4)*5;const correct=mock.questions.slice(start,start+5).reduce((n,q,j)=>n+(String(mock.answers[start+j])===String(q.answer)?1:0),0);return `<div>${label}: <b>${correct}/5</b></div>`;}).join("");
+  const clusterCounts={};mock.questions.forEach((q,i)=>{const card=CARDS.find(c=>c.id===q.cardId);if(!card)return;const key=card.cluster;clusterCounts[key]??={right:0,total:0};clusterCounts[key].total++;if(String(mock.answers[i])===String(q.answer))clusterCounts[key].right++;});
+  const clusterHtml=Object.entries(clusterCounts).map(([key,value])=>`<div>${escapeHtml(CLUSTERS[key]||`Cluster ${key}`)}: <b>${Math.round(value.right/value.total*100)}%</b> (${value.right}/${value.total})</div>`).join("")||"<div>Cluster diagnostic unavailable.</div>";
+  document.getElementById("mockInstructions").textContent="Exam complete. Review your score and the parts that need more practice.";
+  document.getElementById("mockContent").innerHTML=`<div class="exam-report"><h3>Score: ${score}/40 (${Math.round(score/40*100)}%)</h3><h4>Results by part</h4><div class="exam-report-grid">${parts}</div><h4>Vocabulary cluster diagnostic</h4><div class="exam-report-grid">${clusterHtml}</div></div><button class="btn btn-primary" id="btnRestartMock">Start a new mock exam</button>`;
+  document.getElementById("btnRestartMock").onclick=startMock;
+  document.getElementById("mockTimer").textContent=`${String(Math.floor(mock.seconds/60)).padStart(2,"0")}:${String(mock.seconds%60).padStart(2,"0")}`;
+}
+function startMock(){
+  if(mock.timer)clearInterval(mock.timer);
+  if(transferTimer){clearInterval(transferTimer);transferTimer=null;}
+  mock={active:true,stage:"listening",questions:[...makeMockSet("listening"),...makeMockSet("reading")],index:0,answers:[],seconds:2400,timer:null,transferSeconds:180};
+  document.getElementById("mockTimer").textContent="40:00";
+  mock.timer=setInterval(()=>{mock.seconds--;document.getElementById("mockTimer").textContent=`${String(Math.floor(mock.seconds/60)).padStart(2,"0")}:${String(mock.seconds%60).padStart(2,"0")}`;if(mock.seconds<=0)finishMock();},1000);
+  displayMockQuestion();
+}
+document.getElementById("btnStartMock").onclick=startMock;
+
+// ============================================================
+// 10. TABS, CHECKLIST (ALL 300 WORDS), THEME, & SETTINGS
 // ============================================================
 document.querySelectorAll(".tab-btn").forEach(btn => {
   btn.onclick = () => {
