@@ -225,8 +225,9 @@
       background: var(--accent); color: #fff; border-color: var(--accent);
     }
     .retention-row {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px;
     }
+    .retention-row .btn.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-text); }
     .nav-card-row {
       display: flex; justify-content: space-between; align-items: center; margin-top: 12px; gap: 10px;
     }
@@ -313,7 +314,8 @@
       font-size: 0.7rem; padding: 2px 8px; border-radius: 999px; text-align: center; font-weight: 700;
       background: var(--surface-2); color: var(--text-muted);
     }
-    .badge-status.done { background: #dcfce7; color: #166534; }
+    .badge-status.mastered { background: #dcfce7; color: #166534; }
+    .badge-status.familiar { background: #fef3c7; color: #92400e; }
     .settings-field { display: flex; flex-direction: column; gap: 4px; font-size: 0.84rem; }
     .settings-field input {
       min-height: 40px; border-radius: 10px; border: 1px solid var(--border);
@@ -342,8 +344,9 @@
       <div class="stats-strip">
         <div class="stat-chips">
           <span class="stat-chip">Queue: <b id="statQueue">0</b></span>
-          <span class="stat-chip">Mastered: <b id="statMastered">0</b>/300</span>
-          <span class="stat-chip">Learning: <b id="statLearning">0</b></span>
+          <span class="stat-chip">New: <b id="statNew">300</b></span>
+          <span class="stat-chip">Familiar: <b id="statFamiliar">0</b></span>
+          <span class="stat-chip">Mastered: <b id="statMastered">0</b></span>
         </div>
         <button class="pill" id="btnResetProgress" style="min-height:30px;padding:3px 10px;">Reset</button>
         <div class="search-row">
@@ -402,8 +405,9 @@
             </div>
 
             <div class="retention-row">
-              <button class="btn btn-warn" id="btnStillLearning">↻ Still Learning (+3)</button>
-              <button class="btn btn-good" id="btnMastered">✓ Mastered</button>
+              <button class="btn" id="btnStatusNew">New</button>
+              <button class="btn" id="btnStatusFamiliar">Familiar</button>
+              <button class="btn" id="btnStatusMastered">Mastered</button>
             </div>
           </div>
 
@@ -508,8 +512,16 @@
   <div class="modal-backdrop" id="checklistModal">
     <div class="modal-sheet">
       <div class="modal-header">
-        <strong>300-Word HSK 1 Checklist (<span id="chkSummary">0/300 Mastered</span>)</strong>
+        <strong>300-Word HSK 1 Progress (<span id="chkSummary">New 300 · Familiar 0 · Mastered 0</span>)</strong>
         <button class="icon-btn" id="btnCloseChecklist">✕</button>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 0;">
+        <small style="color:var(--text-muted);">Progress saves in this browser. Export a JSON file to move it; importing replaces this browser's progress.</small>
+        <div style="display:flex;gap:8px;">
+          <button class="pill" id="btnExportProgress">Export progress</button>
+          <button class="pill" id="btnImportProgress">Import progress</button>
+          <input id="progressFileInput" type="file" accept=".json,application/json" hidden />
+        </div>
       </div>
       <div class="checklist-scroll" id="checklistBody"></div>
     </div>
@@ -769,12 +781,43 @@ let activeCluster = "all";
 let deckQueue = [...CARDS];
 let deckPos = 0;
 let currentSwapSlot = null;
-let masteredIds = new Set(JSON.parse(localStorage.getItem("hsk1_mastered") || "[]"));
-let learningIds = new Set(JSON.parse(localStorage.getItem("hsk1_learning") || "[]"));
+const PROGRESS_KEY = "hsk1_progress_v1";
+const validStatuses = new Set(["new", "familiar", "mastered"]);
+let progress = loadProgress();
+
+function loadProgress() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(PROGRESS_KEY) || "null");
+    if (stored && typeof stored === "object" && !Array.isArray(stored)) {
+      return Object.fromEntries(Object.entries(stored).filter(([id, status]) =>
+        CARDS.some(card => String(card.id) === String(id)) && validStatuses.has(status)
+      ).map(([id, status]) => [Number(id), status]));
+    }
+  } catch (error) { console.warn("Could not read saved HSK progress", error); }
+  // Migrate progress saved by the earlier two-state version.
+  try {
+    const mastered = new Set(JSON.parse(localStorage.getItem("hsk1_mastered") || "[]").map(Number));
+    const familiar = new Set(JSON.parse(localStorage.getItem("hsk1_learning") || "[]").map(Number));
+    const migrated = {};
+    CARDS.forEach(card => { migrated[card.id] = mastered.has(card.id) ? "mastered" : familiar.has(card.id) ? "familiar" : "new"; });
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify(migrated));
+    return migrated;
+  } catch (error) { return {}; }
+}
 
 function saveProgress() {
-  localStorage.setItem("hsk1_mastered", JSON.stringify([...masteredIds]));
-  localStorage.setItem("hsk1_learning", JSON.stringify([...learningIds]));
+  localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
+}
+function getCardStatus(id) { return progress[id] || "new"; }
+function progressCounts() {
+  return CARDS.reduce((counts, card) => { counts[getCardStatus(card.id)]++; return counts; }, { new: 0, familiar: 0, mastered: 0 });
+}
+function renderProgressSummary() {
+  const counts = progressCounts();
+  document.getElementById("statNew").textContent = counts.new;
+  document.getElementById("statFamiliar").textContent = counts.familiar;
+  document.getElementById("statMastered").textContent = counts.mastered;
+  document.getElementById("chkSummary").textContent = `New ${counts.new} · Familiar ${counts.familiar} · Mastered ${counts.mastered}`;
 }
 
 function buildClusterBar() {
@@ -814,13 +857,15 @@ function renderCard(keepFlipped = false) {
   const resolved = resolveCardSentence(card, activeSlot);
 
   document.getElementById("statQueue").textContent = `${deckPos + 1} / ${deckQueue.length}`;
-  document.getElementById("statMastered").textContent = masteredIds.size;
-  document.getElementById("statLearning").textContent = learningIds.size;
+  renderProgressSummary();
 
   document.getElementById("cardMetaLeft").textContent = `#${card.id} · Cluster ${card.cluster}`;
-  document.getElementById("cardMetaRight").textContent = masteredIds.has(card.id)
-    ? "✓ Mastered"
-    : learningIds.has(card.id) ? "↻ Still Learning" : "Active Card";
+  const status = getCardStatus(card.id);
+  document.getElementById("cardMetaRight").textContent = `${status[0].toUpperCase()}${status.slice(1)}`;
+  document.querySelectorAll("#btnStatusNew, #btnStatusFamiliar, #btnStatusMastered").forEach(button => {
+    button.classList.toggle("active", button.id === `btnStatus${status[0].toUpperCase()}${status.slice(1)}`);
+    button.setAttribute("aria-pressed", button.classList.contains("active") ? "true" : "false");
+  });
 
   // Emoji visual mnemonic, stored directly on each card in raw_cards.js.
   const emojiArt = document.getElementById("emojiArt");
@@ -895,35 +940,18 @@ document.getElementById("btnNextCard").onclick = () => {
   renderCard(false);
 };
 
-// Retention: Still Learning (re-queue in 3 cards) & Mastered
-document.getElementById("btnStillLearning").onclick = () => {
-  const c = getCurrentCard();
-  learningIds.add(c.id);
-  masteredIds.delete(c.id);
-  saveProgress();
-  const insertAt = Math.min(deckQueue.length, deckPos + 4);
-  deckQueue.splice(insertAt, 0, c);
-  deckPos++;
-  renderCard(false);
-};
-document.getElementById("btnMastered").onclick = () => {
-  const c = getCurrentCard();
-  masteredIds.add(c.id);
-  learningIds.delete(c.id);
-  saveProgress();
-  if (deckQueue.length > 1) {
-    deckQueue.splice(deckPos, 1);
-    if (deckPos >= deckQueue.length) deckPos = 0;
-  }
-  renderCard(false);
-};
+// Progress status is independent of the study queue: New, Familiar, or Mastered.
+[["btnStatusNew", "new"], ["btnStatusFamiliar", "familiar"], ["btnStatusMastered", "mastered"]].forEach(([buttonId, status]) => {
+  document.getElementById(buttonId).onclick = () => {
+    progress[getCurrentCard().id] = status;
+    saveProgress();
+    renderCard(true);
+  };
+});
 document.getElementById("btnResetProgress").onclick = () => {
-  masteredIds.clear();
-  learningIds.clear();
+  progress = {};
   saveProgress();
-  deckQueue = activeCluster === "all" ? [...CARDS] : CARDS.filter(c => c.cluster === activeCluster);
-  deckPos = 0;
-  renderCard(false);
+  renderCard(true);
 };
 
 // Search / Jump
@@ -1307,15 +1335,14 @@ if (localStorage.getItem("hsk1_theme") === "dark") {
 
 // 300-word Checklist Modal
 document.getElementById("btnChecklist").onclick = () => {
-  document.getElementById("chkSummary").textContent = `${masteredIds.size}/300 Mastered`;
+  renderProgressSummary();
   const body = document.getElementById("checklistBody");
   body.innerHTML = "";
   CARDS.forEach(c => {
     const row = document.createElement("div");
     row.className = "check-row";
-    const status = masteredIds.has(c.id) ? `<span class="badge-status done">Mastered</span>` :
-                   learningIds.has(c.id) ? `<span class="badge-status">Learning</span>` :
-                   `<span class="badge-status">New</span>`;
+    const cardStatus = getCardStatus(c.id);
+    const status = `<span class="badge-status ${cardStatus}">${cardStatus[0].toUpperCase()}${cardStatus.slice(1)}</span>`;
     row.innerHTML = `<b>#${c.id}</b><b>${escapeHtml(c.word_hanzi)}</b><span>${escapeHtml(c.word_pinyin)} · ${escapeHtml(c.word_english)}</span>${status}`;
     row.onclick = () => {
       activeCluster = "all";
@@ -1332,6 +1359,41 @@ document.getElementById("btnChecklist").onclick = () => {
 };
 document.getElementById("btnCloseChecklist").onclick = () => {
   document.getElementById("checklistModal").classList.remove("open");
+};
+document.getElementById("btnExportProgress").onclick = () => {
+  const payload = { format: "hsk1-progress", version: 1, exportedAt: new Date().toISOString(), statuses: progress };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "hsk1-progress.json";
+  link.click();
+  URL.revokeObjectURL(url);
+};
+document.getElementById("btnImportProgress").onclick = () => document.getElementById("progressFileInput").click();
+document.getElementById("progressFileInput").onchange = async event => {
+  const file = event.target.files[0];
+  event.target.value = "";
+  if (!file) return;
+  try {
+    const imported = JSON.parse(await file.text());
+    const source = imported?.format === "hsk1-progress" ? imported.statuses : imported;
+    if (!source || typeof source !== "object" || Array.isArray(source)) throw new Error("Expected an HSK progress JSON object.");
+    const replacement = {};
+    for (const [id, status] of Object.entries(source)) {
+      const numericId = Number(id);
+      if (!Number.isInteger(numericId) || !CARDS.some(card => card.id === numericId) || !validStatuses.has(status)) {
+        throw new Error(`Invalid word ID or status: ${id} = ${status}`);
+      }
+      replacement[numericId] = status;
+    }
+    progress = replacement;
+    saveProgress();
+    renderCard(true);
+    if (document.getElementById("checklistModal").classList.contains("open")) document.getElementById("btnChecklist").click();
+  } catch (error) {
+    alert(`Could not import progress: ${error.message}`);
+  }
 };
 
 // Settings Modal
