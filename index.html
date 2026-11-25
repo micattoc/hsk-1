@@ -236,23 +236,26 @@
       background: var(--surface); border: 1px solid var(--border);
       border-radius: var(--radius); padding: 18px 16px; box-shadow: var(--shadow);
     }
-    .step-timeline {
-      display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 14px 0;
-    }
-    .step-node {
-      text-align: center; padding: 8px 4px; border-radius: 10px;
-      background: var(--surface-2); font-size: 0.7rem; font-weight: 700; color: var(--text-muted);
-      border: 1px solid transparent;
-    }
-    .step-node.active {
-      background: var(--accent-soft); color: var(--accent-text); border-color: var(--accent);
-    }
     .commute-display {
       text-align: center; padding: 18px 12px; border-radius: 14px;
       background: var(--surface-2); margin-bottom: 14px;
     }
     .commute-hanzi { font-size: 2.3rem; font-weight: 800; }
     .commute-sentence { font-size: 1.25rem; font-weight: 700; margin-top: 8px; }
+    .commute-quiz { margin-top: 16px; text-align: left; }
+    .commute-quiz[hidden], #commuteEnglish[hidden] { display: none !important; }
+    .commute-question { margin: 0 0 10px; font-size: 0.98rem; font-weight: 800; text-align: center; }
+    .commute-choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .commute-choice {
+      min-height: 48px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 12px;
+      background: var(--surface); color: var(--text); font: inherit; font-weight: 650;
+      text-align: left; cursor: pointer; overflow-wrap: anywhere;
+    }
+    .commute-choice:disabled { cursor: default; opacity: 1; }
+    .commute-choice.correct { background: #dcfce7; border-color: #16a34a; color: #166534; }
+    .commute-choice.incorrect { background: #fee2e2; border-color: #dc2626; color: #991b1b; }
+    .commute-feedback { margin-top: 10px; font-weight: 750; text-align: center; }
+    #commuteEnglish { margin-top: 10px; font-size: 0.98rem; font-weight: 650; }
     .commute-controls {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px;
     }
@@ -274,8 +277,8 @@
     }
     .slot-chip {
       min-height: 46px; padding: 8px 14px; border-radius: 12px;
-      border: 2px dashed var(--accent); background: var(--surface); color: var(--text);
-      font-size: 1rem; font-weight: 800; cursor: pointer;
+      border: 1px solid var(--border); background: var(--surface); color: var(--text);
+      font-size: 1rem; font-weight: 800;
       display: inline-flex; flex-direction: column; align-items: center;
     }
     .slot-chip small { font-size: 0.66rem; color: var(--accent-text); font-weight: 700; text-transform: uppercase; }
@@ -298,18 +301,6 @@
       display: flex; justify-content: space-between; align-items: center;
       padding-bottom: 8px; border-bottom: 1px solid var(--border);
     }
-    .wheel-viewport {
-      position: relative; height: 260px; overflow-y: auto;
-      scroll-snap-type: y mandatory;
-      border: 1px solid var(--border); border-radius: 14px; background: var(--surface-2);
-    }
-    .wheel-item {
-      height: 52px; scroll-snap-align: center;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 16px; cursor: pointer; border-bottom: 1px solid var(--border);
-      font-weight: 700;
-    }
-    .wheel-item.selected { background: var(--accent-soft); color: var(--accent-text); }
     .checklist-scroll {
       overflow-y: auto; max-height: 65vh; border: 1px solid var(--border); border-radius: 12px;
     }
@@ -430,7 +421,7 @@
       <div class="commute-panel">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
           <div>
-            <h2 style="margin:0;font-size:1.1rem;">30-Min Commute Audio Loop</h2>
+            <h2 style="margin:0;font-size:1.1rem;">Commute Recall Quiz</h2>
             <span style="font-size:0.8rem;color:var(--text-muted);" id="commuteTrackInfo">Item 1 of 300</span>
           </div>
           <select id="commuteClusterSelect" class="pill">
@@ -444,26 +435,22 @@
           </select>
         </div>
 
-        <div class="step-timeline">
-          <div class="step-node" data-step="0">1. Word</div>
-          <div class="step-node" data-step="1">2. Pause 2s</div>
-          <div class="step-node" data-step="2">3. Sent ×2</div>
-          <div class="step-node" data-step="3">4. English</div>
-          <div class="step-node" data-step="4">5. Pause 3s</div>
-        </div>
-
         <div class="commute-display">
           <div class="commute-hanzi" id="commuteHanzi">爱</div>
           <div id="commutePinyin" style="font-weight:700;margin-top:4px;"></div>
           <div class="commute-sentence" id="commuteSentence"></div>
-          <div id="commuteEnglish" style="color:var(--text-muted);margin-top:6px;font-size:0.95rem;"></div>
-          <div id="commuteStatusMsg" style="margin-top:10px;font-size:0.8rem;font-weight:700;color:var(--accent-text);">Ready for hands-free loop</div>
+          <div id="commuteEnglish" hidden aria-live="polite"></div>
+          <div class="commute-quiz" id="commuteQuiz" hidden>
+            <p class="commute-question">What does this word mean?</p>
+            <div class="commute-choice-grid" id="commuteChoices"></div>
+            <div class="commute-feedback" id="commuteFeedback" aria-live="polite"></div>
+          </div>
         </div>
 
         <div class="commute-controls">
-          <button class="btn" id="btnCommutePrev">⏮ Skip Prev</button>
-          <button class="btn btn-primary" id="btnCommutePlayPause">▶ Start Loop</button>
-          <button class="btn" id="btnCommuteNext">⏭ Skip Next</button>
+          <button class="btn" id="btnCommutePrev">⏮ Previous</button>
+          <button class="btn btn-primary" id="btnCommutePlayPause">▶ Start Quiz</button>
+          <button class="btn" id="btnCommuteNext">⏭ Skip</button>
         </div>
 
         <div class="commute-options">
@@ -483,6 +470,7 @@
     <section id="tab-matrix" class="tab-panel">
       <div class="matrix-card">
         <h2 style="margin:0 0 10px;font-size:1.1rem;">Sentence Frame Matrix</h2>
+        <p style="margin:0 0 12px;font-size:0.84rem;color:var(--text-muted);text-align:center;">Choose a frame, then randomize among complete, reviewed examples.</p>
         <div class="frame-tabs">
           <button class="pill active" data-frame="A">Frame A: Location Action</button>
           <button class="pill" data-frame="B">Frame B: Desire + Action</button>
@@ -497,8 +485,13 @@
           <div class="sentence-hanzi" id="matrixHanzi"></div>
           <div class="sentence-english" id="matrixEnglish"></div>
           <div class="audio-row" style="margin-top:14px;">
-            <button class="btn btn-primary" id="btnMatrixSpeak">🔊 Play Custom Sentence</button>
+            <button class="btn btn-primary" id="btnMatrixSpeak">🔊 Play Example Sentence</button>
             <button class="btn" id="btnMatrixRandom">🎲 Randomize</button>
+          </div>
+          <div style="display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;">
+            <span style="font-size:0.85rem;font-weight:700;">Pronunciation speed:</span>
+            <button class="pill" id="btnMatrixSpeed05">0.5x</button>
+            <button class="pill active" id="btnMatrixSpeed08">0.8x</button>
           </div>
         </div>
       </div>
@@ -510,17 +503,6 @@
     <button class="tab-btn" data-tab="commute"><span class="ico">🎧</span>Commute Loop</button>
     <button class="tab-btn" data-tab="matrix"><span class="ico">🧩</span>Sentence Matrix</button>
   </nav>
-
-  <!-- Wheel Picker Modal -->
-  <div class="modal-backdrop" id="wheelModal">
-    <div class="modal-sheet">
-      <div class="modal-header">
-        <strong id="wheelTitle">Select Word</strong>
-        <button class="icon-btn" id="btnCloseWheel">Done</button>
-      </div>
-      <div class="wheel-viewport" id="wheelViewport"></div>
-    </div>
-  </div>
 
   <!-- 300-Word Checklist Modal -->
   <div class="modal-backdrop" id="checklistModal">
@@ -704,6 +686,8 @@ function highlightedHanziHTML(sentence, target) {
 // 4. AUDIO ENGINE (Google Cloud TTS optional + Web Speech API)
 // ============================================================
 let audioCtx = null;
+let activeTtsAudio = null;
+let activeTtsAudioResolve = null;
 function ensureAudioCtx() {
   if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -711,6 +695,16 @@ function ensureAudioCtx() {
 }
 function stopSpeech() {
   if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+  if (activeTtsAudio) {
+    activeTtsAudio.pause();
+    activeTtsAudio.currentTime = 0;
+    activeTtsAudio = null;
+  }
+  if (activeTtsAudioResolve) {
+    const resolve = activeTtsAudioResolve;
+    activeTtsAudioResolve = null;
+    resolve();
+  }
 }
 async function speakText(text, lang = "zh-CN", rate = 0.9) {
   const ttsKey = localStorage.getItem("hsk1_tts_key") || "";
@@ -729,10 +723,20 @@ async function speakText(text, lang = "zh-CN", rate = 0.9) {
         const data = await res.json();
         if (data.audioContent) {
           const audio = new Audio("data:audio/mp3;base64," + data.audioContent);
+          activeTtsAudio = audio;
           return new Promise(resolve => {
-            audio.onended = resolve;
-            audio.onerror = resolve;
-            audio.play().catch(resolve);
+            let settled = false;
+            const finish = () => {
+              if (settled) return;
+              settled = true;
+              if (activeTtsAudio === audio) activeTtsAudio = null;
+              if (activeTtsAudioResolve === finish) activeTtsAudioResolve = null;
+              resolve();
+            };
+            activeTtsAudioResolve = finish;
+            audio.onended = finish;
+            audio.onerror = finish;
+            audio.play().catch(finish);
           });
         }
       }
@@ -958,131 +962,183 @@ document.getElementById("searchInput").addEventListener("input", e => {
 // ============================================================
 let commuteList = [...CARDS];
 let commuteIdx = 0;
-let commutePlaying = false;
+let commuteAudioRunning = false;
 let commuteSpeed = 0.8;
 let commuteRunToken = 0;
+let commuteQuestion = null;
 
-function sleepWithToken(ms, token) {
-  return new Promise(resolve => {
-    const start = Date.now();
-    const timer = setInterval(() => {
-      if (!commutePlaying || token !== commuteRunToken) {
-        clearInterval(timer);
-        resolve(false);
-      } else if (Date.now() - start >= ms) {
-        clearInterval(timer);
-        resolve(true);
-      }
-    }, 100);
-  });
+function primaryMeaning(card) {
+  return String(card.word_english || "").split(";")[0].trim();
 }
 
-function setCommuteStep(stepIdx, msg) {
-  document.querySelectorAll(".step-node").forEach(n => {
-    n.classList.toggle("active", Number(n.dataset.step) === stepIdx);
+function shuffleItems(items) {
+  const shuffled = [...items];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+function makeCommuteChoices(card) {
+  const correctMeaning = primaryMeaning(card);
+  const seen = new Set([correctMeaning.toLocaleLowerCase()]);
+  const distractors = [];
+  for (const candidate of shuffleItems(CARDS)) {
+    if (candidate.id === card.id) continue;
+    const meaning = primaryMeaning(candidate);
+    const key = meaning.toLocaleLowerCase();
+    if (!meaning || seen.has(key)) continue;
+    seen.add(key);
+    distractors.push({ cardId: candidate.id, meaning });
+    if (distractors.length === 3) break;
+  }
+  return shuffleItems([
+    { cardId: card.id, meaning: correctMeaning },
+    ...distractors
+  ]);
+}
+
+function renderCommuteChoices() {
+  const choicesEl = document.getElementById("commuteChoices");
+  choicesEl.innerHTML = "";
+  commuteQuestion.choices.forEach(option => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "commute-choice";
+    button.dataset.cardId = String(option.cardId);
+    button.textContent = option.meaning;
+    button.onclick = () => selectCommuteAnswer(option.cardId);
+    choicesEl.appendChild(button);
   });
-  document.getElementById("commuteStatusMsg").textContent = msg;
 }
 
 function renderCommuteCard() {
   const c = commuteList[commuteIdx] || CARDS[0];
   const example = resolveCardSentence(c, c.defaultSlot);
+  commuteQuestion = {
+    cardId: c.id,
+    example,
+    choices: makeCommuteChoices(c),
+    answered: false,
+    ready: false
+  };
   document.getElementById("commuteTrackInfo").textContent = `Item ${commuteIdx + 1} of ${commuteList.length} (#${c.id})`;
   document.getElementById("commuteHanzi").textContent = c.word_hanzi;
   document.getElementById("commutePinyin").innerHTML = colorizePinyinHTML(c.word_pinyin);
   document.getElementById("commuteSentence").innerHTML = highlightedHanziHTML(example.hanzi, example.highlight);
-  document.getElementById("commuteEnglish").textContent = example.english;
+  document.getElementById("commuteQuiz").hidden = true;
+  document.getElementById("commuteChoices").innerHTML = "";
+  document.getElementById("commuteFeedback").textContent = "";
+  const englishEl = document.getElementById("commuteEnglish");
+  englishEl.textContent = "";
+  englishEl.hidden = true;
+  document.getElementById("btnCommutePlayPause").textContent = "▶ Start Quiz";
 }
 
-async function runCommuteLoop(token) {
-  while (commutePlaying && token === commuteRunToken) {
-    const c = commuteList[commuteIdx];
-    const example = resolveCardSentence(c, c.defaultSlot);
-    renderCommuteCard();
+async function playCommutePrompt() {
+  if (commuteAudioRunning || commuteQuestion?.answered) return;
+  const c = commuteList[commuteIdx] || CARDS[0];
+  commuteQuestion.choices = makeCommuteChoices(c);
+  const token = ++commuteRunToken;
+  commuteAudioRunning = true;
+  commuteQuestion.ready = false;
+  document.getElementById("commuteQuiz").hidden = true;
+  document.getElementById("commuteEnglish").hidden = true;
+  document.getElementById("btnCommutePlayPause").textContent = "■ Stop Audio";
 
-    // Step 0: Spoken target word
-    setCommuteStep(0, `Speaking word: ${c.word_hanzi}`);
+  try {
     await speakText(c.word_hanzi, "zh-CN", commuteSpeed);
-    if (!commutePlaying || token !== commuteRunToken) break;
+    if (token !== commuteRunToken) return;
+    await speakText(c.word_hanzi, "zh-CN", commuteSpeed);
+    if (token !== commuteRunToken) return;
+    await speakText(commuteQuestion.example.hanzi, "zh-CN", commuteSpeed);
+    if (token !== commuteRunToken) return;
 
-    // Step 1: 2-second silent pause for mental recall
-    setCommuteStep(1, "2s mental recall pause...");
-    if (!(await sleepWithToken(2000, token))) break;
-
-    // Step 2: Spoken full sentence twice
-    setCommuteStep(2, "Speaking sentence (1/2)...");
-    await speakText(example.hanzi, "zh-CN", commuteSpeed);
-    if (!commutePlaying || token !== commuteRunToken) break;
-    if (!(await sleepWithToken(700, token))) break;
-    setCommuteStep(2, "Speaking sentence (2/2)...");
-    await speakText(example.hanzi, "zh-CN", commuteSpeed);
-    if (!commutePlaying || token !== commuteRunToken) break;
-
-    // Step 3: English translation once
-    setCommuteStep(3, "Speaking English translation...");
-    await speakText(example.english, "en-US", commuteSpeed);
-    if (!commutePlaying || token !== commuteRunToken) break;
-
-    // Step 4: 3-second pause before next card
-    setCommuteStep(4, "3s pause before next card...");
-    if (!(await sleepWithToken(3000, token))) break;
-
-    // Advance
-    if (commuteIdx + 1 < commuteList.length) {
-      commuteIdx++;
-    } else if (document.getElementById("chkLoopCluster").checked) {
-      commuteIdx = 0;
-    } else {
-      commutePlaying = false;
-      document.getElementById("btnCommutePlayPause").textContent = "▶ Start Loop";
-      setCommuteStep(-1, "Cluster complete");
-      break;
-    }
+    commuteQuestion.ready = true;
+    renderCommuteChoices();
+    document.getElementById("commuteQuiz").hidden = false;
+    document.getElementById("btnCommutePlayPause").textContent = "↻ Replay Audio";
+  } finally {
+    if (token === commuteRunToken) commuteAudioRunning = false;
   }
+}
+
+function selectCommuteAnswer(selectedCardId) {
+  if (!commuteQuestion?.ready || commuteQuestion.answered) return;
+  const c = commuteList[commuteIdx] || CARDS[0];
+  const correct = selectedCardId === c.id;
+  commuteQuestion.answered = true;
+  document.querySelectorAll("#commuteChoices .commute-choice").forEach(button => {
+    const isCorrect = Number(button.dataset.cardId) === c.id;
+    button.disabled = true;
+    if (isCorrect) button.classList.add("correct");
+    else if (Number(button.dataset.cardId) === selectedCardId) button.classList.add("incorrect");
+  });
+  const meaning = primaryMeaning(c);
+  document.getElementById("commuteFeedback").textContent = correct
+    ? `Correct! ${c.word_hanzi} means “${meaning}.”`
+    : `Not quite. ${c.word_hanzi} means “${meaning}.”`;
+  const englishEl = document.getElementById("commuteEnglish");
+  englishEl.textContent = `Full English sentence: ${commuteQuestion.example.english}`;
+  englishEl.hidden = false;
+  document.getElementById("btnCommutePlayPause").textContent = "▶ Next Word";
+}
+
+function advanceCommuteCard() {
+  if (commuteIdx + 1 < commuteList.length) {
+    commuteIdx++;
+  } else if (document.getElementById("chkLoopCluster").checked) {
+    commuteIdx = 0;
+  } else {
+    document.getElementById("btnCommutePlayPause").textContent = "✓ Complete";
+    return false;
+  }
+  renderCommuteCard();
+  return true;
+}
+
+function cancelCommuteAudio() {
+  commuteRunToken++;
+  commuteAudioRunning = false;
+  stopSpeech();
 }
 
 document.getElementById("btnCommutePlayPause").onclick = () => {
   ensureAudioCtx();
-  commutePlaying = !commutePlaying;
-  commuteRunToken++;
-  const btn = document.getElementById("btnCommutePlayPause");
-  if (commutePlaying) {
-    btn.textContent = "⏸ Pause Loop";
-    runCommuteLoop(commuteRunToken);
-  } else {
-    btn.textContent = "▶ Resume Loop";
-    stopSpeech();
-    setCommuteStep(-1, "Paused");
+  if (commuteAudioRunning) {
+    cancelCommuteAudio();
+    document.getElementById("btnCommutePlayPause").textContent = "↻ Replay Audio";
+    return;
   }
+  if (commuteQuestion?.answered) {
+    if (!advanceCommuteCard()) return;
+  }
+  playCommutePrompt();
 };
+
 document.getElementById("btnCommuteNext").onclick = () => {
-  stopSpeech();
-  commuteIdx = (commuteIdx + 1) % commuteList.length;
-  renderCommuteCard();
-  if (commutePlaying) {
-    commuteRunToken++;
-    runCommuteLoop(commuteRunToken);
-  }
+  const wasSpeaking = commuteAudioRunning;
+  cancelCommuteAudio();
+  if (advanceCommuteCard() && wasSpeaking) playCommutePrompt();
 };
+
 document.getElementById("btnCommutePrev").onclick = () => {
-  stopSpeech();
+  const wasSpeaking = commuteAudioRunning;
+  cancelCommuteAudio();
   commuteIdx = (commuteIdx - 1 + commuteList.length) % commuteList.length;
   renderCommuteCard();
-  if (commutePlaying) {
-    commuteRunToken++;
-    runCommuteLoop(commuteRunToken);
-  }
+  if (wasSpeaking) playCommutePrompt();
 };
+
 document.getElementById("commuteClusterSelect").onchange = e => {
   const val = e.target.value;
+  const wasSpeaking = commuteAudioRunning;
+  cancelCommuteAudio();
   commuteList = val === "all" ? [...CARDS] : CARDS.filter(c => c.cluster === val);
   commuteIdx = 0;
-  stopSpeech();
   renderCommuteCard();
-  if (commutePlaying) {
-    commuteRunToken++;
-    runCommuteLoop(commuteRunToken);
-  }
+  if (wasSpeaking) playCommutePrompt();
 };
 document.getElementById("btnSpeed05").onclick = () => {
   commuteSpeed = 0.5;
@@ -1096,16 +1152,8 @@ document.getElementById("btnSpeed08").onclick = () => {
 };
 
 // ============================================================
-// 7. TAB 3: SENTENCE FRAME MATRIX & SCROLLABLE WHEEL PICKER
+// 7. TAB 3: SENTENCE MATRIX WITH REVIEWED EXAMPLES
 // ============================================================
-const MATRIX_POOLS = {
-  Subject: ["我","你","他","她","我们","你们","他们","大家","爸爸","妈妈","哥哥","姐姐","弟弟","妹妹","老师","学生","朋友","医生","同学","孩子"],
-  Location: ["家","学校","大学","小学","中学","公司","商店","书店","超市","饭店","医院","电影院","房间","中国","外边","这里","那里"],
-  Action: ["读书","学习","工作","休息","睡觉","玩","说话","打电话","做饭","上课","上班","看病","吃","喝","看","写","唱"],
-  Verb: ["吃","喝","买","看","听","读","写","唱","学","学习","做","找","去","回","开","坐","喜欢","爱"],
-  Object: ["茶","水","牛奶","苹果","包子","面包","米饭","面条儿","饺子","鸡蛋","水果","菜","书","杯子","电脑","手机","衣服","电视","猫","狗"],
-  Position: ["桌子上","椅子上","房间里","家里","学校","医院","商店","超市","饭店","书店","外边","这里","那里","前边","后边","上","下","里","外"]
-};
 // Ensure extra position phrases resolve pinyin & English
 Object.assign(EXTRA_PINYIN_MAP, {
   "桌子上":"zhuōzi shàng","椅子上":"yǐzi shàng","房间里":"fángjiān lǐ","家里":"jiā lǐ","前边":"qiánbiān","后边":"hòubiān"
@@ -1114,103 +1162,94 @@ Object.assign(SLOT_EN_MAP, {
   "桌子上":"on the table","椅子上":"on the chair","房间里":"in the room","家里":"at home","前边":"in front","后边":"behind"
 });
 
-const MATRIX_FRAMES = {
+const MATRIX_EXAMPLES = {
   A: {
-    desc: "[Subject] + 在 + [Location] + [Action]",
-    tokens: [
-      { type: "slot", key: "Subject", pool: "Subject" },
-      { type: "fixed", h: "在", p: "zài", e: "at" },
-      { type: "slot", key: "Location", pool: "Location" },
-      { type: "slot", key: "Action", pool: "Action" }
-    ],
-    state: { Subject: "我", Location: "家", Action: "学习" }
+    desc: "Subject + 在 + Place + Activity",
+    examples: [
+      { parts: [{label:"Subject",value:"我"},{fixed:"在"},{label:"Place",value:"家"},{label:"Activity",value:"学习汉语"}], hanzi:"我在家学习汉语。", pinyin:"Wǒ zài jiā xuéxí Hànyǔ.", english:"I study Chinese at home." },
+      { parts: [{label:"Subject",value:"爸爸"},{fixed:"在"},{label:"Place",value:"公司"},{label:"Activity",value:"工作"}], hanzi:"爸爸在公司工作。", pinyin:"Bàba zài gōngsī gōngzuò.", english:"Dad works at a company." },
+      { parts: [{label:"Subject",value:"妈妈"},{fixed:"在"},{label:"Place",value:"家"},{label:"Activity",value:"做饭"}], hanzi:"妈妈在家做饭。", pinyin:"Māma zài jiā zuòfàn.", english:"Mom cooks at home." },
+      { parts: [{label:"Subject",value:"学生"},{fixed:"在"},{label:"Place",value:"学校"},{label:"Activity",value:"上课"}], hanzi:"学生在学校上课。", pinyin:"Xuésheng zài xuéxiào shàngkè.", english:"The student attends class at school." },
+      { parts: [{label:"Subject",value:"哥哥"},{fixed:"在"},{label:"Place",value:"房间"},{label:"Activity",value:"看书"}], hanzi:"哥哥在房间看书。", pinyin:"Gēge zài fángjiān kàn shū.", english:"Older brother reads a book in the room." },
+      { parts: [{label:"Subject",value:"我们"},{fixed:"在"},{label:"Place",value:"饭店"},{label:"Activity",value:"吃饭"}], hanzi:"我们在饭店吃饭。", pinyin:"Wǒmen zài fàndiàn chīfàn.", english:"We eat at a restaurant." },
+      { parts: [{label:"Subject",value:"她"},{fixed:"在"},{label:"Place",value:"家"},{label:"Activity",value:"休息"}], hanzi:"她在家休息。", pinyin:"Tā zài jiā xiūxi.", english:"She rests at home." },
+      { parts: [{label:"Subject",value:"朋友"},{fixed:"在"},{label:"Place",value:"商店"},{label:"Activity",value:"买东西"}], hanzi:"朋友在商店买东西。", pinyin:"Péngyou zài shāngdiàn mǎi dōngxi.", english:"A friend buys things at the store." },
+      { parts: [{label:"Subject",value:"孩子"},{fixed:"在"},{label:"Place",value:"学校"},{label:"Activity",value:"学习汉语"}], hanzi:"孩子在学校学习汉语。", pinyin:"Háizi zài xuéxiào xuéxí Hànyǔ.", english:"The child studies Chinese at school." },
+      { parts: [{label:"Subject",value:"我"},{fixed:"在"},{label:"Place",value:"书店"},{label:"Activity",value:"买书"}], hanzi:"我在书店买书。", pinyin:"Wǒ zài shūdiàn mǎi shū.", english:"I buy books at the bookstore." },
+      { parts: [{label:"Subject",value:"他们"},{fixed:"在"},{label:"Place",value:"中国"},{label:"Activity",value:"工作"}], hanzi:"他们在中国工作。", pinyin:"Tāmen zài Zhōngguó gōngzuò.", english:"They work in China." },
+      { parts: [{label:"Subject",value:"妹妹"},{fixed:"在"},{label:"Place",value:"家"},{label:"Activity",value:"看电视"}], hanzi:"妹妹在家看电视。", pinyin:"Mèimei zài jiā kàn diànshì.", english:"Younger sister watches TV at home." }
+    ]
   },
   B: {
-    desc: "[Subject] + 想 + [Verb] + [Object]",
-    tokens: [
-      { type: "slot", key: "Subject", pool: "Subject" },
-      { type: "fixed", h: "想", p: "xiǎng", e: "want(s) to" },
-      { type: "slot", key: "Verb", pool: "Verb" },
-      { type: "slot", key: "Object", pool: "Object" }
-    ],
-    state: { Subject: "我", Verb: "喝", Object: "茶" }
+    desc: "Subject + 想 + Activity",
+    examples: [
+      { parts: [{label:"Subject",value:"我"},{fixed:"想"},{label:"Activity",value:"喝水"}], hanzi:"我想喝水。", pinyin:"Wǒ xiǎng hē shuǐ.", english:"I want to drink water." },
+      { parts: [{label:"Subject",value:"妈妈"},{fixed:"想"},{label:"Activity",value:"买苹果"}], hanzi:"妈妈想买苹果。", pinyin:"Māma xiǎng mǎi píngguǒ.", english:"Mom wants to buy apples." },
+      { parts: [{label:"Subject",value:"孩子"},{fixed:"想"},{label:"Activity",value:"看电视"}], hanzi:"孩子想看电视。", pinyin:"Háizi xiǎng kàn diànshì.", english:"The child wants to watch television." },
+      { parts: [{label:"Subject",value:"我们"},{fixed:"想"},{label:"Activity",value:"吃米饭"}], hanzi:"我们想吃米饭。", pinyin:"Wǒmen xiǎng chī mǐfàn.", english:"We want to eat rice." },
+      { parts: [{label:"Subject",value:"她"},{fixed:"想"},{label:"Activity",value:"喝牛奶"}], hanzi:"她想喝牛奶。", pinyin:"Tā xiǎng hē niúnǎi.", english:"She wants to drink milk." },
+      { parts: [{label:"Subject",value:"哥哥"},{fixed:"想"},{label:"Activity",value:"看电影"}], hanzi:"哥哥想看电影。", pinyin:"Gēge xiǎng kàn diànyǐng.", english:"Older brother wants to watch a movie." },
+      { parts: [{label:"Subject",value:"学生"},{fixed:"想"},{label:"Activity",value:"学习汉语"}], hanzi:"学生想学习汉语。", pinyin:"Xuésheng xiǎng xuéxí Hànyǔ.", english:"The student wants to study Chinese." },
+      { parts: [{label:"Subject",value:"你"},{fixed:"想"},{label:"Activity",value:"买衣服"}], hanzi:"你想买衣服。", pinyin:"Nǐ xiǎng mǎi yīfu.", english:"You want to buy clothes." },
+      { parts: [{label:"Subject",value:"老师"},{fixed:"想"},{label:"Activity",value:"读书"}], hanzi:"老师想读书。", pinyin:"Lǎoshī xiǎng dúshū.", english:"The teacher wants to read." },
+      { parts: [{label:"Subject",value:"爸爸"},{fixed:"想"},{label:"Activity",value:"坐出租车"}], hanzi:"爸爸想坐出租车。", pinyin:"Bàba xiǎng zuò chūzūchē.", english:"Dad wants to take a taxi." },
+      { parts: [{label:"Subject",value:"弟弟"},{fixed:"想"},{label:"Activity",value:"吃包子"}], hanzi:"弟弟想吃包子。", pinyin:"Dìdi xiǎng chī bāozi.", english:"Younger brother wants to eat a steamed bun." },
+      { parts: [{label:"Subject",value:"我"},{fixed:"想"},{label:"Activity",value:"喝茶"}], hanzi:"我想喝茶。", pinyin:"Wǒ xiǎng hē chá.", english:"I want to drink tea." }
+    ]
   },
   C: {
-    desc: "[Object] + 在 + [Position]",
-    tokens: [
-      { type: "slot", key: "Object", pool: "Object" },
-      { type: "fixed", h: "在", p: "zài", e: "is" },
-      { type: "slot", key: "Position", pool: "Position" }
-    ],
-    state: { Object: "苹果", Position: "桌子上" }
+    desc: "Object + 在 + Position",
+    examples: [
+      { parts: [{label:"Object",value:"书"},{fixed:"在"},{label:"Position",value:"桌子上"}], hanzi:"书在桌子上。", pinyin:"Shū zài zhuōzi shàng.", english:"The book is on the table." },
+      { parts: [{label:"Object",value:"猫"},{fixed:"在"},{label:"Position",value:"椅子上"}], hanzi:"猫在椅子上。", pinyin:"Māo zài yǐzi shàng.", english:"The cat is on the chair." },
+      { parts: [{label:"Object",value:"狗"},{fixed:"在"},{label:"Position",value:"房间里"}], hanzi:"狗在房间里。", pinyin:"Gǒu zài fángjiān lǐ.", english:"The dog is in the room." },
+      { parts: [{label:"Object",value:"苹果"},{fixed:"在"},{label:"Position",value:"桌子上"}], hanzi:"苹果在桌子上。", pinyin:"Píngguǒ zài zhuōzi shàng.", english:"The apple is on the table." },
+      { parts: [{label:"Object",value:"杯子"},{fixed:"在"},{label:"Position",value:"桌子上"}], hanzi:"杯子在桌子上。", pinyin:"Bēizi zài zhuōzi shàng.", english:"The cup is on the table." },
+      { parts: [{label:"Object",value:"电脑"},{fixed:"在"},{label:"Position",value:"房间里"}], hanzi:"电脑在房间里。", pinyin:"Diànnǎo zài fángjiān lǐ.", english:"The computer is in the room." },
+      { parts: [{label:"Object",value:"学生"},{fixed:"在"},{label:"Position",value:"学校"}], hanzi:"学生在学校。", pinyin:"Xuésheng zài xuéxiào.", english:"The student is at school." },
+      { parts: [{label:"Object",value:"妈妈"},{fixed:"在"},{label:"Position",value:"家里"}], hanzi:"妈妈在家里。", pinyin:"Māma zài jiālǐ.", english:"Mom is at home." },
+      { parts: [{label:"Object",value:"电视"},{fixed:"在"},{label:"Position",value:"房间里"}], hanzi:"电视在房间里。", pinyin:"Diànshì zài fángjiān lǐ.", english:"The television is in the room." },
+      { parts: [{label:"Object",value:"衣服"},{fixed:"在"},{label:"Position",value:"房间里"}], hanzi:"衣服在房间里。", pinyin:"Yīfu zài fángjiān lǐ.", english:"The clothes are in the room." },
+      { parts: [{label:"Object",value:"水"},{fixed:"在"},{label:"Position",value:"杯子里"}], hanzi:"水在杯子里。", pinyin:"Shuǐ zài bēizi lǐ.", english:"The water is in the cup." },
+      { parts: [{label:"Object",value:"手机"},{fixed:"在"},{label:"Position",value:"桌子上"}], hanzi:"手机在桌子上。", pinyin:"Shǒujī zài zhuōzi shàng.", english:"The phone is on the table." }
+    ]
   }
 };
 let activeMatrixFrame = "A";
-let activeWheelTarget = null;
+let activeMatrixExampleIndex = -1;
+let matrixSpeechSpeed = 0.8;
 
 function renderMatrix() {
-  const f = MATRIX_FRAMES[activeMatrixFrame];
-  document.getElementById("matrixFormulaDesc").textContent = f.desc;
+  const frame = MATRIX_EXAMPLES[activeMatrixFrame];
+  if (activeMatrixExampleIndex < 0 || activeMatrixExampleIndex >= frame.examples.length) {
+    activeMatrixExampleIndex = Math.floor(Math.random() * frame.examples.length);
+  }
+  const example = frame.examples[activeMatrixExampleIndex];
+  document.getElementById("matrixFormulaDesc").textContent = frame.desc;
   const slotsEl = document.getElementById("matrixSlots");
   slotsEl.innerHTML = "";
 
-  const hParts = [], pParts = [], eParts = [];
-  f.tokens.forEach(tok => {
-    if (tok.type === "fixed") {
+  example.parts.forEach(part => {
+    if (part.fixed) {
       const sp = document.createElement("span");
       sp.className = "fixed-token";
-      sp.textContent = tok.h;
+      sp.textContent = part.fixed;
       slotsEl.appendChild(sp);
-      hParts.push(tok.h);
-      pParts.push(tok.p);
-      eParts.push(tok.e);
     } else {
-      const val = f.state[tok.key];
-      const chip = document.createElement("button");
+      const chip = document.createElement("div");
       chip.className = "slot-chip";
-      chip.innerHTML = `<small>${tok.key}</small><span>${escapeHtml(val)}</span>`;
-      chip.onclick = () => openWheelPicker(tok.key, tok.pool);
+      const label = document.createElement("small");
+      label.textContent = part.label;
+      const value = document.createElement("span");
+      value.textContent = part.value;
+      chip.append(label, value);
       slotsEl.appendChild(chip);
-      hParts.push(val);
-      pParts.push(getWordPinyin(val));
-      eParts.push(getWordEnglish(val).replace(/^to\s+/i, ""));
     }
   });
 
-  const fullH = hParts.join("") + "。";
-  const fullP = capitalize(pParts.join(" ")) + ".";
-  const fullE = capitalize(eParts.join(" ")) + ".";
-  document.getElementById("matrixPinyin").innerHTML = colorizePinyinHTML(fullP);
-  document.getElementById("matrixHanzi").textContent = fullH;
-  document.getElementById("matrixEnglish").textContent = fullE;
-}
-
-function openWheelPicker(slotKey, poolName) {
-  activeWheelTarget = { slotKey, poolName };
-  const f = MATRIX_FRAMES[activeMatrixFrame];
-  const currentVal = f.state[slotKey];
-  const list = MATRIX_POOLS[poolName];
-  document.getElementById("wheelTitle").textContent = `Choose ${slotKey} (HSK 1)`;
-  const vp = document.getElementById("wheelViewport");
-  vp.innerHTML = "";
-  let selectedEl = null;
-
-  list.forEach(word => {
-    const row = document.createElement("div");
-    row.className = "wheel-item" + (word === currentVal ? " selected" : "");
-    row.innerHTML = `<span>${escapeHtml(word)} <small style="font-weight:500;color:var(--text-muted);">${escapeHtml(getWordPinyin(word))}</small></span><span style="font-size:0.84rem;color:var(--text-muted);">${escapeHtml(getWordEnglish(word))}</span>`;
-    row.onclick = () => {
-      f.state[slotKey] = word;
-      renderMatrix();
-      document.getElementById("wheelModal").classList.remove("open");
-      speakText(document.getElementById("matrixHanzi").textContent, "zh-CN", 0.85);
-    };
-    if (word === currentVal) selectedEl = row;
-    vp.appendChild(row);
-  });
-
-  document.getElementById("wheelModal").classList.add("open");
-  if (selectedEl) selectedEl.scrollIntoView({ block: "center" });
+  document.getElementById("matrixPinyin").innerHTML = colorizePinyinHTML(example.pinyin);
+  document.getElementById("matrixHanzi").textContent = example.hanzi;
+  document.getElementById("matrixEnglish").textContent = example.english;
 }
 
 document.querySelectorAll(".frame-tabs .pill").forEach(btn => {
@@ -1218,24 +1257,30 @@ document.querySelectorAll(".frame-tabs .pill").forEach(btn => {
     document.querySelectorAll(".frame-tabs .pill").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     activeMatrixFrame = btn.dataset.frame;
+    activeMatrixExampleIndex = -1;
     renderMatrix();
   };
 });
 document.getElementById("btnMatrixSpeak").onclick = () => {
-  speakText(document.getElementById("matrixHanzi").textContent, "zh-CN", 0.85);
+  speakText(document.getElementById("matrixHanzi").textContent, "zh-CN", matrixSpeechSpeed);
+};
+document.getElementById("btnMatrixSpeed05").onclick = () => {
+  matrixSpeechSpeed = 0.5;
+  document.getElementById("btnMatrixSpeed05").classList.add("active");
+  document.getElementById("btnMatrixSpeed08").classList.remove("active");
+};
+document.getElementById("btnMatrixSpeed08").onclick = () => {
+  matrixSpeechSpeed = 0.8;
+  document.getElementById("btnMatrixSpeed08").classList.add("active");
+  document.getElementById("btnMatrixSpeed05").classList.remove("active");
 };
 document.getElementById("btnMatrixRandom").onclick = () => {
-  const f = MATRIX_FRAMES[activeMatrixFrame];
-  f.tokens.forEach(tok => {
-    if (tok.type === "slot") {
-      const pool = MATRIX_POOLS[tok.pool];
-      f.state[tok.key] = pool[Math.floor(Math.random() * pool.length)];
-    }
-  });
+  const examples = MATRIX_EXAMPLES[activeMatrixFrame].examples;
+  if (examples.length > 1) {
+    const offset = 1 + Math.floor(Math.random() * (examples.length - 1));
+    activeMatrixExampleIndex = (activeMatrixExampleIndex + offset + examples.length) % examples.length;
+  }
   renderMatrix();
-};
-document.getElementById("btnCloseWheel").onclick = () => {
-  document.getElementById("wheelModal").classList.remove("open");
 };
 
 // ============================================================
