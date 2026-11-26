@@ -133,15 +133,11 @@
       font-size: 0.78rem; color: var(--text-muted); font-weight: 600;
     }
     .emoji-box {
-      position: relative; width: 100%; min-height: 230px;
-      background: linear-gradient(135deg, #d6d3d1 0%, #a8a29e 100%);
+      position: relative; width: 100%; min-height: 250px;
       display: flex; align-items: center; justify-content: center;
       overflow: hidden;
     }
-    [data-theme="dark"] .emoji-box {
-      background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
-    }
-    .flashcard-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .flashcard-photo { position: relative; display: block; flex: 0 1 340px; width: min(100%, 340px); height: auto; aspect-ratio: 4 / 3; object-fit: contain; border-radius: 8px; margin: auto; }
     .photo-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 20px; text-align: center; color: var(--text-muted); font-weight: 700; }
     .photo-placeholder[hidden] { display: none; }
     .photo-placeholder small { font-size: .75rem; font-weight: 500; overflow-wrap: anywhere; }
@@ -332,7 +328,7 @@
     .exam-visual-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 12px 0; }
     .exam-visual-grid.six { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .exam-photo-choice, .exam-answer-choice { min-width: 0; padding: 8px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-2); color: var(--text); cursor: pointer; font: inherit; }
-    .exam-photo-choice img, .exam-feature-photo { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 8px; background: var(--surface); }
+    .exam-photo-choice img, .exam-feature-photo { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 8px; background: var(--surface); margin-inline: auto; }
     .exam-photo-choice span { display: block; margin-top: 4px; font-weight: 800; }
     .exam-choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 12px 0; }
     .exam-answer-choice { text-align: left; min-height: 44px; }
@@ -393,7 +389,6 @@
         <div class="card-body">
           <div class="front-only front-hint">
             <div class="front-hanzi-teaser" id="frontHanzi"></div>
-            <div style="font-size:0.86rem;color:var(--text-muted);">Listen & picture the context before flipping</div>
           </div>
 
           <div class="audio-row">
@@ -928,25 +923,17 @@ function renderCard(keepFlipped = false) {
   // Photos use the same numbered assets as the exam practice sections.
   const flashcardPhoto = document.getElementById("flashcardPhoto");
   const photoPlaceholder = document.getElementById("flashcardPhotoPlaceholder");
-  const emojiBox = document.getElementById("emojiBox");
-
-  const grads = {
-    "1": "linear-gradient(135deg, #78716c 0%, #44403c 100%)",
-    "2": "linear-gradient(135deg, #64748b 0%, #334155 100%)",
-    "3": "linear-gradient(135deg, #92400e 0%, #451a03 100%)",
-    "4": "linear-gradient(135deg, #115e59 0%, #134e4a 100%)",
-    "5": "linear-gradient(135deg, #3730a3 0%, #1e1b4b 100%)",
-    "6": "linear-gradient(135deg, #831843 0%, #500724 100%)"
-  };
-  emojiBox.style.background = grads[card.cluster] || grads["1"];
   const cardPhotoPath = photoPathForCard(card);
   flashcardPhoto.alt = `Photo illustrating ${card.word_hanzi}`;
-  photoPlaceholder.querySelector("small").textContent = cardPhotoPath;
+  photoPlaceholder.querySelector("small").textContent = photoMissingLabel(cardPhotoPath);
   photoPlaceholder.hidden = false;
   flashcardPhoto.hidden = true;
-  flashcardPhoto.onload = () => { flashcardPhoto.hidden = false; photoPlaceholder.hidden = true; };
-  flashcardPhoto.onerror = () => { flashcardPhoto.hidden = true; photoPlaceholder.hidden = false; };
-  flashcardPhoto.src = cardPhotoPath;
+  loadPhotoWithFallback(
+    flashcardPhoto,
+    cardPhotoCandidates(card),
+    () => { flashcardPhoto.hidden = false; photoPlaceholder.hidden = true; },
+    () => { flashcardPhoto.hidden = true; photoPlaceholder.hidden = false; }
+  );
 
   // Front
   document.getElementById("frontHanzi").textContent = card.word_hanzi;
@@ -1467,7 +1454,32 @@ const CLOZE_ITEMS = [
   { pre:"对不", post:"，我今天不去学校。", pp:"Duì bu", sp:", wǒ jīntiān bú qù xuéxiào.", answer:"起", bank:["起","客气","认识","知道","漂亮","高兴"], card:"对不起" }
 ];
 
-function photoPathForCard(card) { return `assets/photos/${String(card.id).padStart(3,"0")}.webp`; }
+const CARD_PHOTO_EXTENSIONS = ["jpg","jpeg","png","webp"];
+function cardPhotoCandidates(cardOrId) {
+  const id = Number(typeof cardOrId === "object" ? cardOrId.id : cardOrId);
+  const stems = [...new Set([String(id), String(id).padStart(3,"0")])];
+  const extensions = CARD_PHOTO_EXTENSIONS.flatMap(ext => [...new Set([ext,ext[0].toUpperCase()+ext.slice(1),ext.toUpperCase()])]);
+  return stems.flatMap(stem => extensions.map(ext => `assets/photos/${stem}.${ext}`));
+}
+function photoCandidatesFromPath(path) {
+  const match = String(path).match(/(?:^|\/)(\d+)\.[^/]+$/);
+  return match ? cardPhotoCandidates(Number(match[1])) : [path];
+}
+function photoMissingLabel(path) {
+  const match = String(path).match(/(?:^|\/)(\d+)\.[^/]+$/);
+  return match ? `assets/photos/${Number(match[1])} (any supported image extension)` : path;
+}
+function loadPhotoWithFallback(img, candidates, onLoad, onMissing) {
+  let index = 0;
+  img.onload = () => onLoad?.();
+  img.onerror = () => {
+    index++;
+    if (index < candidates.length) img.src = candidates[index];
+    else onMissing?.();
+  };
+  img.src = candidates[0];
+}
+function photoPathForCard(card) { return cardPhotoCandidates(card)[0]; }
 function photoPathForScene(scene) { return `assets/photos/scenarios/${scene.file}`; }
 function examShuffle(list) { return [...list].sort(() => Math.random() - 0.5); }
 function examCardFor(word) { const fallback={"喝茶":"喝","几点":"点","生日":"孩子","高":"大","西瓜":"水果","照片":"看"}; return CARD_BY_HANZI[word] || CARD_BY_HANZI[fallback[word]] || CARDS[0]; }
@@ -1527,9 +1539,9 @@ function renderExamQuestion(target, question, onAnswer, selected = null) {
   const addPhoto = (parent, photo, label, button = false, key = null) => {
     const el = document.createElement(button ? "button" : "div");
     if (button) { el.type="button";el.className="exam-photo-choice";el.setAttribute("aria-label",label); if (key!==null) el.dataset.key=key; }
-    const img = document.createElement("img"); img.src=photo;img.alt=label;
-    img.onerror=()=>{const missing=document.createElement("span");missing.className="exam-image-missing";missing.textContent=`Photo needed: ${photo}`;img.replaceWith(missing);};
+    const img = document.createElement("img"); img.alt=label; if(!button)img.className="exam-feature-photo";
     el.appendChild(img);
+    loadPhotoWithFallback(img,photoCandidatesFromPath(photo),null,()=>{const missing=document.createElement("span");missing.className="exam-image-missing";missing.textContent=`Photo needed: ${photoMissingLabel(photo)}`;img.replaceWith(missing);});
     if (button) { const caption=document.createElement("span");caption.textContent=String.fromCharCode(65+parent.children.length);el.appendChild(caption); }
     parent.appendChild(el); return el;
   };
