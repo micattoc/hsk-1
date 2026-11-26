@@ -17,6 +17,7 @@
       --accent-text: #0f766e;
       --highlight-bg: #fef08a;
       --highlight-text: #854d0e;
+      --hanzi-font: "KaiTi", "Kaiti SC", "STKaiti", "BiauKai", "DFKai-SB", serif;
       --t1: #dc2626;
       --t2: #16a34a;
       --t3: #2563eb;
@@ -143,7 +144,7 @@
     .front-hint {
       text-align: center; padding: 10px 0 6px;
     }
-    .front-hanzi-teaser { font-size: 2.6rem; font-weight: 400; line-height: 1.2; margin-bottom: 6px; font-family: "KaiTi", "Kaiti SC", "STKaiti", "BiauKai", "DFKai-SB", serif; }
+    .front-hanzi-teaser { font-size: 6rem; font-weight: 400; line-height: 1.2; margin-bottom: 6px; font-family: var(--hanzi-font); }
     .audio-row {
       display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0;
     }
@@ -171,7 +172,7 @@
       text-align: center; padding-bottom: 14px; border-bottom: 1px solid var(--border);
     }
     .target-pinyin { font-size: 1.45rem; font-weight: 800; letter-spacing: 0.02em; }
-    .target-hanzi { font-size: 3.1rem; font-weight: 400; line-height: 1.15; margin: 4px 0; font-family: "KaiTi", "Kaiti SC", "STKaiti", "BiauKai", "DFKai-SB", serif; }
+    .target-hanzi { font-size: 7rem; font-weight: 400; line-height: 1.15; margin: 4px 0; font-family: var(--hanzi-font); }
     .target-pos {
       display: inline-block; font-size: 0.74rem; font-weight: 700; text-transform: uppercase;
       padding: 2px 10px; border-radius: 999px; background: var(--surface-2); color: var(--text-muted);
@@ -199,8 +200,11 @@
       padding: 4px 10px; border-radius: 8px; margin-bottom: 10px;
     }
     .sentence-pinyin { font-size: 1.08rem; font-weight: 700; margin-bottom: 4px; }
-    .sentence-hanzi { font-size: 1.55rem; font-weight: 400; line-height: 1.4; font-family: "KaiTi", "Kaiti SC", "STKaiti", "BiauKai", "DFKai-SB", serif; }
+    .sentence-hanzi { font-size: 3.1rem; font-weight: 400; line-height: 1.4; font-family: var(--hanzi-font); }
     .sentence-hanzi .hl-word { font-weight: 400; }
+    .commute-hanzi, .commute-sentence, .fixed-token, .slot-chip > span, .exam-prompt, .hanzi-text { font-family: var(--hanzi-font); font-weight: 400; }
+    .hanzi-text, .slot-chip > span { font-size: 2em; }
+    .exam-answer-choice small { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     .hl-word {
       background: var(--highlight-bg); color: var(--highlight-text);
       padding: 1px 6px; border-radius: 8px; font-weight: 900;
@@ -235,8 +239,8 @@
       text-align: center; padding: 18px 12px; border-radius: 14px;
       background: var(--surface-2); margin-bottom: 14px;
     }
-    .commute-hanzi { font-size: 2.3rem; font-weight: 800; }
-    .commute-sentence { font-size: 1.25rem; font-weight: 700; margin-top: 8px; }
+    .commute-hanzi { font-size: 4.6rem; }
+    .commute-sentence { font-size: 2.5rem; margin-top: 8px; }
     .commute-quiz { margin-top: 16px; text-align: left; }
     .commute-quiz[hidden], #commuteEnglish[hidden] { display: none !important; }
     .commute-question { margin: 0 0 10px; font-size: 0.98rem; font-weight: 800; text-align: center; }
@@ -277,7 +281,7 @@
       display: inline-flex; flex-direction: column; align-items: center;
     }
     .slot-chip small { font-size: 0.66rem; color: var(--accent-text); font-weight: 700; text-transform: uppercase; }
-    .fixed-token { font-size: 1.25rem; font-weight: 800; padding: 0 4px; }
+    .fixed-token { font-size: 2.5rem; padding: 0 4px; }
     .matrix-output { text-align: center; padding: 12px; border-top: 1px solid var(--border); }
 
     /* Modal / Wheel Picker / Checklist */
@@ -319,10 +323,10 @@
     .exam-toolbar, .exam-controls { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
     .exam-toolbar { margin-bottom: 12px; }
     .exam-toolbar select { max-width: 100%; }
-    .exam-counter { color: var(--text-muted); font-size: .84rem; font-weight: 700; }
+    .exam-counter { color: var(--text-muted); font-size: .84rem; font-weight: 700; margin-bottom: 18px; }
     .exam-instructions { color: var(--text-muted); font-size: .88rem; margin: 0 0 12px; }
-    .exam-prompt { font-size: 1.05rem; font-weight: 700; margin: 10px 0; line-height: 1.8; }
-    .exam-pinyin { color: var(--text-muted); font-size: .9rem; }
+    .exam-prompt { font-size: 2.1rem; margin: 4px 0 22px; padding: 8px 0 14px; line-height: 1.8; }
+    .exam-pinyin { color: var(--text-muted); font-size: .9rem; margin-top: 2px; }
     .exam-visual-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 12px 0; }
     .exam-visual-grid.six { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .exam-photo-choice, .exam-answer-choice { min-width: 0; padding: 8px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-2); color: var(--text); cursor: pointer; font: inherit; }
@@ -463,7 +467,6 @@
           <div class="commute-sentence" id="commuteSentence"></div>
           <div id="commuteEnglish" hidden aria-live="polite"></div>
           <div class="commute-quiz" id="commuteQuiz" hidden>
-            <p class="commute-question">What does this word mean?</p>
             <div class="commute-choice-grid" id="commuteChoices"></div>
             <div class="commute-feedback" id="commuteFeedback" aria-live="polite"></div>
           </div>
@@ -949,7 +952,7 @@ function renderCard(keepFlipped = false) {
   allOpts.forEach(opt => {
     const pBtn = document.createElement("button");
     pBtn.className = "swap-pill" + (opt === activeSlot ? " active" : "");
-    pBtn.textContent = `${opt} (${getWordPinyin(opt)})`;
+    pBtn.innerHTML = `<span class="hanzi-text">${escapeHtml(opt)}</span> (${escapeHtml(getWordPinyin(opt))})`;
     pBtn.onclick = () => {
       currentSwapSlot = opt;
       renderCard(true);
@@ -1099,7 +1102,7 @@ function renderCommuteCard() {
   document.getElementById("commuteTrackInfo").textContent = `Item ${commuteIdx + 1} of ${commuteList.length} (#${c.id})`;
   document.getElementById("commuteHanzi").textContent = c.word_hanzi;
   document.getElementById("commutePinyin").innerHTML = colorizePinyinHTML(c.word_pinyin);
-  document.getElementById("commuteSentence").innerHTML = highlightedHanziHTML(example.hanzi, example.highlight);
+  document.getElementById("commuteSentence").innerHTML = highlightedHanziHTML(example.hanzi.replace(/。/g, ""), example.highlight);
   document.getElementById("commuteQuiz").hidden = true;
   document.getElementById("commuteChoices").innerHTML = "";
   document.getElementById("commuteFeedback").textContent = "";
@@ -1153,7 +1156,7 @@ function selectCommuteAnswer(selectedCardId) {
     ? `Correct! ${c.word_hanzi} means “${meaning}.”`
     : `Not quite. ${c.word_hanzi} means “${meaning}.”`;
   const englishEl = document.getElementById("commuteEnglish");
-  englishEl.textContent = `Full English sentence: ${commuteQuestion.example.english}`;
+  englishEl.textContent = commuteQuestion.example.english;
   englishEl.hidden = false;
   document.getElementById("btnCommutePlayPause").textContent = "▶ Next Word";
 }
@@ -1546,7 +1549,7 @@ function renderExamQuestion(target, question, onAnswer, selected = null) {
   }
   if (question.choices) {
     const grid=document.createElement("div");grid.className="exam-choice-grid";
-    question.choices.forEach(option=>{const btn=document.createElement("button");btn.type="button";btn.className="exam-answer-choice";btn.innerHTML=`${option.pinyin?`<small>${escapeHtml(option.pinyin)}</small><br>`:""}${escapeHtml(option.text)}`;btn.disabled=selected!==null;const key=String(option.text);if(selected!==null&&key===String(question.answer))btn.classList.add("correct");else if(selected!==null&&key===String(selected))btn.classList.add("incorrect");btn.onclick=()=>onAnswer(key);grid.appendChild(btn);});target.appendChild(grid);
+    question.choices.forEach(option=>{const btn=document.createElement("button");btn.type="button";btn.className="exam-answer-choice";btn.innerHTML=`${option.pinyin?`<small>${escapeHtml(option.pinyin)}</small><br>`:""}<span class="hanzi-text">${escapeHtml(option.text)}</span>`;btn.disabled=selected!==null;const key=String(option.text);if(selected!==null&&key===String(question.answer))btn.classList.add("correct");else if(selected!==null&&key===String(selected))btn.classList.add("incorrect");btn.onclick=()=>onAnswer(key);grid.appendChild(btn);});target.appendChild(grid);
   }
   if (question.kind==="tf-photo" || question.kind==="reading-check") {
     const grid=document.createElement("div");grid.className="exam-choice-grid";
